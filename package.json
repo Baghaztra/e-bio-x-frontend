@@ -1,0 +1,22 @@
+{
+  "name": "e-bio-x",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "nuxt": "^3.10.3"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "@popperjs/core": "^2.11.8",
+    "vue-form-generator": "^2.3.4",
+    "@vueform/builder": "^1.0.6"
+  }
+}
