@@ -14,9 +14,9 @@
     "nuxt": "^3.10.3"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
     "@popperjs/core": "^2.11.8",
-    "vue-form-generator": "^2.3.4",
-    "@vueform/builder": "^1.0.6"
+    "@vueform/builder": "^1.0.6",
+    "bootstrap": "^5.3.3",
+    "vue-form-generator": "^2.3.4"
   }
 }

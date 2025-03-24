@@ -3,8 +3,8 @@
     <div class="row justify-content-center mt-5">
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header bg-primary text-white text-center">
-            <h4>Login E-Bio-X</h4>
+          <div class="card-header bg-a text-white text-center">
+            <h4>Login</h4>
           </div>
           <div class="card-body">
             <form @submit.prevent="handleLogin">
@@ -24,8 +24,10 @@
                   <option value="admin">Admin</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary w-100">Login</button>
+              <button type="submit" class="btn btn-success w-100">Login</button>
             </form>
+            <!-- baru -->
+            <button @click="loginWithGoogle" class="btn btn-primary w-100">Login dengan Google</button> 
           </div>
         </div>
       </div>
@@ -34,12 +36,22 @@
 </template>
 
 <script setup>
-const email = ref('')
-const password = ref('')
+import { useNuxtApp, useRouter } from '#app'
+const { $gAuth } = useNuxtApp()
+const router = useRouter()
+
+definePageMeta({
+  layout: "blank",
+});
+
+const email = ref('bla@bla')
+const password = ref('1')
 const userType = ref('student')
 
 const handleLogin = () => {
   // TODO: Implement login logic when backend is ready
+  router.replace(`/${userType.value}`);
+
   console.log('Login attempt:', {
     email: email.value,
     password: password.value,
