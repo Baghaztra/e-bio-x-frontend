@@ -7,27 +7,12 @@
             <h4>Login</h4>
           </div>
           <div class="card-body">
-            <form @submit.prevent="handleLogin">
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" v-model="email" required>
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" v-model="password" required>
-              </div>
-              <div class="mb-3">
-                <label for="userType" class="form-label">Login Sebagai</label>
-                <select class="form-select" id="userType" v-model="userType" required>
-                  <option value="student">Siswa</option>
-                  <option value="teacher">Guru</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-success w-100">Login</button>
-            </form>
-            <!-- baru -->
-            <button @click="loginWithGoogle" class="btn btn-primary w-100">Login dengan Google</button> 
+            <center>
+              <GoogleSignInButton
+                @success="handleLoginSuccess"
+                @error="handleLoginError"
+                class="my-3" />
+            </center>
           </div>
         </div>
       </div>
@@ -35,27 +20,51 @@
   </div>
 </template>
 
-<script setup>
-import { useNuxtApp, useRouter } from '#app'
-const { $gAuth } = useNuxtApp()
-const router = useRouter()
+<script setup lang="ts">
+import { useRuntimeConfig, useRouter } from "#app";
+import Cookies from "js-cookie";
+const router = useRouter();
+const config = useRuntimeConfig();
 
 definePageMeta({
   layout: "blank",
 });
 
-const email = ref('bla@bla')
-const password = ref('1')
-const userType = ref('student')
+import { GoogleSignInButton, type CredentialResponse } from "vue3-google-signin";
 
-const handleLogin = () => {
-  // TODO: Implement login logic when backend is ready
-  router.replace(`/${userType.value}`);
+// handle success event
+const handleLoginSuccess = async (response: CredentialResponse) => {
+  const { credential } = response;
 
-  console.log('Login attempt:', {
-    email: email.value,
-    password: password.value,
-    userType: userType.value
-  })
-}
-</script> 
+  if (!credential) {
+    console.error("Login failed, credential not found");
+    return;
+  }
+  const { data, error } = await useAsyncData("googleLogin", () =>
+    $fetch(`${config.public.BACKEND_URL}/api/google-login`, {
+      method: "POST",
+      body: { token: credential },
+    })
+  );
+
+  if (error.value) {
+    console.error("Login error:", error.value);
+  } else {
+    const user = data.value;
+    console.log("Login success:", user);
+    
+    Cookies.set("access_token", user.access_token, { expires: 1, path: "/" });
+    Cookies.set("email", user.email, { expires: 1, path: "/" });
+    Cookies.set("username", user.username, { expires: 1, path: "/" });
+    Cookies.set("role", user.role, { expires: 1, path: "/" });
+    Cookies.set("picture", user.picture, { expires: 1, path: "/" });
+
+    router.replace(`/${user.role}`);
+  }
+};
+
+// handle an error event
+const handleLoginError = () => {
+  console.error("Login failed");
+};
+</script>
