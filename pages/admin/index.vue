@@ -32,7 +32,13 @@
             <td>{{ index + 1 }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.username }}</td>
-            <td>{{ user.role }}</td>
+            <td>
+                <select v-model="user.role" @change="updateUserRole(user)">
+                <option value="admin">Admin</option>
+                <option value="teacher">Teacher</option>
+                <option value="student">Student</option>
+                </select>
+            </td>
             <td>
               <button class="btn btn-sm btn-danger" @click="deleteUser(user.id)">Hapus</button>
             </td>
@@ -58,15 +64,25 @@ onMounted(async () => {
 });
 
 const fetchUsers = async () => {
-    console.log("Fetching users...");
-    
   try {
-    const { data } = await useFetch(`${config.public.BACKEND_URL}/api/users`);
-    users.value = data.value || [];
+    users.value = await $fetch(`${config.public.BACKEND_URL}/api/users`);
   } catch (err) {
     console.error("Gagal mengambil data user", err);
   }
 };
+
+const updateUserRole = async (user) => {
+  try {
+    await $fetch(`${config.public.BACKEND_URL}/api/users/${user.id}`, {
+      method: "PUT",
+      body: { role: user.role }
+    });
+    alert("Role berhasil diupdate");
+  } catch (err) {
+    console.error(err);
+    alert("Gagal update role");
+  }
+}
 
 const deleteUser = async (id) => {
   if (!confirm("Yakin ingin menghapus user ini?")) return;
