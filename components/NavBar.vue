@@ -12,8 +12,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <!-- Belum kelar v: -->
-            <NuxtLink class="nav-link" to="/">Logout</NuxtLink>
+            <a class="nav-link" href="#" @click.prevent="handleLogout">Logout</a>
           </li>
         </ul>
       </div>
@@ -21,4 +20,19 @@
   </nav>
 </template>
 
-<script lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from "#app";
+import Cookies from "js-cookie";
+
+const router = useRouter();
+
+const handleLogout = () => {
+  Cookies.remove("access_token");
+  Cookies.remove("email");
+  Cookies.remove("username");
+  Cookies.remove("role");
+  Cookies.remove("picture");
+
+  router.replace("/login");
+};
+</script>
