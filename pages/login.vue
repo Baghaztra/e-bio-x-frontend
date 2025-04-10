@@ -50,7 +50,7 @@ const message = ref('')
 // handle normal login
 const handleLogin = async () => {
   const { data, error } = await useAsyncData("login", () =>
-    $fetch(`${config.public.BACKEND_URL}/api/login`, {
+    $fetch(`${config.public.backend}/api/login`, {
       method: "POST",
       body: { 
         email: email.value, 
@@ -84,7 +84,7 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     return;
   }
   const { data, error } = await useAsyncData("googleLogin", () =>
-    $fetch(`${config.public.BACKEND_URL}/api/google-login`, {
+    $fetch(`${config.public.backend}/api/google-login`, {
       method: "POST",
       body: { token: credential },
     })

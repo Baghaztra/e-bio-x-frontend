@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
-      BACKEND_URL: process.env.NUXT_PUBLIC_BACKEND_URL || "http://default-url.com",
+      backend: process.env.NUXT_PUBLIC_BACKEND_URL || "http://localhost:3000",
     }
   },
   googleSignIn: {

@@ -65,7 +65,7 @@ onMounted(async () => {
 
 const fetchUsers = async () => {
   try {
-    users.value = await $fetch(`${config.public.BACKEND_URL}/api/users`);
+    users.value = await $fetch(`${config.public.backend}/api/users`);
   } catch (err) {
     console.error("Gagal mengambil data user", err);
   }
@@ -73,7 +73,7 @@ const fetchUsers = async () => {
 
 const updateUserRole = async (user) => {
   try {
-    await $fetch(`${config.public.BACKEND_URL}/api/users/${user.id}`, {
+    await $fetch(`${config.public.backend}/api/users/${user.id}`, {
       method: "PUT",
       body: { role: user.role }
     });
@@ -87,7 +87,7 @@ const updateUserRole = async (user) => {
 const deleteUser = async (id) => {
   if (!confirm("Yakin ingin menghapus user ini?")) return;
   try {
-    await $fetch(`${config.public.BACKEND_URL}/api/users/${id}`, { method: "DELETE" });
+    await $fetch(`${config.public.backend}/api/users/${id}`, { method: "DELETE" });
     users.value = users.value.filter((u) => u.id !== id);
     alert("User berhasil dihapus");
   } catch (err) {
