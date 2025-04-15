@@ -1,6 +1,6 @@
 # E-Bio-X
 
-Platform E-Learning Biologi berbasis web yang dibangun menggunakan Nuxt 3, Bootstrap, dan Vue Form Generator.
+Platform E-Learning Biologi berbasis web yang dibangun menggunakan Nuxt 3, Tailwind, dan Vue Form Generator.
 
 ## TODO List
 
@@ -67,17 +67,16 @@ Platform E-Learning Biologi berbasis web yang dibangun menggunakan Nuxt 3, Boots
 - Antarmuka responsif dengan Bootstrap 5
 - Integrasi dengan backend API (dalam pengembangan)
 
-## Prasyarat
+## Requirments
 
-- Node.js (versi 16 atau lebih tinggi)
-- NPM atau Yarn
-- Git
+- Node.js 
+- NPM 
 
 ## Instalasi
 
 1. Clone repositori ini:
 ```bash
-git clone https://github.com/username/e-bio-x.git
+git clone https://github.com/Baghaztra/e-bio-x.git
 cd e-bio-x
 ```
 
@@ -104,196 +103,37 @@ yarn dev
 
 ```
 e-bio-x/
-├── .nuxt/               # Build files
-├── components/          # Komponen Vue yang dapat digunakan kembali
-├── layouts/             # Layout aplikasi
-│   └── default.vue      # Layout default dengan header dan footer
+├── .nuxt/ 
+├── components/ 
+├── layouts/
 ├── pages/              # Halaman-halaman aplikasi
 │   ├── index.vue       # Halaman utama
 │   ├── login.vue       # Halaman login
 │   └── teacher/        # Halaman khusus guru
-│       └── create-quiz.vue  # Halaman pembuatan kuis
-├── public/             # Asset statis
-├── .env               # Konfigurasi environment
-├── nuxt.config.ts     # Konfigurasi Nuxt
-└── package.json       # Dependensi dan script
-```
-
-## Penggunaan
-
-### Login
-
-- Akses halaman login di `/login`
-- Pilih tipe user (Admin/Guru/Siswa)
-- Masukkan kredensial
-
-### Pembuatan Kuis (Guru)
-
-1. Login sebagai guru
-2. Akses halaman pembuatan kuis di `/teacher/create-quiz`
-3. Isi informasi kuis
-4. Tambahkan pertanyaan dengan berbagai tipe (pilihan ganda/teks)
-5. Simpan kuis
-
-## Pengembangan
-
-### Menambahkan Halaman Baru
-
-1. Buat file `.vue` baru di direktori `pages/`
-2. Halaman akan otomatis tersedia sesuai struktur folder
-
-### Menambahkan Komponen
-
-1. Buat komponen di direktori `components/`
-2. Import dan gunakan di halaman yang diinginkan
-
-## Kontribusi
-
-1. Fork repositori
-2. Buat branch fitur (`git checkout -b fitur-baru`)
-3. Commit perubahan (`git commit -am 'Menambahkan fitur baru'`)
-4. Push ke branch (`git push origin fitur-baru`)
-5. Buat Pull Request
-
-## Lisensi
-
-[MIT License](LICENSE)
-
-## Kontak
-
-Untuk pertanyaan dan dukungan, silakan hubungi [email@example.com](mailto:email@example.com)
-
-## Catatan Teknis Pengembangan
-
-### Autentikasi
-```typescript
-// Contoh implementasi middleware auth
-// TODO: Implementasikan di middleware/auth.ts
-export default defineNuxtRouteMiddleware((to, from) => {
-  const token = useCookie('token')
-  if (!token.value && to.path !== '/login') {
-    return navigateTo('/login')
-  }
-})
-```
-
-### API Integration
-```typescript
-// TODO: Implementasikan di composables/useApi.ts
-export const useApi = () => {
-  const config = useRuntimeConfig()
-  const baseURL = config.public.apiBaseUrl
-
-  return {
-    // Implementasi method API
-  }
-}
-```
-
-### State Management
-```typescript
-// TODO: Implementasikan di stores/user.ts
-export const useUserStore = defineStore('user', {
-  state: () => ({
-    user: null,
-    isAuthenticated: false
-  }),
-  actions: {
-    // Implementasi actions
-  }
-})
+│   └── student/        # Halaman khusus siswa
+│   └── admin/          # Halaman khusus admin
+├── public/
+├── .env                # Konfigurasi environment
+├── nuxt.config.ts 
+└── package.json        # Dependensi dan script
 ```
 
 ### Environment Variables yang Dibutuhkan
 ```env
-# TODO: Lengkapi di .env
-NUXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
-NUXT_PUBLIC_API_VERSION=v1
-NUXT_PUBLIC_JWT_SECRET=your-jwt-secret-key
+# API Configuration
+NUXT_PUBLIC_BACKEND_URL=http://localhost:5000
+
+# Authentication
+NUXT_PUBLIC_JWT_SECRET=
+NUXT_PUBLIC_GOOGLE_CLIENT_ID=
+NUXT_PUBLIC_GOOGLE_CLIENT_SECRET=
+
+# Other Configuration
 NUXT_PUBLIC_APP_NAME=E-Bio-X
-NUXT_PUBLIC_APP_DESCRIPTION="Platform E-Learning Biologi"
+NUXT_PUBLIC_APP_DESCRIPTION="Platform E-Learning Biologi" 
+
 ```
 
-### Struktur Database (Draft)
-```sql
--- Users Table
-CREATE TABLE users (
-  id INT PRIMARY KEY,
-  email VARCHAR(255),
-  password VARCHAR(255),
-  role ENUM('admin', 'teacher', 'student'),
-  name VARCHAR(255),
-  created_at TIMESTAMP
-);
+## Lisensi
 
--- Classes Table
-CREATE TABLE classes (
-  id INT PRIMARY KEY,
-  name VARCHAR(255),
-  description TEXT,
-  code VARCHAR(10),
-  teacher_id INT,
-  created_at TIMESTAMP,
-  FOREIGN KEY (teacher_id) REFERENCES users(id)
-);
-
--- Class Enrollments
-CREATE TABLE class_enrollments (
-  class_id INT,
-  student_id INT,
-  joined_at TIMESTAMP,
-  FOREIGN KEY (class_id) REFERENCES classes(id),
-  FOREIGN KEY (student_id) REFERENCES users(id)
-);
-
--- Materials Table
-CREATE TABLE materials (
-  id INT PRIMARY KEY,
-  title VARCHAR(255),
-  description TEXT,
-  file_path VARCHAR(255),
-  class_id INT,
-  uploaded_by INT,
-  created_at TIMESTAMP,
-  FOREIGN KEY (class_id) REFERENCES classes(id),
-  FOREIGN KEY (uploaded_by) REFERENCES users(id)
-);
-
--- Quizzes Table
-CREATE TABLE quizzes (
-  id INT PRIMARY KEY,
-  title VARCHAR(255),
-  description TEXT,
-  class_id INT,
-  created_by INT,
-  duration INT,
-  start_time TIMESTAMP,
-  end_time TIMESTAMP,
-  FOREIGN KEY (class_id) REFERENCES classes(id),
-  FOREIGN KEY (created_by) REFERENCES users(id)
-);
-
--- Quiz Questions
-CREATE TABLE quiz_questions (
-  id INT PRIMARY KEY,
-  quiz_id INT,
-  question_text TEXT,
-  question_type ENUM('multiple', 'text'),
-  correct_answer TEXT,
-  options JSON,
-  FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
-);
-
--- Quiz Attempts
-CREATE TABLE quiz_attempts (
-  id INT PRIMARY KEY,
-  quiz_id INT,
-  student_id INT,
-  start_time TIMESTAMP,
-  end_time TIMESTAMP,
-  score DECIMAL(5,2),
-  answers JSON,
-  FOREIGN KEY (quiz_id) REFERENCES quizzes(id),
-  FOREIGN KEY (student_id) REFERENCES users(id)
-);
-```
+[MIT License](LICENSE)

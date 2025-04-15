@@ -1,28 +1,29 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-a">
-    <div class="container">
-      <button 
-        v-if="!['/', '/student', '/teacher', '/admin'].includes($route.path)"
-        class="btn btn-warning me-2" 
-        @click="$router.back()"
-      >
-        Back
-      </button>
-      <NuxtLink class="navbar-brand" to="/">E-Bio-X</NuxtLink>
+  <nav class="bg-green-700 text-white shadow">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between flex-wrap">
+      <!-- Tombol Back -->
       <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
+        v-if="!['/', '/student', '/teacher', '/admin'].includes($route.path)"
+        class="flex items-center text-white hover:bg-green-600 p-2 rounded-md transition duration-200 ease-in-out transform hover:scale-110"
+        @click="$router.back()">
+        <Icon name="material-symbols:arrow-back-ios-new" class="w-5 h-5 mr-2" />
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="handleLogout">Logout</a>
-          </li>
-        </ul>
-      </div>
+
+      <!-- Brand -->
+      <span class="text-lg font-bold"> E-Bio-X </span>
+
+      <!-- TODO: Colapsal menu -->
+      <ul class="flex items-center gap-4">
+        <li>
+          <a
+            href="#"
+            @click.prevent="handleLogout"
+            class="text-white bg-green-700 px-4 py-2 rounded-md hover:bg-red-500 transition duration-200 ease-in-out flex items-center justify-center space-x-2">
+            <Icon name="material-symbols:logout" class="w-5 h-5" />
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </nav>
 </template>
@@ -40,6 +41,6 @@ const handleLogout = () => {
   Cookies.remove("role");
   Cookies.remove("picture");
 
-  router.replace("/login");
+  router.replace("/");
 };
 </script>

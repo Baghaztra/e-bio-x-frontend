@@ -1,77 +1,36 @@
 <template>
-  <div class="container py-4">
-    <h2 class="mb-4">Buat Kuis Baru</h2>
-    
-    <div class="card">
-      <div class="card-body">
-        <form @submit.prevent="handleSubmit">
-          <!-- Informasi Dasar Kuis -->
-          <div class="mb-4">
-            <h4>Informasi Kuis</h4>
-            <div class="mb-3">
-              <label class="form-label">Judul Kuis</label>
-              <input v-model="quizData.title" type="text" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Deskripsi</label>
-              <textarea v-model="quizData.description" class="form-control" rows="3"></textarea>
-            </div>
-          </div>
-
-          <!-- Form Generator untuk Pertanyaan -->
-          <div class="mb-4">
-            <h4>Pertanyaan</h4>
-            <div v-for="(question, index) in quizData.questions" :key="index" class="card mb-3">
-              <div class="card-body">
-                <div class="mb-3">
-                  <label class="form-label">Pertanyaan {{ index + 1 }}</label>
-                  <input v-model="question.text" type="text" class="form-control" required>
-                </div>
-                
-                <div class="mb-3">
-                  <label class="form-label">Tipe Jawaban</label>
-                  <select v-model="question.type" class="form-select" @change="handleQuestionTypeChange(index)">
-                    <option value="multiple">Pilihan Ganda</option>
-                    <option value="text">Teks Bebas</option>
-                  </select>
-                </div>
-
-                <!-- Opsi untuk Pilihan Ganda -->
-                <div v-if="question.type === 'multiple'" class="mb-3">
-                  <label class="form-label">Pilihan Jawaban</label>
-                  <div v-for="(option, optIndex) in question.options" :key="optIndex" class="input-group mb-2">
-                    <input v-model="option.text" type="text" class="form-control" placeholder="Opsi jawaban">
-                    <div class="input-group-text">
-                      <input v-model="option.isCorrect" type="radio" :name="'correct'+index" class="form-check-input mt-0">
-                    </div>
-                    <button @click="removeOption(index, optIndex)" type="button" class="btn btn-outline-danger">Hapus</button>
-                  </div>
-                  <button @click="addOption(index)" type="button" class="btn btn-outline-primary btn-sm">
-                    + Tambah Opsi
-                  </button>
-                </div>
-
-                <!-- Jawaban untuk Tipe Teks -->
-                <div v-if="question.type === 'text'" class="mb-3">
-                  <label class="form-label">Kunci Jawaban</label>
-                  <input v-model="question.answer" type="text" class="form-control">
-                </div>
-
-                <button @click="removeQuestion(index)" type="button" class="btn btn-danger btn-sm">
-                  Hapus Pertanyaan
-                </button>
-              </div>
-            </div>
-
-            <button @click="addQuestion" type="button" class="btn btn-primary mb-3">
-              + Tambah Pertanyaan
-            </button>
-          </div>
-
-          <button type="submit" class="btn btn-success">Simpan Kuis</button>
-        </form>
+  <div class="container mx-auto px-4 py-6 max-w-2xl">
+    <h2 class="text-2xl font-semibold mb-4">Buat Kuis Baru</h2>
+    <form @submit.prevent="submitQuiz" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Judul Kuis</label>
+        <input
+          v-model="quiz.title"
+          type="text"
+          class="w-full border rounded px-3 py-2"
+          required
+        />
       </div>
-    </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Deskripsi</label>
+        <textarea
+          v-model="quiz.description"
+          class="w-full border rounded px-3 py-2"
+          rows="4"
+        ></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Waktu Selesai</label>
+        <input
+          v-model="quiz.deadline"
+          type="datetime-local"
+          class="w-full border rounded px-3 py-2"
+        />
+      </div>
+      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+        Simpan Kuis
+      </button>
+    </form>
   </div>
 </template>
 

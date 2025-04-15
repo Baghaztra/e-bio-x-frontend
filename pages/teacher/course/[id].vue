@@ -1,23 +1,23 @@
 <template>
-  <div>
-    <h1>Kelas {{ course.name }}</h1>
-    <span>With {{ course.teacher }}</span>
+  <div class="container mx-auto px-4 py-6">
+    <h1 class="text-3xl font-bold text-green-600">{{ course.name }}</h1>
+    <span class="text-lg text-gray-600">Bareng {{ course.teacher }}</span>
 
-    <h2 class="mt-4">Daftar Siswa ({{ course.students_count }})</h2>
+    <h2 class="mt-4 text-2xl font-semibold">Daftar Siswa ({{ course.students_count }})</h2>
 
-    <table class="table table-bordered table-striped mt-2">
-      <thead class="table-light">
-        <tr>
-          <th>#</th>
-          <th>Nama</th>
-          <th>Email</th>
+    <table class="table-auto w-full mt-2 text-sm text-left text-gray-700">
+      <thead class="bg-green-100">
+        <tr class="border-b">
+          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">#</th>
+          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">Nama</th>
+          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">Email</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(student, index) in course.students" :key="student.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ student.name }}</td>
-          <td>{{ student.email }}</td>
+        <tr v-for="(student, index) in course.students" :key="student.id" class="border-b">
+          <td class="px-4 py-2 text-sm text-gray-800">{{ index + 1 }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ student.name }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ student.email }}</td>
         </tr>
       </tbody>
     </table>
