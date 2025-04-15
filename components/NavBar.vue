@@ -1,6 +1,13 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-a">
     <div class="container">
+      <button 
+        v-if="!['/', '/student', '/teacher', '/admin'].includes($route.path)"
+        class="btn btn-warning me-2" 
+        @click="$router.back()"
+      >
+        Back
+      </button>
       <NuxtLink class="navbar-brand" to="/">E-Bio-X</NuxtLink>
       <button
         class="navbar-toggler"

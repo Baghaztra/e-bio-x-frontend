@@ -35,8 +35,8 @@
             <div class="card h-100">
               <div class="card-body">
                 <h5 class="card-title">{{ kelas.name }}</h5>
-                <p class="card-text">{{ kelas.description }}</p>
-                <NuxtLink :to="'/student/class/' + kelas.id" class="btn btn-primary">
+                <p class="card-text">Bareng {{ kelas.teacher }}</p>
+                <NuxtLink :to="'/student/course/' + kelas.id" class="btn btn-primary">
                   Masuk Kelas
                 </NuxtLink>
               </div>
@@ -72,9 +72,9 @@
                   </span>
                 </td>
                 <td>
-                  <NuxtLink :to="'/student/quiz/' + quiz.id" class="btn btn-sm btn-primary">
+                  <!-- <NuxtLink :to="'/student/quiz/' + quiz.id" class="btn btn-sm btn-primary">
                     Kerjakan
-                  </NuxtLink>
+                  </NuxtLink> -->
                 </td>
               </tr>
             </tbody>
@@ -86,12 +86,12 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig()
+const token = useCookie("access_token").value
+const enrolledClasses = ref([])
+
 const classCode = ref('')
-const enrolledClasses = ref([
-  // Dummy data
-  { id: 1, name: 'Biologi Kelas X-A', description: 'Kelas reguler biologi' },
-  { id: 2, name: 'Praktikum Biologi', description: 'Kelas praktikum' }
-])
+
 const activeQuizzes = ref([
   // Dummy data
   {
@@ -104,8 +104,38 @@ const activeQuizzes = ref([
   }
 ])
 
-const joinClass = async () => {
-  // TODO: Implement join class logic
-  console.log('Joining class with code:', classCode.value)
+const loadEnrolledClasses = async () => {
+  const { data, error } = await useAsyncData('my-courses', () =>
+    $fetch(`${config.public.backend}/api/courses/student`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  )
+
+  if (error.value) {
+    console.error("Gagal mengambil kelas:", error.value)
+  } else {
+    enrolledClasses.value = data.value
+  }
 }
+
+const joinClass = async () => {
+  try {
+    await $fetch(`${config.public.backend}/api/courses/enroll/${classCode.value}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+    await loadEnrolledClasses()
+  } catch (err) {
+    console.error("Gagal bergabung ke kelas:", err)
+  }
+}
+
+
+await loadEnrolledClasses()
 </script> 
