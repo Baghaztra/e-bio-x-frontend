@@ -78,8 +78,18 @@ const handleLogin = async () => {
   );
 
   if (error.value) {
-    console.error("Login error:", error.value);
-    message.value = error.value.message || "Terjadi kesalahan saat login";
+    const rawError = error.value as any;
+    const status = rawError?.response?.status || rawError?.statusCode || rawError?.data?.statusCode;
+
+    if (status === 401) {
+      message.value = "Email atau password salah";
+    } else if (status === 418) {
+      message.value = "Akun terdaftar dengan google. Gunakan google untuk login.";
+    } else if (status >= 500) {
+      message.value = "Server sedang bermasalah. Coba lagi nanti.";
+    } else {
+      message.value = `Terjadi kesalahan. Silakan coba lagi.`;
+    }
   } else {
     const user = data.value as any;
     
@@ -109,13 +119,22 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
   );
 
   if (error.value) {
-    console.error("Login error:", error.value);
+    const rawError = error.value as any;
+    const status = rawError?.response?.status || rawError?.statusCode || rawError?.data?.statusCode;
+
+    if (status === 401) {
+      message.value = "Email atau password salah";
+    } else if (status >= 500) {
+      message.value = "Server sedang bermasalah. Coba lagi nanti.";
+    } else {
+      message.value = 'Terjadi kesalahan. Silakan coba lagi.';
+    }
   } else {
     const user = data.value;
     
     Cookies.set("access_token", user.access_token, { expires: 1, path: "/" });
     Cookies.set("email", user.email, { expires: 1, path: "/" });
-    Cookies.set("username", user.username, { expires: 1, path: "/" });
+    Cookies.set("username", user.name, { expires: 1, path: "/" });
     Cookies.set("role", user.role, { expires: 1, path: "/" });
     Cookies.set("picture", user.picture, { expires: 1, path: "/" });
 
@@ -125,6 +144,7 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
 
 // handle an error google login
 const handleLoginError = () => {
+  message.value = "Login Google gagal. Silakan coba lagi.";
   console.error("Login failed");
 };
 </script>

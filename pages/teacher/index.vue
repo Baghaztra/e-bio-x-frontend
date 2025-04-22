@@ -17,7 +17,12 @@
       <div
         v-for="(kelas, index) in myCourses"
         :key="index"
-        class="bg-white border rounded-lg p-4 shadow">
+        class="bg-white border rounded-lg p-4 shadow relative">
+        <button
+          @click="deleteClass(kelas.id)"
+          class="absolute top-0 right-0 text-red-600 w-6 h-6 flex items-center justify-center hover:text-red-700">
+          <Icon name="material-symbols:delete-rounded" class="w-5 h-5" />
+        </button>
         <div class="flex justify-between items-start mb-2">
           <h5 class="text-lg font-semibold">{{ kelas.name }}</h5>
           <span class="bg-green-100 text-green-600 text-sm px-2 py-1 rounded">
@@ -30,7 +35,7 @@
           <div class="flex items-center space-x-2">
             <span class="text-sm text-gray-600">Kode: {{ kelas.code }}</span>
             <button
-              @click="copyToClipboard(kelas.code)"
+              @click="copyToClipboard(kelas.id)"
               class="text-green-600 hover:text-green-800 transition duration-200">
               <Icon name="material-symbols:content-copy" class="w-5 h-5" />
             </button>
@@ -76,10 +81,11 @@
 </template>
 
 <script setup>
-import Swal from "sweetalert2";
+import { useSwal } from '~/utils/swal'
 
 const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
+const swal = useSwal()
 const myCourses = ref([]);
 
 const showModal = ref(false);
@@ -120,15 +126,14 @@ const createClass = async () => {
     showModal.value = false;
     fetchCoursesData();
 
-    Swal.fire({
+    swal.fire({
       icon: "success",
       title: "Berhasil",
       text: "Kelas berhasil dibuat",
-      confirmButtonColor: "#22c55e",
     });
   } catch (err) {
     console.error("Gagal membuat kelas:", err);
-    Swal.fire({
+    swal.fire({
       icon: "error",
       title: "Gagal",
       text: "Terjadi kesalahan saat membuat kelas",
@@ -151,5 +156,50 @@ const copyToClipboard = (text) => {
       console.error('Clipboard tidak tersedia.');
     }
   }
+
+  const deleteClass = async (id) => {
+  const result = await swal.fire({
+    title: 'Hapus kelas ini?',
+    text: 'Siswa akan dikeluarkan dan kelas tidak akan bisa dikembalikan lagi.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Hapus',
+    cancelButtonText: 'Batal',
+    customClass: {
+      confirmButton: 'bg-red-600 text-white  px-4 py-2 mx-4 rounded  hover:bg-red-700',
+      cancelButton: 'bg-gray-300 text-gray-700 px-4 py-2 mx-4 rounded hover:bg-gray-400'
+    }
+  })
+
+  if (!result.isConfirmed) {
+    return;
+  }
+  try {
+    await $fetch(`${config.public.backend}/api/courses/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    await fetchCoursesData();
+    swal.fire({
+      icon: "success",
+      title: "Berhasil!",
+      text: "Kelas berhasil dihapus.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } catch (err) {
+    swal.fire({
+      icon: "error",
+      title: "Gagal!",
+      text: "Terjadi kesalahan saat menghapus kelas.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+};
+
 fetchCoursesData();
 </script>

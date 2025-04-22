@@ -29,18 +29,30 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "#app";
-import Cookies from "js-cookie";
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
+import { useSwal } from '~/utils/swal'
 
-const router = useRouter();
+const router = useRouter()
+const swal = useSwal()
 
-const handleLogout = () => {
-  Cookies.remove("access_token");
-  Cookies.remove("email");
-  Cookies.remove("username");
-  Cookies.remove("role");
-  Cookies.remove("picture");
+const handleLogout = async () => {
+  const result = await swal.fire({
+    title: 'Yakin mau keluar?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Keluar',
+    cancelButtonText: 'Batal'
+  })
 
-  router.replace("/");
-};
+  if (result.isConfirmed) {
+    Cookies.remove("access_token")
+    Cookies.remove("email")
+    Cookies.remove("username")
+    Cookies.remove("role")
+    Cookies.remove("picture")
+
+    router.replace("/")
+  }
+}
 </script>

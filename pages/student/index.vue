@@ -4,7 +4,8 @@
     <div class="row mb-4">
       <div class="col-md-8">
         <h2 class="text-2xl font-semibold">
-          Hi, <span class="text-green-600">{{ useCookie("username").value }}</span>!
+          Hi, <span class="text-green-600">{{ useCookie("username").value }}</span
+          >!
         </h2>
       </div>
       <div class="col-md-4">
@@ -44,7 +45,13 @@
             v-for="(kelas, index) in enrolledClasses"
             :key="index"
             class="card bg-white shadow-md rounded-lg overflow-hidden">
-            <div class="card-body p-4">
+            <div class="card-body p-4 relative">
+              <button
+                @click="outClass(kelas.code)"
+                class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700"
+                title="Keluar Kelas">
+                <Icon name="heroicons:x-mark" class="w-4 h-4" />
+              </button>
               <h5 class="text-lg font-semibold text-gray-800">{{ kelas.name }}</h5>
               <p class="text-sm text-gray-600 mb-4">Bareng {{ kelas.teacher }}</p>
               <NuxtLink
@@ -100,7 +107,10 @@
 </template>
 
 <script setup>
+import { useSwal } from '~/utils/swal';
+
 const config = useRuntimeConfig();
+const swal = useSwal();
 const token = useCookie("access_token").value;
 const enrolledClasses = ref([]);
 
@@ -146,8 +156,48 @@ const joinClass = async () => {
     });
     await fetchCoursesData();
     classCode.value = "";
+
+    swal.fire({
+      icon: "success",
+      title: "Berhasil bergabung ke kelas!",
+      showConfirmButton: false,
+      timer: 3000,
+    });
   } catch (err) {
-    console.error("Gagal bergabung ke kelas:", err);
+    swal.fire({
+      icon: "error",
+      title: "Gagal bergabung ke kelas!",
+      text: "Pastikan kode kelas yang dimasukkan benar.",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+  }
+};
+
+const outClass = async (code) => {
+  const result = await swal.fire({
+    title: 'Yakin mau keluar?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Keluar',
+    cancelButtonText: 'Batal'
+  })
+
+  if (!result.isConfirmed) {
+    return;
+  }
+  try {
+    await $fetch(`${config.public.backend}/api/courses/out/${code}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    await fetchCoursesData();
+    classCode.value = "";
+  } catch (err) {
+    console.error("Gagal keluar dari kelas:", err);
   }
 };
 
