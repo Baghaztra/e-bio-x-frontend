@@ -5,7 +5,7 @@
 
     <h2 class="mt-4 text-2xl font-semibold">Daftar Siswa ({{ course.students_count }})</h2>
 
-    <table class="table-auto w-full mt-2 text-sm text-left text-gray-700">
+    <table class="table-auto w-full my-2 text-sm text-left text-gray-700">
       <thead class="bg-green-100">
         <tr class="border-b">
           <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">#</th>
@@ -21,6 +21,7 @@
         </tr>
       </tbody>
     </table>
+    <UploadMaterial :courseId="courseId" />
   </div>
 </template>
 
