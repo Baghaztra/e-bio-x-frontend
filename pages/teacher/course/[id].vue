@@ -3,30 +3,19 @@
     <h1 class="text-3xl font-bold text-green-600">{{ course.name }}</h1>
     <span class="text-lg text-gray-600">Bareng {{ course.teacher }}</span>
 
-    <h2 class="mt-4 text-2xl font-semibold">Daftar Siswa ({{ course.students_count }})</h2>
+    <StudentList class="my-3" :students="course.students"/>
 
-    <table class="table-auto w-full my-2 text-sm text-left text-gray-700">
-      <thead class="bg-green-100">
-        <tr class="border-b">
-          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">#</th>
-          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">Nama</th>
-          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(student, index) in course.students" :key="student.id" class="border-b">
-          <td class="px-4 py-2 text-sm text-gray-800">{{ index + 1 }}</td>
-          <td class="px-4 py-2 text-sm text-gray-800">{{ student.name }}</td>
-          <td class="px-4 py-2 text-sm text-gray-800">{{ student.email }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <UploadMaterial :courseId="courseId" />
+    <UploadMaterial class="my-3" :courseId="courseId" />
+
+    <ViewMaterial class="my-3" :courseId="courseId" />
   </div>
 </template>
 
 <script setup>
+import { useSwal } from '~/utils/swal';
+
 const route = useRoute();
+const swal = useSwal();
 const courseId = route.params.id;
 
 const config = useRuntimeConfig();
@@ -43,7 +32,11 @@ const { data, error } = await useAsyncData("my-courses", () =>
 );
 
 if (error.value) {
-  console.error("Gagal mengambil kelas:", error.value);
+  swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "Terjadi kesalahan saat memuat data kelas",
+  });
 } else {
   course.value = data.value;
 }

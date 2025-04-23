@@ -101,7 +101,7 @@ const handleUpload = async () => {
       text: "Materi berhasil diunggah",
     });
   } catch (err) {
-    console.error("Gagal upload materi:", err);
+    // console.error("Gagal upload materi:", err);
     swal.fire({
       icon: "error",
       title: "Gagal",
