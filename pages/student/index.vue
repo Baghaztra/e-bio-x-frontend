@@ -53,10 +53,11 @@
                 <Icon name="heroicons:x-mark" class="w-4 h-4" />
               </button>
               <h5 class="text-lg font-semibold text-gray-800">{{ kelas.name }}</h5>
-              <p class="text-sm text-gray-600 mb-4">Bareng {{ kelas.teacher }}</p>
+              <p class="text-sm text-green-600 mb-4">Bareng {{ kelas.teacher }}</p>
               <NuxtLink
                 :to="'/student/course/' + kelas.id"
                 class="btn bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                <Icon name="ic:outline-log-in" class="w-4 h-4 me-2" />
                 Masuk Kelas
               </NuxtLink>
             </div>
@@ -202,4 +203,9 @@ const outClass = async (code) => {
 };
 
 await fetchCoursesData();
+
+definePageMeta({
+  middleware: 'auth',
+  role: 'student'
+});
 </script>

@@ -150,4 +150,8 @@ const deleteUser = async (id) => {
   }
 };
 
+definePageMeta({
+  middleware: 'auth',
+  role: 'admin'
+});
 </script>

@@ -81,11 +81,11 @@
 </template>
 
 <script setup>
-import { useSwal } from '~/utils/swal'
+import { useSwal } from "~/utils/swal";
 
 const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
-const swal = useSwal()
+const swal = useSwal();
 const myCourses = ref([]);
 
 const showModal = ref(false);
@@ -143,33 +143,33 @@ const createClass = async () => {
 };
 
 const copyToClipboard = (text) => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text)
-        // TODO: Snackbar notifikasi
-        // .then(() => {
-        //   console.log('Teks berhasil disalin!');
-        // })
-        // .catch(err => {
-        //   console.error('Gagal menyalin teks:', err);
-        // });
-    } else {
-      console.error('Clipboard tidak tersedia.');
-    }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text);
+    // TODO: Snackbar notifikasi
+    // .then(() => {
+    //   console.log('Teks berhasil disalin!');
+    // })
+    // .catch(err => {
+    //   console.error('Gagal menyalin teks:', err);
+    // });
+  } else {
+    console.error("Clipboard tidak tersedia.");
   }
+};
 
-  const deleteClass = async (id) => {
+const deleteClass = async (id) => {
   const result = await swal.fire({
-    title: 'Hapus kelas ini?',
-    text: 'Siswa akan dikeluarkan dan kelas tidak akan bisa dikembalikan lagi.',
-    icon: 'warning',
+    title: "Hapus kelas ini?",
+    text: "Siswa akan dikeluarkan dan kelas tidak akan bisa dikembalikan lagi.",
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonText: 'Hapus',
-    cancelButtonText: 'Batal',
+    confirmButtonText: "Hapus",
+    cancelButtonText: "Batal",
     customClass: {
-      confirmButton: 'bg-red-600 text-white  px-4 py-2 mx-4 rounded  hover:bg-red-700',
-      cancelButton: 'bg-gray-300 text-gray-700 px-4 py-2 mx-4 rounded hover:bg-gray-400'
-    }
-  })
+      confirmButton: "bg-red-600 text-white  px-4 py-2 mx-4 rounded  hover:bg-red-700",
+      cancelButton: "bg-gray-300 text-gray-700 px-4 py-2 mx-4 rounded hover:bg-gray-400",
+    },
+  });
 
   if (!result.isConfirmed) {
     return;
@@ -202,4 +202,9 @@ const copyToClipboard = (text) => {
 };
 
 fetchCoursesData();
+
+definePageMeta({
+  middleware: 'auth',
+  role: 'teacher'
+});
 </script>

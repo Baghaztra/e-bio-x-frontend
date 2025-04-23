@@ -147,4 +147,8 @@ const handleLoginError = () => {
   message.value = "Login Google gagal. Silakan coba lagi.";
   console.error("Login failed");
 };
+
+definePageMeta({
+  middleware: "guest",
+});
 </script>

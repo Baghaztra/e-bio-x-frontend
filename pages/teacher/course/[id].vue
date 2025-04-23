@@ -77,4 +77,9 @@ if (error.value) {
 } else {
   course.value = data.value;
 }
+
+definePageMeta({
+  middleware: 'auth',
+  role: 'teacher'
+});
 </script>
