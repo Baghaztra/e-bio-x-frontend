@@ -3,24 +3,35 @@
     <h1 class="text-3xl font-semibold text-green-600">Kelas {{ course.name }}</h1>
     <span class="text-lg text-gray-700">Bareng {{ course.teacher }}</span>
 
-    <h2 class="mt-4 text-xl font-semibold text-green-600">Daftar Siswa ({{ course.students_count }})</h2>
+    <div class="flex space-x-4 border-b mt-4">
+      <button
+        @click="activeTab = 'materi'"
+        :class="[
+          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          activeTab === 'materi'
+            ? 'bg-white text-green-600 border-green-600'
+            : 'bg-gray-100 text-gray-600 border-gray-300',
+        ]">
+        <Icon name="simple-icons:bookstack" />
+        Materi
+      </button>
+      <button
+        @click="activeTab = 'siswa'"
+        :class="[
+          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          activeTab === 'siswa'
+            ? 'bg-white text-green-600 border-green-600'
+            : 'bg-gray-100 text-gray-600 border-gray-300',
+        ]">
+        <Icon name="arcticons:classchartsstudents" />
+        Siswa
+      </button>
+    </div>
 
-    <table class="table-auto w-full mt-2 text-sm text-left text-gray-700">
-      <thead class="bg-green-100">
-        <tr  class="border-b">
-          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">#</th>
-          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">Nama</th>
-          <th class="px-4 py-2 text-left text-sm font-semibold text-green-700">Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(student, index) in course.students" :key="student.id"  class="border-b">
-          <td class="px-4 py-2 text-sm text-gray-800">{{ index + 1 }}</td>
-          <td class="px-4 py-2 text-sm text-gray-800">{{ student.name }}</td>
-          <td class="px-4 py-2 text-sm text-gray-800">{{ student.email }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="mb-3">
+      <ViewMaterial v-if="activeTab === 'materi'" :courseId="courseId" />
+      <StudentList v-if="activeTab === 'siswa'" :students="course.students" />
+    </div>
   </div>
 </template>
 
@@ -28,6 +39,7 @@
 const route = useRoute();
 const courseId = route.params.id;
 
+const activeTab = ref("materi");
 const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
 const course = ref([]);

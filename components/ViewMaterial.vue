@@ -1,14 +1,10 @@
 <template>
-  <div class="p-6 bg-white rounded-2xl shadow-lg border border-green-200">
-    <button
-      @click="isOpen = !isOpen"
-      class="w-full flex justify-between items-center p-4 bg-green-100 text-green-800 rounded-t-2xl">
-      <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
-        <Icon name="simple-icons:bookstack" class="text-green-500" /> Lihat Materi
-      </h2>
-    </button>
+  <div class="p-6 bg-white rounded-sm shadow-lg border border-green-200">
+    <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
+      <Icon name="simple-icons:bookstack" class="text-green-500" /> Lihat Materi
+    </h2>
 
-    <div v-if="isOpen" class="p-4">
+    <div class="p-4">
       <div v-if="materials && materials.length == 0">
         <p class="text-gray-500">Belum ada materi yang diupload.</p>
       </div>
@@ -45,7 +41,6 @@
 import { ref } from "vue";
 import { useSwal } from "~/utils/swal";
 
-const isOpen = ref(true);
 const token = useCookie("access_token").value;
 const swal = useSwal();
 const props = defineProps({
