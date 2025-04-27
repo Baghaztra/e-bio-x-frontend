@@ -65,8 +65,8 @@
       <MaterialUpload v-if="activeTab === 'upload-materi'" class="mb-3" :courseId="courseId" />
       <MaterialList v-if="activeTab === 'materi'" class="mb-3" :courseId="courseId" />
       <StudentList v-if="activeTab === 'siswa'" class="mb-3" :students="course.students" />
-      <QuizCreate v-if="activeTab === 'buat-kuis'" class="mb-3" :courseId="courseId" />
-      <QuizList v-if="activeTab === 'kuis'" class="mb-3" :courseId="courseId" />
+      <QuizCreate v-if="activeTab === 'buat-kuis'" class="mb-3" :courseId="Number(courseId)" />
+      <QuizList v-if="activeTab === 'kuis'" class="mb-3" :courseId="Number(courseId)" />
     </div>
   </div>
 </template>

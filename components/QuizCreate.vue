@@ -45,7 +45,7 @@
     </button>
 
     <div>
-      <button @click="kirimKuis" class="bg-green-600 text-white px-4 py-2 rounded">
+      <button @click="buatKuis" class="bg-green-600 text-white px-4 py-2 rounded">
         Simpan Kuis
       </button>
     </div>
@@ -54,8 +54,10 @@
 
 <script setup>
 import { ref } from "vue";
-import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+import { useSwal } from "~/utils/swal";
+
+const token = useCookie("access_token").value;
+const swal = useSwal();
 
 const props = defineProps({
   courseId: {
@@ -92,19 +94,22 @@ const hapusOpsi = (qi, oi) => {
   quiz.value.questions[qi].options.splice(oi, 1);
 };
 
-const kirimKuis = async () => {
+const buatKuis = async () => {
   try {
     await $fetch(`${useRuntimeConfig().public.backend}/api/quiz`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: quiz.value,
     });
 
-    Swal.fire("Berhasil", "Kuis berhasil dibuat!", "success");
+    swal.fire("Berhasil", "Kuis berhasil dibuat!", "success");
     // reset form
     quiz.value = { course_id: null, title: "", questions: [] };
   } catch (err) {
     console.error(err);
-    Swal.fire("Gagal", "Gagal membuat kuis. Cek console.", "error");
+    swal.fire("Gagal", "Gagal membuat kuis. Cek console.", "error");
   }
 };
 </script>
