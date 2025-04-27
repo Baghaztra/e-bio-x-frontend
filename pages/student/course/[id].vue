@@ -16,6 +16,17 @@
         Materi
       </button>
       <button
+        @click="activeTab = 'kuis'"
+        :class="[
+          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          activeTab === 'kuis'
+            ? 'bg-white text-green-600 border-green-600'
+            : 'bg-gray-100 text-gray-600 border-gray-300',
+        ]">
+        <Icon name="hugeicons:quiz-04" />
+        Kuis
+      </button>
+      <button
         @click="activeTab = 'siswa'"
         :class="[
           'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
@@ -29,13 +40,16 @@
     </div>
 
     <div class="mb-3">
-      <ViewMaterial v-if="activeTab === 'materi'" :courseId="courseId" />
+      <MaterialList v-if="activeTab === 'materi'" :courseId="courseId" />
+      <QuizList v-if="activeTab === 'kuis'" :courseId="courseId" />
       <StudentList v-if="activeTab === 'siswa'" :students="course.students" />
     </div>
   </div>
 </template>
 
 <script setup>
+import MaterialList from '~/components/MaterialList.vue';
+
 const route = useRoute();
 const courseId = route.params.id;
 

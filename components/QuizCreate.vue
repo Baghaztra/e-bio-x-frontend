@@ -1,0 +1,110 @@
+<template>
+  <div class="p-6 bg-white rounded-sm shadow-lg border border-green-200">
+    <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
+      <Icon name="fluent:quiz-new-24-filled" class="text-green-500" /> Buat Kuis Baru
+    </h2>
+
+    <div class="my-4">
+      <input v-model="quiz.title" type="text" placeholder="Judul Kuis" class="w-full border rounded px-3 py-2" />
+    </div>
+
+    <div v-for="(q, qi) in quiz.questions" :key="qi" class="mb-6 border p-3 rounded">
+      <div class="flex justify-between items-center">
+        <label class="font-semibold">Pertanyaan {{ qi + 1 }}</label>
+        <button @click="hapusPertanyaan(qi)" class="text-red-500">
+          <Icon name="ic:baseline-delete" />
+        </button>
+      </div>
+
+      <input
+        v-model="q.question_text"
+        type="text"
+        class="w-full border rounded px-3 py-2 my-2"
+        placeholder="Tulis pertanyaan..." />
+
+      <div v-for="(o, oi) in q.options" :key="oi" class="flex items-center space-x-2 my-1">
+        <input
+          v-model="o.option_text"
+          type="text"
+          class="w-full border rounded px-3 py-2 flex-1"
+          placeholder="Opsi jawaban..." />
+        <label class="flex items-center space-x-1">
+          <input type="checkbox" v-model="o.is_correct" />
+          <span>Benar</span>
+        </label>
+        <button @click="hapusOpsi(qi, oi)" class="text-red-400">
+          <Icon name="ic:baseline-close" />
+        </button>
+      </div>
+
+      <button @click="tambahOpsi(qi)" class="text-green-600 text-sm mt-1">+ Tambah Opsi</button>
+    </div>
+
+    <button @click="tambahPertanyaan" class="text-blue-600 text-sm mb-4">
+      + Tambah Pertanyaan
+    </button>
+
+    <div>
+      <button @click="kirimKuis" class="bg-green-600 text-white px-4 py-2 rounded">
+        Simpan Kuis
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+
+const props = defineProps({
+  courseId: {
+    type: Number,
+    required: true,
+  },
+});
+
+const quiz = ref({
+  course_id: props.courseId,
+  title: "",
+  questions: [],
+});
+
+const tambahPertanyaan = () => {
+  quiz.value.questions.push({
+    question_text: "",
+    options: [],
+  });
+};
+
+const hapusPertanyaan = (index) => {
+  quiz.value.questions.splice(index, 1);
+};
+
+const tambahOpsi = (qi) => {
+  quiz.value.questions[qi].options.push({
+    option_text: "",
+    is_correct: false,
+  });
+};
+
+const hapusOpsi = (qi, oi) => {
+  quiz.value.questions[qi].options.splice(oi, 1);
+};
+
+const kirimKuis = async () => {
+  try {
+    await $fetch(`${useRuntimeConfig().public.backend}/api/quiz`, {
+      method: "POST",
+      body: quiz.value,
+    });
+
+    Swal.fire("Berhasil", "Kuis berhasil dibuat!", "success");
+    // reset form
+    quiz.value = { course_id: null, title: "", questions: [] };
+  } catch (err) {
+    console.error(err);
+    Swal.fire("Gagal", "Gagal membuat kuis. Cek console.", "error");
+  }
+};
+</script>

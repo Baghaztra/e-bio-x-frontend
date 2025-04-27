@@ -1,10 +1,10 @@
 <template>
   <div class="p-6 bg-white rounded-sm shadow-lg border border-green-200">
     <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
-      <Icon name="simple-icons:bookstack" class="text-green-500" /> Lihat Materi
+      <Icon name="simple-icons:bookstack" class="text-green-500" /> Materi
     </h2>
 
-    <div class="p-4">
+    <div class="my-4">
       <div v-if="materials && materials.length == 0">
         <p class="text-gray-500">Belum ada materi yang diupload.</p>
       </div>

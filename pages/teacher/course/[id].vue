@@ -37,12 +37,36 @@
         <Icon name="arcticons:classchartsstudents" />
         Siswa
       </button>
+      <button
+        @click="activeTab = 'buat-kuis'"
+        :class="[
+          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          activeTab === 'buat-kuis'
+            ? 'bg-white text-green-600 border-green-200 shadow-lg'
+            : 'bg-gray-100 text-gray-600 border-white',
+        ]">
+        <Icon name="fluent:quiz-new-24-filled" />
+        Buat Kuis
+      </button>
+      <button
+        @click="activeTab = 'kuis'"
+        :class="[
+          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          activeTab === 'kuis'
+            ? 'bg-white text-green-600 border-green-200 shadow-lg'
+            : 'bg-gray-100 text-gray-600 border-white',
+        ]">
+        <Icon name="hugeicons:quiz-04" />
+        Daftar Kuis
+      </button>
     </div>
 
     <div class="mb-3">
-      <UploadMaterial v-if="activeTab === 'upload-materi'" class="mb-3" :courseId="courseId" />
-      <ViewMaterial v-if="activeTab === 'materi'" class="mb-3" :courseId="courseId" />
+      <MaterialUpload v-if="activeTab === 'upload-materi'" class="mb-3" :courseId="courseId" />
+      <MaterialList v-if="activeTab === 'materi'" class="mb-3" :courseId="courseId" />
       <StudentList v-if="activeTab === 'siswa'" class="mb-3" :students="course.students" />
+      <QuizCreate v-if="activeTab === 'buat-kuis'" class="mb-3" :courseId="courseId" />
+      <QuizList v-if="activeTab === 'kuis'" class="mb-3" :courseId="courseId" />
     </div>
   </div>
 </template>
