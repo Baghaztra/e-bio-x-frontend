@@ -1,5 +1,7 @@
 <template>
-  <QuizSubmission />
+  <div class="w-full">
+    <QuizSubmission />
+  </div>
 </template>
 
 <script setup>

@@ -1,8 +1,7 @@
 <template>
-  <div class="min-h-[90vh] mt-6 px-4 max-w-4xl mx-auto w-full">
-    <div>
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="px-4 max-w-4xl mx-auto w-full flex items-center justify-center">
       <slot />
-      <FooterComponet />
     </div>
   </div>
 </template>

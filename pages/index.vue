@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="bg-green-700 text-white py-16 rounded-2xl shadow-lg">
+    <section class="bg-green-700 mt-5 text-white py-16 rounded-2xl shadow-lg">
       <div class="max-w-6xl mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center">
           <div class="md:w-1/2">
