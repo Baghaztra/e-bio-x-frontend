@@ -40,7 +40,7 @@
       <button @click="tambahOpsi(qi)" class="text-green-600 text-sm mt-1">+ Tambah Opsi</button>
     </div>
 
-    <button @click="tambahPertanyaan" class="text-blue-600 text-sm mb-4">
+    <button @click="tambahPertanyaan" class="text-green-600 text-sm mb-4">
       + Tambah Pertanyaan
     </button>
 

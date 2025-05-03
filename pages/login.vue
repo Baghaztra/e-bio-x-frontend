@@ -62,19 +62,26 @@ const message = ref("");
 
 // handle normal login
 const handleLogin = async () => {
-  const { data, error } = await useAsyncData("login", () =>
-    $fetch(`${config.public.backend}/api/login`, {
+  try {
+    const user = await $fetch(`${config.public.backend}/api/login`, {
       method: "POST",
       body: {
         email: email.value,
         password: password.value,
       },
-    })
-  );
+    }) as any;
 
-  if (error.value) {
-    const rawError = error.value as any;
-    const status = rawError?.response?.status || rawError?.statusCode || rawError?.data?.statusCode;
+    Cookies.set("access_token", user.access_token, { expires: 1, path: "/" });
+    Cookies.set("email", user.email, { expires: 1, path: "/" });
+    Cookies.set("username", user.name, { expires: 1, path: "/" });
+    Cookies.set("role", user.role, { expires: 1, path: "/" });
+    Cookies.set("has_password", user.has_password, { expires: 1, path: "/" });
+    Cookies.set("profile_pic", user.profile_pic, { expires: 1, path: "/" });
+
+    router.replace(`/${user.role}`);
+  } catch (error: any) {
+    const status =
+      error?.response?.status || error?.statusCode || error?.data?.statusCode;
 
     if (status === 401) {
       message.value = "Email atau password salah";
@@ -85,17 +92,6 @@ const handleLogin = async () => {
     } else {
       message.value = `Terjadi kesalahan. Silakan coba lagi.`;
     }
-  } else {
-    const user = data.value as any;
-
-    Cookies.set("access_token", user.access_token, { expires: 1, path: "/" });
-    Cookies.set("email", user.email, { expires: 1, path: "/" });
-    Cookies.set("username", user.name, { expires: 1, path: "/" });
-    Cookies.set("role", user.role, { expires: 1, path: "/" });
-    Cookies.set("has_password", user.has_password, { expires: 1, path: "/" });
-    Cookies.set("profile_pic", user.profile_pic, { expires: 1, path: "/" });
-
-    router.replace(`/${user.role}`);
   }
 };
 
@@ -107,26 +103,11 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     console.error("Login failed, credential not found");
     return;
   }
-  const { data, error } = await useAsyncData("googleLogin", () =>
-    $fetch(`${config.public.backend}/api/google-login`, {
+  try {
+    const user = await $fetch(`${config.public.backend}/api/google-login`, {
       method: "POST",
       body: { token: credential },
-    })
-  );
-
-  if (error.value) {
-    const rawError = error.value as any;
-    const status = rawError?.response?.status || rawError?.statusCode || rawError?.data?.statusCode;
-
-    if (status === 401) {
-      message.value = "Email atau password salah";
-    } else if (status >= 500) {
-      message.value = "Server sedang bermasalah. Coba lagi nanti.";
-    } else {
-      message.value = "Terjadi kesalahan. Silakan coba lagi.";
-    }
-  } else {
-    const user = data.value;
+    });
 
     Cookies.set("access_token", user.access_token, { expires: 1, path: "/" });
     Cookies.set("email", user.email, { expires: 1, path: "/" });
@@ -136,6 +117,16 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     Cookies.set("profile_pic", user.profile_pic, { expires: 1, path: "/" });
 
     router.replace(`/${user.role}`);
+  } catch (error: any) {
+    const status = error?.response?.status || error?.statusCode || error?.data?.statusCode;
+
+    if (status === 401) {
+      message.value = "Email atau password salah";
+    } else if (status >= 500) {
+      message.value = "Server sedang bermasalah. Coba lagi nanti.";
+    } else {
+      message.value = "Terjadi kesalahan. Silakan coba lagi.";
+    }
   }
 };
 

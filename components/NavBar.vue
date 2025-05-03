@@ -11,9 +11,9 @@
       </div>
 
       <div v-if="username" class="relative flex items-center space-x-2">
-        <span class="font-medium">{{ username }}</span>
-        <button @click.stop="toggleDropdown" class="focus:outline-none">
-          <client-only>
+        <client-only>
+          <span class="font-medium">{{ username }}</span>
+          <button @click.stop="toggleDropdown" class="focus:outline-none">
             <div
               v-if="profile_pic != 'null'"
               class="w-8 h-8 rounded-full object-cover border-2 border-white">
@@ -22,11 +22,13 @@
                 alt="Profile Picture"
                 class="w-full rounded-full h-full object-cover" />
             </div>
-            <div v-else class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-4 border-white shadow-lg">
+            <div
+              v-else
+              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-4 border-white shadow-lg">
               <Icon name="mdi:account" size="64" class="text-gray-400" />
             </div>
-          </client-only>
-        </button>
+          </button>
+        </client-only>
 
         <div
           v-if="dropdownOpen"
