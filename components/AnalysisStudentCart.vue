@@ -1,0 +1,37 @@
+<template>
+  <div class="flex items-center justify-between p-3 border rounded shadow-sm bg-white">
+    <div class="flex items-center gap-2">
+      <Icon name="material-symbols:account-circle" size="20" class="text-green-600" />
+      <span class="font-semibold">{{ props.nama }}</span>
+    </div>
+    <div class="text-sm mt-1 text-gray-700">
+      <Icon name="material-symbols:label-important" size="16" class="text-green-500 mr-1" />
+      <b>{{ categories(props.cluster) }}</b> |
+      <Icon name="material-symbols:star-rounded" size="16" class="text-yellow-500 mr-1" />
+      Nilai: {{ props.score.toFixed(2) }} |
+      <Icon name="material-symbols:schedule" size="16" class="text-blue-500 mr-1" />
+      {{ props.work_time }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+const props = defineProps({
+  nama: String,
+  cluster: String,
+  score: Number,
+  work_time: String,
+});
+
+const categories = (cluster)=>{
+    if(cluster == 0){
+        return "Unggul"
+    }else if(cluster == 1){
+        return "Rata-rata"
+    }else if(cluster == 2){
+        return "Butuh bimbingan"
+    }else {
+        return "Tidak terkategorikan"
+    }
+}
+</script>

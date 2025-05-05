@@ -5,17 +5,35 @@
     </h2>
 
     <div class="my-4">
-      <div v-if="materials && materials.length == 0">
+      <div v-if="materials.length === 0 && isLoading">
+        <!-- Skeleton Loader for Empty State -->
+        <div class="space-y-4">
+          <div class="flex gap-4 animate-pulse">
+            <div class="w-10 h-10 bg-green-200 rounded-full"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-6 bg-green-200 rounded w-3/4"></div>
+              <div class="h-4 bg-green-200 rounded w-1/2"></div>
+            </div>
+          </div>
+          <div class="h-3 bg-green-200 rounded w-1/4"></div>
+        </div>
+      </div>
+      
+      <div v-if="materials.length === 0 && !isLoading">
         <p class="text-gray-500">Belum ada materi yang diupload.</p>
       </div>
+
+      <!-- Loop through the materials -->
       <div
         v-for="material in materials"
         :key="material.id"
-        class="mb-4 p-5 bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-lg transition duration-300 ease-in-out relative">
+        class="mb-4 p-5 bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-lg transition duration-300 ease-in-out relative"
+      >
         <button
           v-if="useCookie('role').value === 'teacher'"
           @click="deleteMateri(material.id)"
-          class="absolute top-4 right-4 text-red-600 w-6 h-6 flex items-center justify-center hover:text-red-700">
+          class="absolute top-4 right-4 text-red-600 w-6 h-6 flex items-center justify-center hover:text-red-700"
+        >
           <Icon name="material-symbols:delete-rounded" class="w-5 h-5" />
         </button>
         <div class="flex items-center gap-3 mb-3">
@@ -25,10 +43,14 @@
         <p class="text-gray-600 mb-3 text-sm leading-relaxed">
           {{ material.description }}
         </p>
+        <p class="text-gray-400 mb-1 text-sm leading-relaxed">
+          {{ material.uploaded_at }}
+        </p>
         <a
           :href="material.file_url"
           target="_blank"
-          class="inline-flex items-center gap-2 text-green-600 hover:text-green-800 font-medium transition">
+          class="inline-flex items-center gap-2 text-green-600 hover:text-green-800 font-medium transition"
+        >
           <Icon name="material-symbols:open-in-new-rounded" class="text-lg" />
           Lihat Materi
         </a>
@@ -48,6 +70,7 @@ const props = defineProps({
 });
 
 const materials = ref([]);
+const isLoading = ref(true); // Track loading state
 
 const fetchData = async () => {
   try {
@@ -68,8 +91,11 @@ const fetchData = async () => {
       title: "Gagal",
       text: "Terjadi kesalahan saat memuat materi",
     });
+  } finally {
+    isLoading.value = false; // Set loading to false after fetch
   }
 };
+
 const deleteMateri = async (materialId) => {
   swal.fire({
     title: "Menghapus...",

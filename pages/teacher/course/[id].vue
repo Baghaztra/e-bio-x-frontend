@@ -3,14 +3,14 @@
     <h1 class="text-3xl font-bold text-green-600">{{ course.name }}</h1>
     <span class="text-lg text-gray-600">Bareng {{ course.teacher }}</span>
 
-    <div class="flex space-x-4 border-b mt-4">
+    <div class="flex overflow-x-auto border-b mt-4 space-x-2 pb-2">
       <button
         @click="activeTab = 'materi'"
         :class="[
-          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'materi'
-            ? 'bg-white text-green-600 border-green-200 shadow-lg'
-            : 'bg-gray-100 text-gray-600 border-white',
+            ? 'bg-white text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200',
         ]">
         <Icon name="simple-icons:bookstack" />
         Materi
@@ -18,10 +18,10 @@
       <button
         @click="activeTab = 'upload-materi'"
         :class="[
-          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'upload-materi'
-            ? 'bg-white text-green-600 border-green-200 shadow-lg'
-            : 'bg-gray-100 text-gray-600 border-white',
+            ? 'bg-white text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200',
         ]">
         <Icon name="material-symbols:upload-rounded" />
         Upload
@@ -29,10 +29,10 @@
       <button
         @click="activeTab = 'siswa'"
         :class="[
-          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'siswa'
-            ? 'bg-white text-green-600 border-green-200 shadow-lg'
-            : 'bg-gray-100 text-gray-600 border-white',
+            ? 'bg-white text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200',
         ]">
         <Icon name="arcticons:classchartsstudents" />
         Siswa
@@ -40,10 +40,10 @@
       <button
         @click="activeTab = 'buat-kuis'"
         :class="[
-          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'buat-kuis'
-            ? 'bg-white text-green-600 border-green-200 shadow-lg'
-            : 'bg-gray-100 text-gray-600 border-white',
+            ? 'bg-white text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200',
         ]">
         <Icon name="fluent:quiz-new-24-filled" />
         Buat Kuis
@@ -51,13 +51,13 @@
       <button
         @click="activeTab = 'kuis'"
         :class="[
-          'px-4 py-2 border-t border-l border-r rounded-t-lg text-sm font-medium',
+          'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'kuis'
-            ? 'bg-white text-green-600 border-green-200 shadow-lg'
-            : 'bg-gray-100 text-gray-600 border-white',
+            ? 'bg-white text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200',
         ]">
         <Icon name="hugeicons:quiz-04" />
-        Daftar Kuis
+        Kuis
       </button>
     </div>
 
@@ -103,7 +103,7 @@ if (error.value) {
 }
 
 definePageMeta({
-  middleware: 'auth',
-  role: 'teacher'
+  middleware: "auth",
+  role: "teacher",
 });
 </script>

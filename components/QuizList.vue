@@ -5,7 +5,23 @@
     </h2>
 
     <div class="my-3">
-      <div v-if="loading" class="text-gray-500">Memuat data kuis...</div>
+      <div v-if="loading" class="space-y-4">
+        <div v-for="i in 3" :key="i" class="border rounded-xl p-4 shadow bg-white animate-pulse">
+          <div class="flex items-center justify-between mb-3">
+            <div class="space-y-2">
+              <div class="h-5 bg-green-200 rounded w-48"></div>
+              <div class="h-3 bg-green-200 rounded w-32"></div>
+              <div class="h-3 bg-green-200 rounded w-40"></div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-2">
+              <div class="h-8 w-20 bg-green-200 rounded"></div>
+              <div class="h-8 w-20 bg-green-200 rounded"></div>
+              <div class="h-8 w-20 bg-green-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div v-else-if="error" class="text-red-500">{{ error }}</div>
       <div v-else>
         <div v-if="quizzes.length === 0" class="text-gray-500">Belum ada kuis untuk kelas ini.</div>
@@ -42,14 +58,31 @@
                 </p>
               </div>
 
-              <div class="flex items-center gap-3">
-                <NuxtLink
-                  v-if="role === 'teacher'"
-                  :to="`/teacher/quiz/${quiz.quiz_id}`"
-                  class="bg-green-600 text-white px-3 py-1.5 text-sm rounded hover:bg-green-700 flex items-center gap-1">
-                  <Icon name="mdi:play-circle-outline" />
-                  Edit
-                </NuxtLink>
+              <!-- Action menu -->
+              <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
+                <div v-if="role === 'teacher'" class="flex flex-col md:flex-row gap-2">
+                  <NuxtLink
+                    :to="`/teacher/quiz/${quiz.quiz_id}/analysis`"
+                    class="bg-green-600 text-white px-3 py-1.5 text-sm rounded hover:bg-green-700 flex items-center gap-1">
+                    <Icon name="material-symbols:bar-chart-4-bars" />
+                    Analisis
+                  </NuxtLink>
+
+                  <NuxtLink
+                    :to="`/teacher/quiz/${quiz.quiz_id}`"
+                    class="bg-yellow-400 text-white px-3 py-1.5 text-sm rounded hover:bg-yellow-500 flex items-center gap-1">
+                    <Icon name="material-symbols:edit-square" />
+                    Edit
+                  </NuxtLink>
+
+                  <button
+                    @click="deleteQuiz(quiz.quiz_id)"
+                    class="bg-red-600 text-white px-3 py-1.5 text-sm rounded hover:bg-red-700 flex items-center gap-1">
+                    <Icon name="material-symbols:delete-rounded" />
+                    Hapus
+                  </button>
+                </div>
+
                 <button
                   v-else-if="role === 'student' && !quiz.is_closed && !quiz.is_submited"
                   @click="startQuiz(quiz.quiz_id)"
@@ -57,26 +90,20 @@
                   <Icon name="mdi:play-circle-outline" />
                   Kerjakan
                 </button>
+
                 <div
                   v-else-if="role === 'student' && quiz.is_submited"
                   class="bg-green-100 px-3 py-1.5 text-sm rounded flex items-center gap-1">
                   <Icon name="material-symbols:done-all" />
                   Terkirim
                 </div>
+
                 <div
                   v-else-if="role === 'student' && quiz.is_closed"
                   class="bg-gray-200 px-3 py-1.5 text-sm rounded flex items-center gap-1">
                   <Icon name="material-symbols:cancel-rounded" />
                   Kuis ditutup
                 </div>
-
-                <button
-                  v-if="role === 'teacher'"
-                  @click="deleteQuiz(quiz.quiz_id)"
-                  class="text-red-600 text-sm hover:underline flex items-center gap-1">
-                  <Icon name="mdi:trash-can-outline" />
-                  Hapus
-                </button>
               </div>
             </div>
           </div>

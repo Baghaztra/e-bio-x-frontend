@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="flex flex-col min-h-screen">
     <NavBar />
 
     <!-- Main Content -->
@@ -11,3 +11,9 @@
     <FooterComponet />
   </div>
 </template>
+
+<style scoped>
+html, body {
+  min-height: 100vh;
+}
+</style>

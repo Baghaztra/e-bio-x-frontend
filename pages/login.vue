@@ -17,12 +17,20 @@
           </div>
           <div>
             <label for="password" class="block font-medium mb-1">Password</label>
-            <input
-              type="password"
-              id="password"
-              v-model="password"
-              required
-              class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <div class="relative">
+              <input
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                v-model="password"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <Icon
+                :name="showPassword ? 'ooui:eye' : 'ooui:eye-closed'"
+                class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+                @click="showPassword = !showPassword"
+              />
+            </div>
           </div>
           <button
             type="submit"
@@ -48,6 +56,7 @@
 import { useRuntimeConfig, useRouter } from "#app";
 import { GoogleSignInButton, type CredentialResponse } from "vue3-google-signin";
 import Cookies from "js-cookie";
+
 const router = useRouter();
 const config = useRuntimeConfig();
 
@@ -59,6 +68,7 @@ definePageMeta({
 const email = ref("");
 const password = ref("");
 const message = ref("");
+const showPassword = ref(false);
 
 // handle normal login
 const handleLogin = async () => {

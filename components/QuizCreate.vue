@@ -12,7 +12,7 @@
       <div class="flex justify-between items-center">
         <label class="font-semibold">Pertanyaan {{ qi + 1 }}</label>
         <button @click="hapusPertanyaan(qi)" class="text-red-500">
-          <Icon name="ic:baseline-delete" />
+          <Icon name="material-symbols:delete-rounded" />
         </button>
       </div>
 
@@ -33,7 +33,7 @@
           <span>Benar</span>
         </label>
         <button @click="hapusOpsi(qi, oi)" class="text-red-400">
-          <Icon name="ic:baseline-close" />
+          <Icon name="material-symbols:backspace" />
         </button>
       </div>
 
