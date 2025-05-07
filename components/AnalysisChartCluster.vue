@@ -1,15 +1,24 @@
 <script setup>
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js'
+import { Pie } from "vue-chartjs";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend)
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const props = defineProps({
   labels: Array,
-  datasets: Array
-})
+  datasets: Array,
+});
+
+const options = {
+  responsive: true,
+  maintainAspectRatio: false
+}
 </script>
 
 <template>
-  <Bar :data="{ labels, datasets }" />
+  <div class="w-full flex justify-center items-center">
+    <div class="w-60 h-60">
+      <Pie :data="{ labels, datasets }" :options="options" />
+    </div>
+  </div>
 </template>

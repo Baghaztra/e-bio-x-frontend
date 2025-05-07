@@ -1,42 +1,5 @@
-<script setup>
-import { ref, computed } from 'vue'
-
-const props = defineProps({
-  clusters: Array
-})
-
-const selectedCluster = ref('Semua')
-const sortBy = ref('cluster') // cluster | score | work_time
-
-// Data ter-filter & terurut
-const filteredClusters = computed(() => {
-  let data = props.clusters
-
-  if (selectedCluster.value !== 'Semua') {
-    data = data.filter(item => item.cluster === parseInt(selectedCluster.value))
-  }
-
-  if (sortBy.value === 'score') {
-    data = data.slice().sort((a, b) => b.score - a.score)
-  } else if (sortBy.value === 'work_time') {
-    data = data.slice().sort((a, b) => a.work_time.localeCompare(b.work_time))
-  } else {
-    data = data.slice().sort((a, b) => a.cluster - b.cluster)
-  }
-
-  return data
-})
-
-// Cluster unik untuk filter
-const clusterOptions = computed(() => {
-  const clusters = [...new Set(props.clusters.map(item => item.cluster))]
-  return clusters.sort((a, b) => a - b)
-})
-</script>
-
 <template>
   <div>
-    <!-- Filter & Sort Control -->
     <div class="flex flex-wrap items-center gap-4 mb-4">
       <div>
         <label class="text-sm font-semibold text-green-700 mr-2">Filter Cluster:</label>
@@ -55,9 +18,7 @@ const clusterOptions = computed(() => {
         </select>
       </div>
     </div>
-
-    <!-- List Hasil -->
-    <ul class="space-y-2">
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <li
         v-for="(item, index) in filteredClusters"
         :key="index"
@@ -71,3 +32,37 @@ const clusterOptions = computed(() => {
     </ul>
   </div>
 </template>
+
+<script setup>
+import { ref, computed } from 'vue'
+
+const props = defineProps({
+  clusters: Array
+})
+
+const selectedCluster = ref('Semua')
+const sortBy = ref('cluster')
+
+const filteredClusters = computed(() => {
+  let data = props.clusters
+
+  if (selectedCluster.value !== 'Semua') {
+    data = data.filter(item => item.cluster === parseInt(selectedCluster.value))
+  }
+
+  if (sortBy.value === 'score') {
+    data = data.slice().sort((a, b) => b.score - a.score)
+  } else if (sortBy.value === 'work_time') {
+    data = data.slice().sort((a, b) => a.work_time.localeCompare(b.work_time))
+  } else {
+    data = data.slice().sort((a, b) => a.cluster - b.cluster)
+  }
+
+  return data
+})
+
+const clusterOptions = computed(() => {
+  const clusters = [...new Set(props.clusters.map(item => item.cluster))]
+  return clusters.sort((a, b) => a - b)
+})
+</script>
