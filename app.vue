@@ -5,3 +5,9 @@
     </NuxtLayout>
   </div>
 </template>
+
+<script setup>
+useHead({
+  title: 'E-Bio X'
+})
+</script>

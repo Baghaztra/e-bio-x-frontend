@@ -65,45 +65,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Kuis Aktif -->
-    <div class="row mb-4">
-      <div class="col-12">
-        <h4 class="text-xl font-semibold text-green-600">Kuis Aktif</h4>
-        <div class="overflow-x-auto">
-          <table class="table-auto w-full text-sm text-left text-gray-700">
-            <thead>
-              <tr>
-                <th class="px-4 py-2 font-semibold text-green-600">Judul Kuis</th>
-                <th class="px-4 py-2 font-semibold text-green-600">Kelas</th>
-                <th class="px-4 py-2 font-semibold text-green-600">Tenggat</th>
-                <th class="px-4 py-2 font-semibold text-green-600">Status</th>
-                <th class="px-4 py-2 font-semibold text-green-600">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(quiz, index) in activeQuizzes" :key="index">
-                <td class="px-4 py-2">{{ quiz.title }}</td>
-                <td class="px-4 py-2">{{ quiz.className }}</td>
-                <td class="px-4 py-2">{{ quiz.deadline }}</td>
-                <td class="px-4 py-2">
-                  <span
-                    :class="'badge ' + quiz.statusClass"
-                    class="px-3 py-1 text-white rounded-full text-xs">
-                    {{ quiz.status }}
-                  </span>
-                </td>
-                <td class="px-4 py-2">
-                  <!-- <NuxtLink :to="'/student/quiz/' + quiz.id" class="btn btn-sm btn-primary">
-                    Kerjakan
-                  </NuxtLink> -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -116,18 +77,6 @@ const token = useCookie("access_token").value;
 const enrolledClasses = ref([]);
 
 const classCode = ref("");
-
-const activeQuizzes = ref([
-  // Dummy data
-  {
-    id: 1,
-    title: "Kuis Sistem Pencernaan",
-    className: "Biologi Kelas X-A",
-    deadline: "2024-03-15",
-    status: "Belum Dikerjakan",
-    statusClass: "bg-yellow-500",
-  },
-]);
 
 const fetchCoursesData = async () => {
   const { data, error } = await useAsyncData("my-courses", () =>

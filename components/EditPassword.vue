@@ -1,14 +1,16 @@
 <template>
   <div class="text-center">
-    <button
-      @click="openPasswordModal"
-      :class="
-        userData.has_password === 'true'
-          ? 'bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500'
-          : 'bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700'
-      ">
-      {{ userData.has_password === "true" ? "Change Password" : "Set Password" }}
-    </button>
+    <client-only> 
+      <button
+        @click="openPasswordModal"
+        :class="
+          userData.has_password === 'true'
+            ? 'bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500'
+            : 'bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700'
+        ">
+        {{ userData.has_password === "true" ? "Change Password" : "Set Password" }}
+      </button>
+    </client-only>
   </div>
 
   <div
@@ -19,42 +21,48 @@
         {{ isHasPassword ? "Change Password" : "Set Password" }}
       </h2>
 
-      <div v-if="isHasPassword">
+      <div v-if="isHasPassword" class="mb-3">
         <label class="text-sm">Current Password</label>
-        <div class="relative mb-3">
+        <div class="relative">
           <input
-            :type="showCurrent ? 'text' : 'password'"
+            :type="show.current ? 'text' : 'password'"
             v-model="currentPass"
             class="w-full border p-2 rounded pr-10" />
           <Icon
-            @click="showCurrent = !showCurrent"
-            :name="showCurrent ? 'mdi:eye-off' : 'mdi:eye'"
+            @click="show.current = !show.current"
+            :name="show.current ? 'ooui:eye-closed' : 'ooui:eye'"
+            class="absolute right-3 top-3 cursor-pointer" />
+        </div>
+        <p v-if="errors.current" class="text-red-500 text-sm">{{ errors.current }}</p>
+      </div>
+
+      <div class="mb-3">
+        <label class="text-sm">New Password</label>
+        <div class="relative">
+          <input
+            :type="show.new ? 'text' : 'password'"
+            v-model="newPass"
+            class="w-full border p-2 rounded pr-10" />
+          <Icon
+            @click="show.new = !show.new"
+            :name="show.new ? 'ooui:eye-closed' : 'ooui:eye'"
             class="absolute right-3 top-3 cursor-pointer" />
         </div>
       </div>
 
-      <label class="text-sm">New Password</label>
-      <div class="relative mb-3">
-        <input
-          :type="showNew ? 'text' : 'password'"
-          v-model="newPass"
-          class="w-full border p-2 rounded pr-10" />
-        <Icon
-          @click="showNew = !showNew"
-          :name="showNew ? 'mdi:eye-off' : 'mdi:eye'"
-          class="absolute right-3 top-3 cursor-pointer" />
-      </div>
-
-      <label class="text-sm">Confirm Password</label>
-      <div class="relative mb-3">
-        <input
-          :type="showConfirm ? 'text' : 'password'"
-          v-model="confirmPass"
-          class="w-full border p-2 rounded pr-10" />
-        <Icon
-          @click="showConfirm = !showConfirm"
-          :name="showConfirm ? 'mdi:eye-off' : 'mdi:eye'"
-          class="absolute right-3 top-3 cursor-pointer" />
+      <div class="mb-3">
+        <label class="text-sm">Confirm Password</label>
+        <div class="relative mb-3">
+          <input
+            :type="show.confirm ? 'text' : 'password'"
+            v-model="confirmPass"
+            class="w-full border p-2 rounded pr-10" />
+          <Icon
+            @click="show.confirm = !show.confirm"
+            :name="show.confirm ? 'ooui:eye-closed' : 'ooui:eye'"
+            class="absolute right-3 top-3 cursor-pointer" />
+        </div>
+        <p v-if="errors.confirm" class="text-red-500 text-sm">{{ errors.confirm }}</p>
       </div>
 
       <div class="flex justify-end gap-2 mt-4">
@@ -63,6 +71,8 @@
           Save
         </button>
       </div>
+      <p v-if="errors.general" class="text-red-500 text-sm text-center">{{ errors.general }}</p>
+
     </div>
   </div>
 </template>
@@ -83,25 +93,38 @@ const currentPass = ref("");
 const newPass = ref("");
 const confirmPass = ref("");
 
-const showCurrent = ref(false);
-const showNew = ref(false);
-const showConfirm = ref(false);
+const show = ref({
+  current: false,
+  new: false,
+  confirm: false,
+});
+
+const errors = ref({
+  current: "",
+  confirm: "",
+  general: "",
+});
 
 const openPasswordModal = () => {
   isHasPassword.value = userData.value.has_password === "true";
   showModal.value = true;
+  errors.value = { current: "", new: "", confirm: "", general: "" };
 };
 const submitPassword = async () => {
-  if (!newPass.value || !confirmPass.value) {
-    swal.fire("Error", "New password & confirmation required", "error");
+  if (!newPass.value) {
+    errors.value.new = "New password required.";
     return;
   }
-  if (newPass.value !== confirmPass.value) {
-    swal.fire("Error", "Passwords do not match", "error");
+  if (!confirmPass.value) {
+    errors.value.confirm = "Confirm password required.";
+    return;
+  }
+  if (newPass.value && confirmPass.value && newPass.value !== confirmPass.value) {
+    errors.value.confirm = "Passwords do not match.";
     return;
   }
   if (isHasPassword.value && !currentPass.value) {
-    swal.fire("Error", "Current password required", "error");
+    errors.value.current = "Current password required.";
     return;
   }
 
@@ -119,9 +142,9 @@ const submitPassword = async () => {
     showModal.value = false;
   } catch (e) {
     if (e.response && e.response.status === 400) {
-      swal.fire("Error", "Password salah", "error");
+      errors.value.current = "Incorrect current password.";
     } else {
-      swal.fire("Error", "Failed to update password.", "error");
+      errors.value.general = "Failed to update password.";
     }
   }
 };

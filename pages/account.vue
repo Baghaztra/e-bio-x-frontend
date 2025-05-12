@@ -2,25 +2,26 @@
   <div class="rounded-sm shadow-lg border border-green-200 py-8">
     <div class="max-w-3xl mx-auto px-4">
       <div class="text-center mb-10 animate-fade-in">
-        <div class="relative mb-4 inline-block" @click="updateProfilePic">
-          <div
-            v-if="userData.profile_pic != 'null'"
-            class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg mx-auto">
-            <img
-              :src="userData.profile_pic"
-              alt="Profile Picture"
-              class="w-full rounded-full h-full object-cover" />
+        <client-only>
+          <div class="relative mb-4 inline-block" @click="updateProfilePic">
+            <div
+              v-if="userData.profile_pic && userData.profile_pic !== 'null'"
+              class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg mx-auto">
+              <img
+                :src="userData.profile_pic"
+                alt="Loading pfp"
+                class="w-full rounded-full h-full object-cover" />
+            </div>
+            <div
+              v-else
+              class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-4 border-white shadow-lg">
+              <Icon name="mdi:account" size="64" class="text-gray-400" />
+            </div>
           </div>
-          <div
-            v-else
-            class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-4 border-white shadow-lg">
-            <Icon name="mdi:account" size="64" class="text-gray-400" />
-          </div>
-        </div>
-
-        <h1 class="text-2xl font-bold text-gray-800" @click="updateName">
-          {{ userData.name || "User" }}
-        </h1>
+          <h1 class="text-2xl font-bold text-gray-800" @click="updateName">
+            {{ userData.name || "User" }}
+          </h1>
+        </client-only>
       </div>
 
       <div>
@@ -72,30 +73,48 @@ const updateName = async () => {
   }
 };
 
-// [PENDING | BELUM BERHASIL]
 const updateProfilePic = async () => {
   const { value: file } = await swal.fire({
     title: "Update Profile Picture",
     input: "file",
     inputAttributes: { accept: "image/*" },
     showCancelButton: true,
-    inputValidator: (f) => !f && "Please select an image",
+    inputValidator: (f) => !f ? "Please select an image" : undefined
   });
 
   if (file) {
     const formData = new FormData();
     formData.append("profile_pic", file);
+
     try {
-      await $fetch(`${config.public.backend}/api/user/me`, {
+      swal.fire({
+        title: "Uploading...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          swal.showLoading();
+        },
+      });
+
+      const response = await $fetch(`${config.public.backend}/api/user/me`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${accessToken}` },
         body: formData,
       });
+
       userData.value.profile_pic = URL.createObjectURL(file);
+
+      const profilePicCookie = useCookie("profile_pic");
+      profilePicCookie.value = userData.value.profile_pic;
+
       swal.fire("Success", "Profile picture updated!", "success");
     } catch (e) {
       swal.fire("Error", "Failed to update profile picture.", "error");
     }
   }
 };
+
+
+definePageMeta({
+  middleware: "auth",
+});
 </script>

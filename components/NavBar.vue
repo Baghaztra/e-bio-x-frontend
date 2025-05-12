@@ -47,27 +47,31 @@
 
 <script setup>
 import Cookies from "js-cookie";
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { useCookie } from "#app";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useSwal } from "~/utils/swal";
 
 const router = useRouter();
 const swal = useSwal();
 
-const username = ref(Cookies.get("username") || "E-Bio X");
-const profile_pic = ref(Cookies.get("profile_pic"));
+const usernameCookie = useCookie("username");
+const username = ref(usernameCookie || "E-Bio X");
+const profilePicCookie = useCookie("profile_pic");
+const profile_pic = ref(profilePicCookie.value);
 
 const dropdownOpen = ref(false);
 const dropdown = ref(null);
 
-onMounted(() => {
-  window.addEventListener("click", handleClickOutside);
+// Update profile_pic kalau cookie berubah
+watch(usernameCookie, (newVal) => {
+  username.value = newVal;
+});
+watch(profilePicCookie, (newVal) => {
+  profile_pic.value = newVal;
 });
 
-onBeforeUnmount(() => {
-  window.removeEventListener("click", handleClickOutside);
-});
-
+// Tutup dropdown kalau pindah route
 watch(
   () => router.currentRoute.value.path,
   () => {
@@ -84,6 +88,14 @@ const handleClickOutside = (event) => {
     dropdownOpen.value = false;
   }
 };
+
+onMounted(() => {
+  window.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("click", handleClickOutside);
+});
 
 const handleLogout = async () => {
   const result = await swal.fire({
