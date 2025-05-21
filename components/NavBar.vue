@@ -40,7 +40,9 @@
             Logout
           </button>
         </div>
+        <ToggleDark />
       </div>
+
     </div>
   </nav>
 </template>

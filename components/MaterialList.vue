@@ -1,6 +1,6 @@
 <template>
-  <div class="p-6 bg-white rounded-sm shadow-lg border border-green-200">
-    <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
+  <div class="p-6 bg-white dark:bg-gray-900 dark:border-none rounded-sm shadow-lg border border-green-200">
+    <h2 class="text-xl font-semibold text-green-700 dark:text-green-500 flex items-center gap-2">
       <Icon name="simple-icons:bookstack" class="text-green-500" /> Materi
     </h2>
 
@@ -23,11 +23,10 @@
         <p class="text-gray-500">Belum ada materi yang diupload.</p>
       </div>
 
-      <!-- Loop through the materials -->
       <div
         v-for="material in materials"
         :key="material.id"
-        class="mb-4 p-5 bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-lg transition duration-300 ease-in-out relative"
+        class="mb-4 p-5 shadow-md bg-green-50 text-green-700 rounded-xl hover:shadow-lg relative dark:shadow-green-200 dark:bg-gray-900 transition"
       >
         <button
           v-if="useCookie('role').value === 'teacher'"
@@ -37,19 +36,19 @@
           <Icon name="material-symbols:delete-rounded" class="w-5 h-5" />
         </button>
         <div class="flex items-center gap-3 mb-3">
-          <Icon name="material-symbols:menu-book-outline-rounded" class="text-green-600 text-2xl" />
-          <h3 class="text-lg font-semibold text-green-800">{{ material.title }}</h3>
+          <Icon name="material-symbols:menu-book-outline-rounded" class="text-green-500 text-2xl" />
+          <h3 class="text-lg font-semibold text-green-800 dark:text-green-500">{{ material.title }}</h3>
         </div>
-        <p class="text-gray-600 mb-3 text-sm leading-relaxed">
+        <p class="text-gray-600 dark:text-gray-300 mb-3 text-sm leading-relaxed">
           {{ material.description }}
         </p>
-        <p class="text-gray-400 mb-1 text-sm leading-relaxed">
+        <p class="text-gray-400 dark:text-gray-500 mb-1 text-sm leading-relaxed">
           {{ material.uploaded_at }}
         </p>
         <a
           :href="material.file_url"
           target="_blank"
-          class="inline-flex items-center gap-2 text-green-600 hover:text-green-800 font-medium transition"
+          class="inline-flex items-center gap-2 text-green-500 hover:text-green-800 font-medium transition"
         >
           <Icon name="material-symbols:open-in-new-rounded" class="text-lg" />
           Lihat Materi

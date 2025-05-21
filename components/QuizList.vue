@@ -1,12 +1,13 @@
 <template>
-  <div class="p-6 bg-white rounded-sm shadow-lg border border-green-200">
-    <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
+  <div
+    class="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-green-200 dark:border-none">
+    <h2 class="text-xl font-semibold text-green-700 dark:text-green-500 flex items-center gap-2">
       <Icon name="hugeicons:quiz-04" class="text-green-500" /> Kuis
     </h2>
 
     <div class="my-3">
       <div v-if="loading" class="space-y-4">
-        <div v-for="i in 3" :key="i" class="border rounded-xl p-4 shadow bg-white animate-pulse">
+        <div v-for="i in 3" :key="i" class="border rounded-xl p-4 shadow bg-white dark:bg-gray-900 animate-pulse">
           <div class="flex items-center justify-between mb-3">
             <div class="space-y-2">
               <div class="h-5 bg-green-200 rounded w-48"></div>
@@ -30,14 +31,16 @@
           <div
             v-for="quiz in quizzes"
             :key="quiz.quiz_id"
-            class="border rounded-xl p-4 shadow-md bg-white hover:shadow-lg transition">
+            class="rounded-xl p-4 shadow-md dark:shadow-green-200 bg-white dark:bg-gray-900 hover:shadow-lg transition">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-xl font-semibold text-gray-800">{{ quiz.title }}</h3>
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">
+                  {{ quiz.title }}
+                </h3>
                 <p class="text-sm text-gray-500">
-                  Tanggal dibuat: {{ formatDate(quiz.created_at) }}
+                  {{ formatDate(quiz.created_at) }}
                 </p>
-                <p class="text-sm text-gray-500">Jumlah pertanyaan: {{ quiz.questions }}</p>
+                <p class="text-sm text-gray-500">{{ quiz.questions }} soal</p>
                 <button
                   v-if="role == 'teacher'"
                   @click="toggleActivateQuizz(quiz.quiz_id, quiz.is_closed)"
@@ -54,7 +57,7 @@
                   v-else
                   class="text-sm mt-1"
                   :class="quiz.is_closed ? 'text-red-500' : 'text-green-600'">
-                  Status: {{ quiz.is_closed ? "Ditutup" : "Terbuka" }}
+                  {{ quiz.is_closed ? "Ditutup" : "Terbuka" }}
                 </p>
               </div>
 
@@ -93,9 +96,22 @@
 
                 <div
                   v-else-if="role === 'student' && quiz.is_submited"
-                  class="bg-green-100 px-3 py-1.5 text-sm rounded flex items-center gap-1">
-                  <Icon name="material-symbols:done-all" />
-                  Terkirim
+                  class="flex flex-col md:flex-row gap-2 py-2 rounded-lg bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-200 border border-green-200 dark:border-green-700 transition-colors">
+                  <div class="flex items-center gap-2 px-4">
+                    <Icon name="mdi:star-outline" class="w-5 h-5" />
+                    <div>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">Nilai</p>
+                      <p class="font-semibold text-base">
+                        {{ quiz.score !== undefined && quiz.score !== null ? quiz.score : "-" }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 px-4">
+                    <Icon name="mdi:timer-outline" class="w-5 h-5" />
+                    <p class="font-semibold text-base">
+                      {{ quiz.work_time ? quiz.work_time : "-" }}
+                    </p>
+                  </div>
                 </div>
 
                 <div

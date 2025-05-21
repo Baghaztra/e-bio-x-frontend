@@ -22,7 +22,7 @@
         <div
           v-for="question in quiz.questions"
           :key="question.question_id"
-          class="mb-6 border p-4 rounded shadow-lg border border-green-200">
+          class="mb-6 border p-4 rounded shadow-lg border-green-200">
           <label class="block font-semibold mb-1">Question</label>
           <div class="flex gap-2">
             <input v-model="question.question_text" type="text" class="border p-2 rounded w-full" />

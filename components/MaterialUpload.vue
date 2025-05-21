@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white rounded-sm shadow-lg border border-green-200">
+  <div class="p-6 bg-white dark:bg-gray-800 rounded-sm shadow-lg border border-green-200">
     <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
       <Icon name="material-symbols:upload-rounded" class="text-green-500" /> Upload Materi
     </h2>

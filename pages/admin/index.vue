@@ -1,20 +1,5 @@
 <template>
   <div class="flex">
-    <!-- Sidebar -->
-    <!-- 
-    <div class="bg-light p-3 w-60 min-h-screen">
-      <h4 class="font-semibold text-green-600">Admin Panel</h4>
-      <ul class="space-y-2">
-        <li>
-          <NuxtLink to="/admin" class="text-green-600 hover:text-green-800">Dashboard</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/admin/users" class="text-green-600 hover:text-green-800">Manajemen User</NuxtLink>
-        </li>
-      </ul>
-    </div> 
-    -->
-
     <!-- Content -->
     <div class="flex-1 p-4">
       <h2 class="text-2xl font-semibold text-green-600">Manajemen User</h2>
@@ -63,6 +48,7 @@
 
 <script setup>
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 import { useRuntimeConfig, useRouter } from "#app";
 const config = useRuntimeConfig();
 const router = useRouter();
@@ -75,7 +61,11 @@ onMounted(async () => {
 
 const fetchUsers = async () => {
   try {
-    users.value = await $fetch(`${config.public.backend}/api/users`);
+    users.value = await $fetch(`${config.public.backend}/api/users`,{
+      headers: {
+        Authorization: `Bearer ${Cookies.get("access_token")}`,
+      },
+    });
   } catch (err) {
     console.error("Gagal mengambil data user", err);
   }
@@ -151,6 +141,7 @@ const deleteUser = async (id) => {
 };
 
 definePageMeta({
+  layout: 'admin',
   middleware: 'auth',
   role: 'admin'
 });

@@ -3,14 +3,14 @@
     <!-- Header Dashboard -->
     <div class="row mb-4">
       <div class="col-md-8">
-        <h2 class="text-2xl font-semibold">
+        <h2 class="text-2xl font-semibold mb-3">
           Hi, <span class="text-green-600">{{ useCookie("username").value }}</span
           >!
         </h2>
       </div>
       <div class="col-md-4">
         <!-- Form Kode Kelas -->
-        <div class="card bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="card bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
           <div class="card-body p-4">
             <h5 class="text-lg font-semibold text-gray-800">Gabung Kelas</h5>
             <form @submit.prevent="joinClass" class="w-full max-w-md">
@@ -18,7 +18,7 @@
                 <input
                   type="text"
                   v-model="classCode"
-                  class="form-input flex-1 border border-gray-300 rounded-l-md ps-3 focus:ring-green-500 focus:border-green-500"
+                  class="form-input flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 rounded-l-md ps-3 focus:ring-green-500 focus:border-green-500"
                   placeholder="Masukkan kode kelas"
                   required />
                 <button
@@ -36,7 +36,7 @@
     <!-- Daftar Kelas -->
     <div class="row mb-5">
       <div class="col-12">
-        <h4 class="text-xl font-semibold text-green-600">Kelas Saya</h4>
+        <h4 class="text-xl font-semibold text-green-600 mb-3">Kelas Saya</h4>
         <div v-if="enrolledClasses.length === 0" class="text-gray-500 text-sm mt-4">
           Kamu belum terdaftar di kelas manapun. Dapatkan kode kelas dari gurumu!
         </div>
@@ -44,15 +44,15 @@
           <div
             v-for="(kelas, index) in enrolledClasses"
             :key="index"
-            class="card bg-white shadow-md rounded-lg overflow-hidden">
+            class="card bg-white dark:bg-gray-800  shadow-md rounded-lg overflow-hidden">
             <div class="card-body p-4 relative">
               <button
                 @click="outClass(kelas.code)"
                 class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700"
                 title="Keluar Kelas">
-                <Icon name="heroicons:x-mark" class="w-4 h-4" />
+                <Icon name="ri:logout-box-line" class="w-4 h-4" />
               </button>
-              <h5 class="text-lg font-semibold text-gray-800">{{ kelas.name }}</h5>
+              <h5 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ kelas.name }}</h5>
               <p class="text-sm text-green-600 mb-4">Bareng {{ kelas.teacher }}</p>
               <NuxtLink
                 :to="'/student/course/' + kelas.id"
@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { useSwal } from '~/utils/swal';
+import { useSwal } from "~/utils/swal";
 
 const config = useRuntimeConfig();
 const swal = useSwal();
@@ -126,12 +126,12 @@ const joinClass = async () => {
 
 const outClass = async (code) => {
   const result = await swal.fire({
-    title: 'Yakin mau keluar?',
-    icon: 'warning',
+    title: "Keluar dari kelas ini?",
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonText: 'Keluar',
-    cancelButtonText: 'Batal'
-  })
+    confirmButtonText: "Keluar",
+    cancelButtonText: "Batal",
+  });
 
   if (!result.isConfirmed) {
     return;
@@ -154,7 +154,7 @@ const outClass = async (code) => {
 await fetchCoursesData();
 
 definePageMeta({
-  middleware: 'auth',
-  role: 'student'
+  middleware: "auth",
+  role: "student",
 });
 </script>

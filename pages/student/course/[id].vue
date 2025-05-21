@@ -3,14 +3,14 @@
     <h1 class="text-3xl font-semibold text-green-600">Kelas {{ course.name }}</h1>
     <span class="text-lg text-gray-700">Bareng {{ course.teacher }}</span>
 
-    <div class="flex overflow-x-auto border-b mt-4 space-x-2 pb-2">
+    <div class="flex overflow-x-auto mt-4 space-x-2 pb-2">
       <button
         @click="activeTab = 'materi'"
         :class="[
           'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'materi'
-            ? 'bg-white text-green-600 border-green-300 shadow'
-            : 'bg-gray-100 text-gray-600 border-gray-200',
+            ? 'bg-white dark:bg-gray-900 dark:text-green-200 text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200 dark:border-green-800 dark:text-green-200 dark:bg-gray-800',
         ]">
         <Icon name="simple-icons:bookstack" />
         Materi
@@ -20,8 +20,8 @@
         :class="[
           'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'siswa'
-            ? 'bg-white text-green-600 border-green-300 shadow'
-            : 'bg-gray-100 text-gray-600 border-gray-200',
+            ? 'bg-white dark:bg-gray-900 dark:text-green-200 text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200 dark:border-green-800 dark:text-green-200 dark:bg-gray-800',
         ]">
         <Icon name="arcticons:classchartsstudents" />
         Siswa
@@ -31,8 +31,8 @@
         :class="[
           'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
           activeTab === 'kuis'
-            ? 'bg-white text-green-600 border-green-300 shadow'
-            : 'bg-gray-100 text-gray-600 border-gray-200',
+            ? 'bg-white dark:bg-gray-900 dark:text-green-200 text-green-600 border-green-300 shadow'
+            : 'bg-gray-100 text-gray-600 border-gray-200 dark:border-green-800 dark:text-green-200 dark:bg-gray-800',
         ]">
         <Icon name="hugeicons:quiz-04" />
         Kuis
@@ -40,9 +40,9 @@
     </div>
 
     <div class="mb-3">
-      <MaterialList v-if="activeTab === 'materi'" :courseId="courseId" />
-      <QuizList v-if="activeTab === 'kuis'" :courseId="Number(courseId)" />
-      <StudentList v-if="activeTab === 'siswa'" :students="course.students" />
+      <MaterialList v-if="activeTab === 'materi'" :courseId="courseId"/>
+      <QuizList v-if="activeTab === 'kuis'" :courseId="Number(courseId)"/>
+      <StudentList v-if="activeTab === 'siswa'" :students="course.students"/>
     </div>
   </div>
 </template>
