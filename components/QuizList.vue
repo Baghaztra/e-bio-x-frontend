@@ -136,6 +136,7 @@ const router = useRouter();
 const token = useCookie("access_token").value;
 const role = useCookie("role").value;
 const swal = useSwal();
+const toast = useToast();
 
 const props = defineProps({
   courseId: {
@@ -165,7 +166,8 @@ const fetchQuizzes = async () => {
   } catch (err) {
     console.error(err);
     error.value = "Gagal memuat data kuis.";
-    swal.fire("Error", "Gagal memuat data kuis.", "error");
+  
+    toast.error({message: 'Gagal memuat data kuis.' })
   } finally {
     loading.value = false;
   }
@@ -189,11 +191,10 @@ const toggleActivateQuizz = async (quizId, isClosed) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      swal.fire("Berhasil!", `Kuis telah ${isClosed ? "dibuka" : "ditutup"}.`, "success");
+      toast.success({message: `Kuis telah ${isClosed ? "dibuka" : "ditutup"}.`})
       fetchQuizzes();
     } catch (err) {
-      console.error(err);
-      swal.fire("Error", `Gagal ${isClosed ? "membuka" : "menutup"} kuis.`, "error");
+      toast.error({message: `Kuis gagal ${isClosed ? "dibuka" : "ditutup"}.` })
     }
   }
 };

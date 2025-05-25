@@ -72,15 +72,13 @@
 </template>
 
 <script setup>
-import { useSwal } from "~/utils/swal";
-
-const activeTab = ref("materi");
-const route = useRoute();
-const swal = useSwal();
-const courseId = route.params.id;
-
-const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
+const route = useRoute();
+const toast = useToast()
+const config = useRuntimeConfig();
+
+const courseId = route.params.id;
+const activeTab = ref("materi");
 const course = ref([]);
 
 const { data, error } = await useAsyncData("my-courses", () =>
@@ -93,11 +91,7 @@ const { data, error } = await useAsyncData("my-courses", () =>
 );
 
 if (error.value) {
-  swal.fire({
-    icon: "error",
-    title: "Gagal",
-    text: "Terjadi kesalahan saat memuat data kelas",
-  });
+  toast.error({message: 'Gagal mengambil data kelas.' })
 } else {
   course.value = data.value;
 }

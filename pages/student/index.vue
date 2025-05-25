@@ -73,6 +73,7 @@ import { useSwal } from "~/utils/swal";
 
 const config = useRuntimeConfig();
 const swal = useSwal();
+const toast = useToast();
 const token = useCookie("access_token").value;
 const enrolledClasses = ref([]);
 
@@ -107,20 +108,9 @@ const joinClass = async () => {
     await fetchCoursesData();
     classCode.value = "";
 
-    swal.fire({
-      icon: "success",
-      title: "Berhasil bergabung ke kelas!",
-      showConfirmButton: false,
-      timer: 3000,
-    });
+    toast.success({message:"Berhasil bergabung dengan kelas."})
   } catch (err) {
-    swal.fire({
-      icon: "error",
-      title: "Gagal bergabung ke kelas!",
-      text: "Pastikan kode kelas yang dimasukkan benar.",
-      showConfirmButton: false,
-      timer: 3000,
-    });
+    toast.error({message:"Gagal bergabung dengan kelas."})
   }
 };
 
@@ -144,10 +134,11 @@ const outClass = async (code) => {
         "Content-Type": "application/json",
       },
     });
+    toast.success({message:"Berhasil keluar dengan kelas."})
     await fetchCoursesData();
     classCode.value = "";
   } catch (err) {
-    console.error("Gagal keluar dari kelas:", err);
+    toast.error({message:"Gagal keluar dengan kelas."})
   }
 };
 

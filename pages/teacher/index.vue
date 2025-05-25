@@ -7,7 +7,7 @@
         >!
       </h2>
       <button
-        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+        class="bg-green-600 hover:bg-green-700 hover:shadow hover:shadow-green-300 text-white px-4 py-2 rounded"
         @click="showCreateClassSwal">
         + Buat Kelas Baru
       </button>
@@ -36,7 +36,7 @@
           <div class="flex items-center space-x-2">
             <span class="text-sm text-gray-600 dark:text-gray-200">Kode: {{ kelas.code }}</span>
             <button
-              @click="copyToClipboard(kelas.id)"
+              @click="copyToClipboard(kelas.code)"
               class="text-green-500 hover:text-green-800 transition duration-200">
               <Icon name="material-symbols:content-copy" class="w-5 h-5" />
             </button>
@@ -44,7 +44,7 @@
 
           <NuxtLink
             :to="'/teacher/course/' + kelas.id"
-            class="inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-500 hover:shadow-md hover:shadow-green-300  transition">
+            class="inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-500 hover:shadow hover:shadow-green-300  transition">
             <Icon name="mdi:cog" class="w-4 h-4" />
             Kelola
           </NuxtLink>
@@ -60,6 +60,7 @@ import { useSwal } from "~/utils/swal";
 const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
 const swal = useSwal();
+const toast = useToast()
 const myCourses = ref([]);
 
 const fetchCoursesData = async () => {
@@ -73,7 +74,7 @@ const fetchCoursesData = async () => {
   );
 
   if (error.value) {
-    console.error("Gagal mengambil kelas:", error.value);
+    toast.error({message: 'Gagal mengambil data kelas.' })
   } else {
     myCourses.value = data.value;
   }
@@ -115,33 +116,16 @@ const createClass = async (className) => {
 
     fetchCoursesData();
 
-    swal.fire({
-      icon: "success",
-      title: "Berhasil",
-      text: "Kelas berhasil dibuat",
-    });
+    toast.success({message: 'Kelas berhasil dibuat' })
   } catch (err) {
-    console.error("Gagal membuat kelas:", err);
-    swal.fire({
-      icon: "error",
-      title: "Gagal",
-      text: "Terjadi kesalahan saat membuat kelas",
-      confirmButtonColor: "#f43f5e",
-    });
+    toast.error({message: 'Gagal membuat kelas.' })
   }
 };
 
 const copyToClipboard = (text) => {
   if (navigator.clipboard) {
-    // TODO: Snackbar notifikasi
     navigator.clipboard.writeText(text);
-    // .then(() => {
-    //   console.log('Teks berhasil disalin!');
-    // })
-    // .catch(err => {
-    //   console.error('Gagal menyalin teks:', err);
-    // });
-  } else {
+    toast.success({ title: `${text}`, message: 'disalin ke clipboard' })
     console.error("Clipboard tidak tersedia.");
   }
 };
@@ -168,21 +152,9 @@ const deleteClass = async (id) => {
       },
     });
     await fetchCoursesData();
-    swal.fire({
-      icon: "success",
-      title: "Berhasil!",
-      text: "Kelas berhasil dihapus.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    toast.success({message: 'Kelas berhasil dihapus.' })
   } catch (err) {
-    swal.fire({
-      icon: "error",
-      title: "Gagal!",
-      text: "Terjadi kesalahan saat menghapus kelas.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    toast.error({message: 'Gagal menghapus kelas.' })
   }
 };
 

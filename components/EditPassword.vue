@@ -78,10 +78,9 @@
 </template>
 
 <script setup>
-import { useSwal } from "~/utils/swal";
 import Cookies from "js-cookie";
 
-const swal = useSwal();
+const toast = useToast();
 const config = useRuntimeConfig();
 const accessToken = Cookies.get("access_token");
 const userData = ref({ has_password: Cookies.get("has_password") });
@@ -136,7 +135,7 @@ const submitPassword = async () => {
         ? { current_password: currentPass.value, new_password: newPass.value }
         : { new_password: newPass.value },
     });
-    swal.fire("Success", "Password updated!", "success");
+    toast.success({message: 'Password berhasil diubah.' })
     userData.value.has_password = "true";
     Cookies.set("has_password", "true");
     showModal.value = false;

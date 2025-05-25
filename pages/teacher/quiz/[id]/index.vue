@@ -73,6 +73,7 @@
   const config = useRuntimeConfig();
   const quiz = ref(null);
   const swal = useSwal();
+  const toast = useToast();
   
   const fetchQuiz = async () => {
     const token = Cookies.get("access_token");
@@ -89,12 +90,7 @@
       });
       quiz.value = res;
     } catch (err) {
-      swal.fire({
-        icon: "error",
-        title: "Gagal memuat data kuis.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toast.error({message: 'Gagal mengambil data kuis.' })
     }
   };
   
@@ -109,19 +105,9 @@
         },
       });
       quiz.value.titleDirty = false;
-      swal.fire({
-        icon: "success",
-        title: "Berhasil update nama kuis.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toast.success({message: 'Berhasil mengubah nama kuis.' })
     } catch (err) {
-      swal.fire({
-        icon: "error",
-        title: "Gagal mengubah nama kuis.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toast.error({message: 'Gagal mengubah nama kuis.' })
     }
   };
   
@@ -136,19 +122,9 @@
         },
       });
       question.dirty = false;
-      swal.fire({
-        icon: "success",
-        title: "Berhasil update pertanyaan.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toast.success({message: 'Berhasil mengubah pertanyaan.' })
     } catch (err) {
-      swal.fire({
-        icon: "error",
-        title: "Gagal mengubah pertanyaan.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toast.error({message: 'gagal mengubah pertanyaan.' })
     }
   };
   
@@ -166,19 +142,9 @@
         },
       });
       option.dirty = false;
-      swal.fire({
-        icon: "success",
-        title: "Berhasil update opsi.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toast.success({message: 'Berhasil mengubah opsi.' })
     } catch (err) {
-      swal.fire({
-        icon: "error",
-        title: "Gagal mengubah opsi.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      toast.error({message: 'Gagal mengubah opsi.' })
     }
   };
   

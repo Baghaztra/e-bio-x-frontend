@@ -85,13 +85,9 @@ const fetchData = async () => {
 
     materials.value = response.data;
   } catch (err) {
-    swal.fire({
-      icon: "error",
-      title: "Gagal",
-      text: "Terjadi kesalahan saat memuat materi",
-    });
+    toast.error({message: 'Gagal mengambil materi.' })
   } finally {
-    isLoading.value = false; // Set loading to false after fetch
+    isLoading.value = false;
   }
 };
 

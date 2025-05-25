@@ -54,10 +54,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { useSwal } from "~/utils/swal";
 
 const token = useCookie("access_token").value;
-const swal = useSwal();
+const toast = useToast();
 
 const props = defineProps({
   courseId: {
@@ -104,12 +103,11 @@ const buatKuis = async () => {
       body: quiz.value,
     });
 
-    swal.fire("Berhasil", "Kuis berhasil dibuat!", "success");
-    // reset form
+    toast.success({message: 'Kuis berhasil dibuat.' })
+    
     quiz.value = { course_id: null, title: "", questions: [] };
   } catch (err) {
-    console.error(err);
-    swal.fire("Gagal", "Gagal membuat kuis. Cek console.", "error");
+    toast.error({message: 'Gagal membuat kuis.' })
   }
 };
 </script>

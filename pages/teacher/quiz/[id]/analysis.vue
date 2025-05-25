@@ -178,6 +178,7 @@ const route = useRoute();
 const quizId = route.params.id;
 
 const swal = useSwal();
+const toast = useToast();
 
 const clusters = ref([]);
 const decisionTree = ref("");
@@ -206,18 +207,10 @@ const startAnalysis = async () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     await getAnalysis();
-    swal.fire({
-      icon: "success",
-      title: "Analisis Dimulai",
-      text: "Analisis berhasil dijalankan.",
-    });
+    
+    toast.success({message: 'Analisis berhasil.' })
   } catch (error) {
-    console.error(error);
-    swal.fire({
-      icon: "error",
-      title: "Gagal",
-      text: "Gagal memulai analisis.",
-    });
+    toast.error({message: 'Gagal melakukan analisis.' })
   }
 };
 
@@ -268,7 +261,7 @@ const getAnalysis = async () => {
 
     analysisReady.value = true;
   } catch (error) {
-    console.error(error);
+    toast.error({message: 'Gagal melakukan analisis.' })
     analysisReady.value = false;
   } finally {
     isLoading.value = false;
