@@ -18,7 +18,7 @@
 
     <div v-else>
       <div class="bg-green-50 border border-green-300 rounded-xl p-6 mb-6 space-y-4">
-        <h2 class="text-xl font-bold text-green-800 flex items-center gap-2">
+        <h2 class="text-xl font-bold text-green-800 dark:text-green-500 flex items-center gap-2">
           <Icon name="material-symbols:info" size="24" /> {{ quizInfo.title }}
         </h2>
 
@@ -41,7 +41,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p class="text-sm text-green-700 mb-1">Nilai Tertinggi</p>
-              <AnalysisStudentCart
+              <AnalysisStudentCard
                 :nama="quizInfo.highest.nama"
                 :cluster="quizInfo.highest.cluster"
                 :score="quizInfo.highest.score"
@@ -50,7 +50,7 @@
 
             <div>
               <p class="text-sm text-green-700 mb-1">Nilai Terendah</p>
-              <AnalysisStudentCart
+              <AnalysisStudentCard
                 :nama="quizInfo.lowest.nama"
                 :cluster="quizInfo.lowest.cluster"
                 :score="quizInfo.lowest.score"
@@ -59,7 +59,7 @@
 
             <div>
               <p class="text-sm text-green-700 mb-1">Pengerjaan Tercepat</p>
-              <AnalysisStudentCart
+              <AnalysisStudentCard
                 :nama="quizInfo.fastest.nama"
                 :cluster="quizInfo.fastest.cluster"
                 :score="quizInfo.fastest.score"
@@ -68,11 +68,63 @@
 
             <div>
               <p class="text-sm text-green-700 mb-1">Pengerjaan Terlambat</p>
-              <AnalysisStudentCart
+              <AnalysisStudentCard
                 :nama="quizInfo.slowest.nama"
                 :cluster="quizInfo.slowest.cluster"
                 :score="quizInfo.slowest.score"
                 :work_time="quizInfo.slowest.work_time" />
+            </div>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-green-800 text-base font-semibold border-b border-green-300 pb-1">
+            Statistik Soal
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Soal Tersulit -->
+            <div
+              class="flex flex-row items-center justify-between p-3 border rounded shadow-sm bg-white">
+              <div class="w-2/3 flex flex-col gap-1">
+                <div class="flex items-center gap-2">
+                  <Icon name="qlementine-icons:task-past-16" size="20" class="text-red-600" />
+                  <span class="text-sm">Soal Tersulit</span>
+                </div>
+                <p class="font-semibold text-gray-700">
+                  {{ quizInfo.hardest_question.question }}
+                </p>
+              </div>
+              <div class="text-sm text-gray-700 flex flex-col gap-1">
+                <div>
+                  <Icon
+                    name="material-symbols:check-circle-rounded"
+                    size="16"
+                    class="text-green-500 mr-1" />
+                  {{ quizInfo.hardest_question.correct_answers }} / {{ quizInfo.hardest_question.total_answers }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Soal Termudah -->
+            <div
+              class="flex flex-row items-center justify-between p-3 border rounded shadow-sm bg-white">
+              <div class="w-2/3 flex flex-col gap-1">
+                <div class="flex items-center gap-2">
+                  <Icon name="qlementine-icons:task-16" size="20" class="text-blue-500" />
+                  <span class="text-sm">Soal Termudah</span>
+                </div>
+                <p class="font-semibold text-gray-700">
+                  {{ quizInfo.easiest_question.question }}
+                </p>
+              </div>
+              <div class="text-sm text-gray-700 flex flex-col gap-1">
+                <div>
+                  <Icon
+                    name="material-symbols:check-circle-rounded"
+                    size="16"
+                    class="text-green-500 mr-1" />
+                  {{ quizInfo.easiest_question.correct_answers }} / {{ quizInfo.easiest_question.total_answers }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -143,6 +195,8 @@ const quizInfo = ref({
   average: 0,
   fastest: { nama: "-", cluster: "-", work_time: "-", score: 0 },
   slowest: { nama: "-", cluster: "-", work_time: "-", score: 0 },
+  hardest_question: { question: "-", correct_answers: 0, total_answers: 0 },
+  easiest_question: { question: "-", correct_answers: 0, total_answers: 0 },
 });
 
 const startAnalysis = async () => {
@@ -185,11 +239,21 @@ const getAnalysis = async () => {
       average: res.average_score.toFixed(2),
       fastest: res.fastest_work_time,
       slowest: res.slowest_work_time,
+      hardest_question: res.hardest_question || {
+        question: "-",
+        correct_answers: 0,
+        total_answers: 0,
+      },
+      easiest_question: res.easiest_question || {
+        question: "-",
+        correct_answers: 0,
+        total_answers: 0,
+      },
     };
 
     const clusterCounts = {};
     res.clusters.forEach((item) => {
-      const clusterLabel = `Cluster ${item.cluster}`;
+      const clusterLabel = `${item.cluster}`;
       clusterCounts[clusterLabel] = (clusterCounts[clusterLabel] || 0) + 1;
     });
 

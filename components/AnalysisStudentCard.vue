@@ -7,7 +7,7 @@
     <div class="w-1/2 text-sm mt-1 text-gray-700 flex flex-col">
       <div class="mb-2">
         <Icon name="material-symbols:label-important" size="16" class="text-green-500 mr-1" />
-        <b>{{ categories(props.cluster) }}</b>
+        <b>{{ props.cluster }}</b>
       </div>
       <div class="mb-2">
         <Icon name="material-symbols:star-rounded" size="16" class="text-yellow-500 mr-1" />
@@ -24,20 +24,8 @@
 <script setup>
 const props = defineProps({
   nama: String,
-  cluster: Number,
+  cluster: String,
   score: Number,
   work_time: String,
 });
-
-const categories = (cluster)=>{
-    if(cluster == 0){
-      return "Rata-rata"
-    }else if(cluster == 1){
-      return "Unggul"
-    }else if(cluster == 2){
-        return "Butuh bimbingan"
-    }else {
-        return "Tidak terkategorikan"
-    }
-}
 </script>
