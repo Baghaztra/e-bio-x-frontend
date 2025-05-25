@@ -2,12 +2,13 @@
   <div class="container mx-auto px-4 py-4">
     <div class="flex flex-col md:flex-row justify-between items-center mb-6">
       <h2 class="text-2xl font-semibold mb-3">
-        Halo, <span class="text-green-600">{{ useCookie("username").value }}</span
+        Halo,
+        <span class="text-green-700 dark:text-green-500">{{ useCookie("username").value }}</span
         >!
       </h2>
       <button
         class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-        @click="showModal = true">
+        @click="showCreateClassSwal">
         + Buat Kelas Baru
       </button>
     </div>
@@ -17,7 +18,7 @@
       <div
         v-for="(kelas, index) in myCourses"
         :key="index"
-        class="bg-white border rounded-lg p-4 shadow relative">
+        class="bg-white dark:bg-gray-900 border rounded-lg p-4 shadow-md shadow-green-300 hover:shadow-lg hover:shadow-green-300 relative">
         <button
           @click="deleteClass(kelas.id)"
           class="absolute top-0 right-0 text-red-600 w-6 h-6 flex items-center justify-center hover:text-red-700">
@@ -33,48 +34,21 @@
         <p class="text-sm text-gray-600 mb-4">{{ kelas.description }}</p>
         <div class="flex justify-between items-center text-sm text-gray-500">
           <div class="flex items-center space-x-2">
-            <span class="text-sm text-gray-600">Kode: {{ kelas.code }}</span>
+            <span class="text-sm text-gray-600 dark:text-gray-200">Kode: {{ kelas.code }}</span>
             <button
               @click="copyToClipboard(kelas.id)"
-              class="text-green-600 hover:text-green-800 transition duration-200">
+              class="text-green-500 hover:text-green-800 transition duration-200">
               <Icon name="material-symbols:content-copy" class="w-5 h-5" />
             </button>
           </div>
 
           <NuxtLink
             :to="'/teacher/course/' + kelas.id"
-            class="inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-700 transition">
+            class="inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-500 hover:shadow-md hover:shadow-green-300  transition">
             <Icon name="mdi:cog" class="w-4 h-4" />
             Kelola
           </NuxtLink>
         </div>
-      </div>
-    </div>
-
-    <!-- Modal Buat Kelas -->
-    <div
-      v-if="showModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h5 class="text-lg font-semibold">Buat Kelas Baru</h5>
-          <button @click="showModal = false" class="text-gray-600 hover:text-gray-900">
-            &times;
-          </button>
-        </div>
-        <form @submit.prevent="createClass">
-          <label class="block text-sm font-medium mb-1">Nama Kelas</label>
-          <input
-            v-model="newCourseName"
-            type="text"
-            class="w-full border rounded px-3 py-2 mb-4"
-            required />
-          <button
-            type="submit"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full">
-            Buat Kelas
-          </button>
-        </form>
       </div>
     </div>
   </div>
@@ -87,8 +61,6 @@ const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
 const swal = useSwal();
 const myCourses = ref([]);
-
-const showModal = ref(false);
 
 const fetchCoursesData = async () => {
   const { data, error } = await useAsyncData("my-courses", () =>
@@ -107,9 +79,28 @@ const fetchCoursesData = async () => {
   }
 };
 
-const newCourseName = ref("");
+const showCreateClassSwal = async () => {
+  const { value: className } = await swal.fire({
+    title: "Buat Kelas Baru",
+    input: "text",
+    inputLabel: "Nama Kelas",
+    inputPlaceholder: "Masukkan nama kelas",
+    showCancelButton: true,
+    confirmButtonText: "Buat",
+    cancelButtonText: "Batal",
+    inputValidator: (value) => {
+      if (!value) {
+        return "Nama kelas wajib diisi!";
+      }
+    },
+  });
 
-const createClass = async () => {
+  if (className) {
+    createClass(className);
+  }
+};
+
+const createClass = async (className) => {
   try {
     await $fetch(`${config.public.backend}/api/courses`, {
       method: "POST",
@@ -118,12 +109,10 @@ const createClass = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: newCourseName.value,
+        name: className,
       }),
     });
 
-    newCourseName.value = "";
-    showModal.value = false;
     fetchCoursesData();
 
     swal.fire({
@@ -144,8 +133,8 @@ const createClass = async () => {
 
 const copyToClipboard = (text) => {
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(text);
     // TODO: Snackbar notifikasi
+    navigator.clipboard.writeText(text);
     // .then(() => {
     //   console.log('Teks berhasil disalin!');
     // })
@@ -165,10 +154,6 @@ const deleteClass = async (id) => {
     showCancelButton: true,
     confirmButtonText: "Hapus",
     cancelButtonText: "Batal",
-    customClass: {
-      confirmButton: "bg-red-600 text-white  px-4 py-2 mx-4 rounded  hover:bg-red-700",
-      cancelButton: "bg-gray-300 text-gray-700 px-4 py-2 mx-4 rounded hover:bg-gray-400",
-    },
   });
 
   if (!result.isConfirmed) {
@@ -204,7 +189,7 @@ const deleteClass = async (id) => {
 fetchCoursesData();
 
 definePageMeta({
-  middleware: 'auth',
-  role: 'teacher'
+  middleware: "auth",
+  role: "teacher",
 });
 </script>

@@ -1,16 +1,16 @@
 <template>
-  <div class="p-6 bg-white rounded-sm shadow-lg border border-green-200">
-    <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
+  <div class="p-6 bg-white dark:bg-gray-900 rounded-xl dark:shadow-green-400 dark:border-none border shadow-lg border-green-200">
+    <h2 class="text-xl font-semibold text-green-700 dark:text-green-500 flex items-center gap-2">
       <Icon name="fluent:quiz-new-24-filled" class="text-green-500" /> Buat Kuis Baru
     </h2>
 
     <div class="my-4">
-      <input v-model="quiz.title" type="text" placeholder="Judul Kuis" class="w-full border rounded px-3 py-2" />
+      <input v-model="quiz.title" type="text" placeholder="Judul Kuis" class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500" />
     </div>
 
-    <div v-for="(q, qi) in quiz.questions" :key="qi" class="mb-6 border p-3 rounded">
+    <div v-for="(q, qi) in quiz.questions" :key="qi" class="mb-6 border border-green-500 p-3 rounded">
       <div class="flex justify-between items-center">
-        <label class="font-semibold">Pertanyaan {{ qi + 1 }}</label>
+        <label class="font-semibold mb-2 text-green-500">Pertanyaan {{ qi + 1 }}</label>
         <button @click="hapusPertanyaan(qi)" class="text-red-500">
           <Icon name="material-symbols:delete-rounded" />
         </button>
@@ -19,14 +19,14 @@
       <input
         v-model="q.question_text"
         type="text"
-        class="w-full border rounded px-3 py-2 my-2"
+        class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500"
         placeholder="Tulis pertanyaan..." />
 
       <div v-for="(o, oi) in q.options" :key="oi" class="flex items-center space-x-2 my-1">
         <input
           v-model="o.option_text"
           type="text"
-          class="w-full border rounded px-3 py-2 flex-1"
+          class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500 flex-1"
           placeholder="Opsi jawaban..." />
         <label class="flex items-center space-x-1">
           <input type="checkbox" v-model="o.is_correct" />
@@ -37,15 +37,15 @@
         </button>
       </div>
 
-      <button @click="tambahOpsi(qi)" class="text-green-600 text-sm mt-1">+ Tambah Opsi</button>
+      <button @click="tambahOpsi(qi)" class="text-green-500 text-sm mt-1 hover:text-green-400">+ Tambah Opsi</button>
     </div>
 
-    <button @click="tambahPertanyaan" class="text-green-600 text-sm mb-4">
+    <button @click="tambahPertanyaan" class="text-green-500 text-sm mb-4 hover:text-green-400">
       + Tambah Pertanyaan
     </button>
 
     <div>
-      <button @click="buatKuis" class="bg-green-600 text-white px-4 py-2 rounded">
+      <button @click="buatKuis" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
         Simpan Kuis
       </button>
     </div>

@@ -1,34 +1,34 @@
 <template>
-  <div class="p-6 bg-white dark:bg-gray-800 rounded-sm shadow-lg border border-green-200">
-    <h2 class="text-xl font-semibold text-green-700 flex items-center gap-2">
+  <div class="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg dark:shadow-green-400 dark:border-none border border-green-200">
+    <h2 class="text-xl font-semibold text-green-700 dark:text-green-400 flex items-center gap-2">
       <Icon name="material-symbols:upload-rounded" class="text-green-500" /> Upload Materi
     </h2>
 
     <div class="p-4">
       <form @submit.prevent="handleUpload" class="space-y-4">
         <div>
-          <label class="block mb-1 text-green-700 font-medium">Judul Materi</label>
+          <label class="block mb-1 text-green-700 dark:text-green-400 font-medium">Judul Materi</label>
           <input
             v-model="title"
             type="text"
-            class="w-full p-2 border rounded-lg focus:outline-green-500"
+            class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500"
             required />
         </div>
 
         <div>
-          <label class="block mb-1 text-green-700 font-medium">Deskripsi (opsional)</label>
+          <label class="block mb-1 text-green-700 dark:text-green-400 font-medium">Deskripsi (opsional)</label>
           <textarea
             v-model="content"
-            class="w-full p-2 border rounded-lg focus:outline-green-500"></textarea>
+            class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500"></textarea>
         </div>
 
         <div>
-          <label class="block mb-1 text-green-700 font-medium">File (PDF / PPT)</label>
+          <label class="block mb-1 text-green-700 dark:text-green-400 font-medium">File (PDF / PPT)</label>
           <input
             @change="handleFileChange"
             type="file"
             accept=".pdf,.ppt,.pptx"
-            class="w-full p-2 border rounded-lg file:mr-4 file:bg-green-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded-full file:cursor-pointer"
+            class="w-full dark:bg-gray-600 p-2 border rounded-lg file:mr-4 file:bg-green-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded-full file:cursor-pointer"
             required />
         </div>
 

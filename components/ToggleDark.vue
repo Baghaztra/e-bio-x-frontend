@@ -16,10 +16,17 @@ function toggleDark() {
 </script>
 
 <template>
-  <button @click="toggleDark" class="border border-gray-800 text-white p-2 rounded flex items-center justify-center">
+  <button
+    @click="toggleDark"
+    class="p-2 rounded-full flex items-center justify-center transition-all duration-300
+           bg-white/20 dark:bg-white/10 backdrop-blur-sm
+           border border-white/30
+           hover:bg-white/30 dark:hover:bg-white/20
+           text-white shadow-md"
+  >
     <Icon
       :name="isDark ? 'lucide-sun' : 'lucide-moon'"
-      class="transition-all duration-300 text-xl"
+      class="text-2xl transition-all duration-300"
     />
   </button>
 </template>
