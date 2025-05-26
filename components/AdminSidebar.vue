@@ -35,7 +35,17 @@
           </RouterLink>
         </li>
       </ul>
-      <hr class="mt-3">
+      
+      <hr class="my-3">
+      <RouterLink
+        to="/account"
+        :class="[
+          'flex items-center p-2 rounded-lg group',
+          route.path === '/account' ? 'bg-green-600' : 'hover:bg-green-500',
+        ]">
+        <Icon name="mdi:cog" />
+        <span class="ms-3">Setting</span>
+      </RouterLink>
       <div class="flex bottom-0 mt-3 font-medium">
         <button 
           @click="handleLogout" 
@@ -84,11 +94,6 @@ const navbarMenu = [
     name: "Materials",
     icon: "simple-icons:bookstack",
     path: "/admin/materials",
-  },
-  {
-    name: "Setting",
-    icon: "mdi:cog",
-    path: "/account",
   },
 ];
 

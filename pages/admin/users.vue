@@ -11,13 +11,14 @@ onMounted(async () => {
   await fetchUsers();
 });
 
+const token = Cookies.get("access_token");
 const swal = useSwal();
 
 const fetchUsers = async () => {
   try {
     users.value = await $fetch(`${config.public.backend}/api/users`, {
       headers: {
-        Authorization: `Bearer ${Cookies.get("access_token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
   } catch (err) {
@@ -27,29 +28,42 @@ const fetchUsers = async () => {
 
 const updateUserRole = async (user) => {
   const confirm = await swal.fire({
-    icon: "warning",
-    title: `Ubah ${user.name} jadi ${user.role}?`,
+    icon: "question",
+    title: `Pilih role baru untuk ${user.name}`,
+    input: "select",
+    inputOptions: {
+      admin: "Admin",
+      teacher: "Teacher",
+      student: "Student",
+    },
+    inputPlaceholder: "Pilih role",
     showCancelButton: true,
-    confirmButtonText: "Ya",
+    confirmButtonText: "Simpan",
     cancelButtonText: "Batal",
   });
-  if (!confirm.isConfirmed) return;
+
+  if (!confirm.isConfirmed || !confirm.value) return;
+
   try {
     await $fetch(`${config.public.backend}/api/users/${user.id}`, {
       method: "PUT",
-      body: { role: user.role },
+      headers: { Authorization: `Bearer ${token}` },
+      body: { role: confirm.value },
     });
     swal.fire("Berhasil", "Role diupdate", "success");
+    fetchUsers();
   } catch (err) {
     console.error(err);
     swal.fire("Gagal", "Tidak bisa update", "error");
   }
 };
 
-const deleteUser = async (id) => {
+const deleteUser = async (user) => {
   const confirm = await swal.fire({
     icon: "warning",
-    title: "Yakin hapus user ini?",
+    title: `Yakin hapus user ini? ${
+      user.role == "teacher" ? "Kelas dan kuis milih guru ini akan ikut terhapus." : ""
+    }`,
     showCancelButton: true,
     confirmButtonText: "Ya",
     cancelButtonText: "Batal",
@@ -57,9 +71,12 @@ const deleteUser = async (id) => {
   if (!confirm.isConfirmed) return;
 
   try {
-    await $fetch(`${config.public.backend}/api/users/${id}`, { method: "DELETE" });
-    users.value = users.value.filter((u) => u.id !== id);
-    swal.fire("Berhasil", "User dihapus", "success");
+    await $fetch(`${config.public.backend}/api/users/${user.id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    users.value = users.value.filter((u) => u.id !== user.id);
+    swal.fire("Berhasil", "User dan seluruh data milik user ini berhasil dihapus", "success");
   } catch (err) {
     console.error(err);
     swal.fire("Gagal", "Tidak bisa hapus user", "error");
@@ -73,31 +90,26 @@ definePageMeta({
 });
 
 const columns = [
-  { header: "#", accessorKey: "index", cell: { name: "IndexCell" } },
-  { header: "Email", accessorKey: "email" },
   { header: "Username", accessorKey: "name" },
-  {
-    header: "Role",
-    accessorKey: "role",
-    cell: {
-      name: "AdminRoleButton",
-    },
-  },
-  {
-    header: "Actions",
-    accessorKey: "actions",
-    cell: {
-      name: "AdminActionButton",
-    },
-  },
+  { header: "Email", accessorKey: "email" },
+  { header: "Role", accessorKey: "role" },
 ];
+
+const filters = [{ title: "Role", options: ["admin", "teacher", "student"], accessorKey: "role" }];
 </script>
 
 <template>
   <div class="p-4">
     <h2 class="text-2xl font-semibold text-green-600">Data User</h2>
-    <div class="overflow-x-auto max-w-full">
-      <AdminTable :data="users" :columns="columns" :pageSize="10" />
+    <div class="overflow-x-auto max-w-full pt-5">
+      <AdminTable
+        :data="users"
+        :columns="columns"
+        :pageSize="10"
+        :filters="filters"
+        @refresh="fetchUsers"
+        :onUpdate="updateUserRole"
+        :onDelete="deleteUser" />
     </div>
   </div>
 </template>
