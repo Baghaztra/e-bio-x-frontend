@@ -22,6 +22,9 @@
     ]"
     aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-green-700">
+      <div class="mb-2">
+        <ToggleDark/>
+      </div>
       <ul class="space-y-2 font-medium">
         <li v-for="(item, index) in navbarMenu" :key="index">
           <RouterLink
@@ -81,17 +84,17 @@ const navbarMenu = [
     path: "/admin",
   },
   {
-    name: "Users",
+    name: "User",
     icon: "mdi:user",
     path: "/admin/users",
   },
   {
-    name: "Courses",
+    name: "Kelas",
     icon: "arcticons:classchartsstudents",
     path: "/admin/courses",
   },
   {
-    name: "Materials",
+    name: "Materi",
     icon: "simple-icons:bookstack",
     path: "/admin/materials",
   },

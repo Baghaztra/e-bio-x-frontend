@@ -1,27 +1,19 @@
 <template>
-  <div class="rounded-sm shadow-lg border border-green-200 py-8">
+  <div class="rounded-sm shadow-lg dark:shadow-lg dark:shadow-green-200 py-8">
     <div class="max-w-3xl mx-auto px-4">
       <div class="text-center mb-10 animate-fade-in">
-        <client-only>
-          <div class="relative mb-4 inline-block" @click="updateProfilePic">
+          <div class="relative mb-4 inline-block">
             <div
-              v-if="userData.profile_pic && userData.profile_pic !== 'null'"
-              class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg mx-auto">
-              <img
-                :src="userData.profile_pic"
-                alt="Loading pfp"
-                class="w-full rounded-full h-full object-cover" />
-            </div>
-            <div
-              v-else
               class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-4 border-white shadow-lg">
               <Icon name="mdi:account" size="64" class="text-gray-400" />
             </div>
           </div>
-          <h1 class="text-2xl font-bold text-gray-800" @click="updateName">
+          <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
             {{ userData.name || "User" }}
+            <span class="text-yellow-400 hover:text-yellow-500">
+              <Icon name="material-symbols:edit" class="w-4 h-4" @click="updateName" />
+            </span>
           </h1>
-        </client-only>
       </div>
 
       <div>
@@ -72,47 +64,6 @@ const updateName = async () => {
     }
   }
 };
-
-const updateProfilePic = async () => {
-  const { value: file } = await swal.fire({
-    title: "Update Profile Picture",
-    input: "file",
-    inputAttributes: { accept: "image/*" },
-    showCancelButton: true,
-    inputValidator: (f) => !f ? "Please select an image" : undefined
-  });
-
-  if (file) {
-    const formData = new FormData();
-    formData.append("profile_pic", file);
-
-    try {
-      swal.fire({
-        title: "Uploading...",
-        allowOutsideClick: false,
-        didOpen: () => {
-          swal.showLoading();
-        },
-      });
-
-      const response = await $fetch(`${config.public.backend}/api/user/me`, {
-        method: "PUT",
-        headers: { Authorization: `Bearer ${accessToken}` },
-        body: formData,
-      });
-
-      userData.value.profile_pic = URL.createObjectURL(file);
-
-      const profilePicCookie = useCookie("profile_pic");
-      profilePicCookie.value = userData.value.profile_pic;
-
-      swal.fire("Success", "Profile picture updated!", "success");
-    } catch (e) {
-      swal.fire("Error", "Failed to update profile picture.", "error");
-    }
-  }
-};
-
 
 definePageMeta({
   middleware: "auth",

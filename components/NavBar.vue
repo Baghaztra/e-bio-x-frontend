@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-green-700 text-white shadow">
+  <nav class="bg-green-600 text-white shadow">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <button
@@ -15,16 +15,7 @@
           <span class="font-medium">{{ username }}</span>
           <button @click.stop="toggleDropdown" class="focus:outline-none">
             <div
-              v-if="profile_pic != 'null'"
-              class="w-8 h-8 rounded-full object-cover border-2 border-white">
-              <img
-                :src="profile_pic"
-                alt="Profile Picture"
-                class="w-full rounded-full h-full object-cover" />
-            </div>
-            <div
-              v-else
-              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-4 border-white shadow-lg">
+              class="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-2 border-green-800">
               <Icon name="mdi:account" size="64" class="text-gray-400" />
             </div>
           </button>
@@ -59,21 +50,14 @@ const swal = useSwal();
 
 const usernameCookie = useCookie("username");
 const username = ref(usernameCookie || "E-Bio X");
-const profilePicCookie = useCookie("profile_pic");
-const profile_pic = ref(profilePicCookie.value);
 
 const dropdownOpen = ref(false);
 const dropdown = ref(null);
 
-// Update profile_pic kalau cookie berubah
 watch(usernameCookie, (newVal) => {
   username.value = newVal;
 });
-watch(profilePicCookie, (newVal) => {
-  profile_pic.value = newVal;
-});
 
-// Tutup dropdown kalau pindah route
 watch(
   () => router.currentRoute.value.path,
   () => {

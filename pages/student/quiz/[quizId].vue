@@ -1,79 +1,81 @@
 <template>
-  <div class="max-w-3xl mx-auto p-6">
-    <div v-if="loading">
-      <p class="text-center text-gray-500">Loading...</p>
-    </div>
-
-    <div v-else>
-      <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">{{ quiz.title }}</h1>
-        <ToggleDark />
+  <main class="flex-1 px-4 py-6 max-w-6xl mx-auto w-full">
+    <div class="max-w-3xl mx-auto p-6">
+      <div v-if="loading">
+        <p class="text-center text-gray-500">Loading...</p>
       </div>
-
-      <div class="text-center mb-4 text-gray-500">Waktu: {{ timer }}</div>
-
-      <div class="mb-6">
-        <p class="font-semibold mb-2">{{ currentIndex + 1 }}. {{ currentQuestion.question_text }}</p>
-        <div class="space-y-2">
-          <label
-            v-for="option in currentQuestion.options"
-            :key="option.option_id"
-            class="flex items-center space-x-2"
+  
+      <div v-else>
+        <div class="flex justify-between items-center mb-4">
+          <h1 class="text-2xl font-bold">{{ quiz.title }}</h1>
+          <ToggleDark />
+        </div>
+  
+        <div class="text-center mb-4 text-gray-500">Waktu: {{ timer }}</div>
+  
+        <div class="mb-6">
+          <p class="font-semibold mb-2">{{ currentIndex + 1 }}. {{ currentQuestion.question_text }}</p>
+          <div class="space-y-2">
+            <label
+              v-for="option in currentQuestion.options"
+              :key="option.option_id"
+              class="flex items-center space-x-2"
+            >
+              <input
+                type="radio"
+                :name="'question_' + currentQuestion.question_id"
+                :value="option.option_id"
+                v-model="answers[currentQuestion.question_id]"
+                class="text-green-600 focus:ring-green-500"
+                required
+              />
+              <span>{{ option.option_text }}</span>
+            </label>
+          </div>
+        </div>
+  
+        <div class="flex flex-wrap justify-center gap-2 mb-4">
+          <button
+            v-for="(q, idx) in quiz.questions"
+            :key="q.question_id"
+            @click="goToQuestion(idx)"
+            class="w-8 h-8 rounded-full border text-sm"
+            :class="answers[q.question_id] ? 'bg-green-600 text-white' : 'border-gray-400 text-gray-600'"
           >
-            <input
-              type="radio"
-              :name="'question_' + currentQuestion.question_id"
-              :value="option.option_id"
-              v-model="answers[currentQuestion.question_id]"
-              class="text-green-600 focus:ring-green-500"
-              required
-            />
-            <span>{{ option.option_text }}</span>
-          </label>
+            {{ idx + 1 }}
+          </button>
+        </div>
+  
+        <div class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 p-4 border-t flex justify-between">
+          <button
+            v-if="currentIndex > 0"
+            @click="prevQuestion"
+            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+          >
+            Sebelumnya
+          </button>
+  
+          <div class="flex-1"></div>
+  
+          <button
+            v-if="currentIndex < quiz.questions.length - 1"
+            @click="nextQuestion"
+            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            Berikutnya
+          </button>
+  
+          <button
+            v-else
+            @click="submitQuiz"
+            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            Kirim Jawaban
+          </button>
         </div>
       </div>
-
-      <div class="flex flex-wrap justify-center gap-2 mb-4">
-        <button
-          v-for="(q, idx) in quiz.questions"
-          :key="q.question_id"
-          @click="goToQuestion(idx)"
-          class="w-8 h-8 rounded-full border text-sm"
-          :class="answers[q.question_id] ? 'bg-green-600 text-white' : 'border-gray-400 text-gray-600'"
-        >
-          {{ idx + 1 }}
-        </button>
-      </div>
-
-      <div class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 p-4 border-t flex justify-between">
-        <button
-          v-if="currentIndex > 0"
-          @click="prevQuestion"
-          class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-        >
-          Sebelumnya
-        </button>
-
-        <div class="flex-1"></div>
-
-        <button
-          v-if="currentIndex < quiz.questions.length - 1"
-          @click="nextQuestion"
-          class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-        >
-          Berikutnya
-        </button>
-
-        <button
-          v-else
-          @click="submitQuiz"
-          class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-        >
-          Kirim Jawaban
-        </button>
-      </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4 bg-white dark:bg-gray-900">
     <div class="flex w-full mb-4 gap-4 justify-between items-center">
       <input
         v-model="searchTerm"
@@ -26,17 +26,17 @@
 
     <div class="overflow-x-auto border rounded">
       <table class="table-auto w-full text-left">
-        <thead class="bg-green-100">
+        <thead class="bg-green-100 text-green-600 dark:text-green-200 dark:bg-green-900">
           <tr>
-            <th class="p-3 border-b text-green-600 w-12">#</th>
-            <th v-for="(col, index) in columns" :key="index" class="p-3 border-b text-green-600">
+            <th class="p-3 border-b w-12">#</th>
+            <th v-for="(col, index) in columns" :key="index" class="p-3 border-b">
               {{ col.header }}
             </th>
-            <th v-if="onUpdate || onDelete" class="p-3 border-b text-green-600">Action</th>
+            <th v-if="onUpdate || onDelete" class="p-3 border-b">Action</th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody class="text-gray-900 dark:text-gray-100">
           <tr
             v-for="(item, rowIdx) in paginatedData"
             :key="rowIdx"
@@ -44,7 +44,20 @@
             <td class="p-3">{{ (currentPage - 1) * pageSize + rowIdx + 1 }}</td>
 
             <td v-for="(col, colIdx) in columns" :key="colIdx" class="p-3">
-              {{ item[col.accessorKey] }}
+                <template v-if="typeof item[col.accessorKey] === 'string' && item[col.accessorKey].startsWith('http')">
+                <a
+                  :href="item[col.accessorKey]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-500 underline flex items-center gap-1"
+                >
+                    {{ item[col.accessorKey].length > 30 ? item[col.accessorKey].slice(0, 30) + '...' : item[col.accessorKey] }}
+                  <Icon name="material-symbols:open-in-new" class="w-4 h-4 inline" />
+                </a>
+                </template>
+                <template v-else>
+                {{ item[col.accessorKey] }}
+                </template>
             </td>
 
             <td v-if="onUpdate || onDelete" class="p-3 flex gap-2">

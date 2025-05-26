@@ -13,6 +13,7 @@ onMounted(async () => {
 
 const token = Cookies.get("access_token");
 const swal = useSwal();
+const toast = useToast();
 
 const fetchUsers = async () => {
   try {
@@ -50,11 +51,11 @@ const updateUserRole = async (user) => {
       headers: { Authorization: `Bearer ${token}` },
       body: { role: confirm.value },
     });
-    swal.fire("Berhasil", "Role diupdate", "success");
+    toast.success({message:"Role diupdate"});
     fetchUsers();
   } catch (err) {
     console.error(err);
-    swal.fire("Gagal", "Tidak bisa update", "error");
+    toast.error({message:"Gagal update role."});
   }
 };
 
@@ -99,17 +100,17 @@ const filters = [{ title: "Role", options: ["admin", "teacher", "student"], acce
 </script>
 
 <template>
-  <div class="p-4">
-    <h2 class="text-2xl font-semibold text-green-600">Data User</h2>
-    <div class="overflow-x-auto max-w-full pt-5">
-      <AdminTable
-        :data="users"
-        :columns="columns"
-        :pageSize="10"
-        :filters="filters"
-        @refresh="fetchUsers"
-        :onUpdate="updateUserRole"
-        :onDelete="deleteUser" />
-    </div>
+  <div class="p-4 pb-2">
+    <h2 class="text-2xl font-semibold text-green-600 dark:text-green-500">Data User</h2>
+  </div>
+  <div class="overflow-x-auto max-w-full">
+    <AdminTable
+      :data="users"
+      :columns="columns"
+      :pageSize="10"
+      :filters="filters"
+      @refresh="fetchUsers"
+      :onUpdate="updateUserRole"
+      :onDelete="deleteUser" />
   </div>
 </template>

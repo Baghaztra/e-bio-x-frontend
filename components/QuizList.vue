@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-green-200 dark:border-none">
+    class="p-6 bg-white dark:bg-gray-900 rounded-xl dark:shadow-green-400 dark:border-none border shadow-lg border-green-200">
     <h2 class="text-xl font-semibold text-green-700 dark:text-green-500 flex items-center gap-2">
       <Icon name="hugeicons:quiz-04" class="text-green-500" /> Kuis
     </h2>

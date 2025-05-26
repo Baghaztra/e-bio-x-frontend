@@ -60,7 +60,7 @@ import { useSwal } from "~/utils/swal";
 const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
 const swal = useSwal();
-const toast = useToast()
+const toast = useToast();
 const myCourses = ref([]);
 
 const fetchCoursesData = async () => {
