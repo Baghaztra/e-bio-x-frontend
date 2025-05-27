@@ -13,7 +13,7 @@
       <header class="relative z-10 flex justify-between items-center p-6">
         <div class="text-3xl font-bold text-white flex items-center gap-2">
           <Icon name="heroicons:academic-cap" class="w-8 h-8" />
-          E-Bio-X
+          E Bio X
         </div>
         <ToggleDark />
       </header>

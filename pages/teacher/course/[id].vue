@@ -38,17 +38,6 @@
         Siswa
       </button>
       <button
-        @click="activeTab = 'buat-kuis'"
-        :class="[
-          'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
-          activeTab === 'buat-kuis'
-            ? 'bg-white dark:bg-gray-900 dark:text-green-200 text-green-600 border-green-300 shadow shadow-green-300'
-            : 'bg-gray-100 text-gray-600 border-gray-200 dark:border-green-800 dark:text-green-200 dark:bg-gray-800',
-        ]">
-        <Icon name="fluent:quiz-new-24-filled" />
-        Buat Kuis
-      </button>
-      <button
         @click="activeTab = 'kuis'"
         :class="[
           'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
@@ -58,6 +47,17 @@
         ]">
         <Icon name="hugeicons:quiz-04" />
         Kuis
+      </button>
+      <button
+        @click="activeTab = 'buat-kuis'"
+        :class="[
+          'flex items-center gap-1 px-3 py-2 border rounded-lg text-sm font-medium whitespace-nowrap',
+          activeTab === 'buat-kuis'
+            ? 'bg-white dark:bg-gray-900 dark:text-green-200 text-green-600 border-green-300 shadow shadow-green-300'
+            : 'bg-gray-100 text-gray-600 border-gray-200 dark:border-green-800 dark:text-green-200 dark:bg-gray-800',
+        ]">
+        <Icon name="fluent:quiz-new-24-filled" />
+        Buat Kuis
       </button>
     </div>
 

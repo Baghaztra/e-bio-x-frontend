@@ -15,7 +15,11 @@
 
     <h4 class="text-lg font-medium mb-4">Kelas Saya</h4>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div v-if="myCourses.length === 0" class="text-gray-500 text-sm mt-4">
+        Anda belum membuat kelas. Klik tombol di atas untuk membuat kelas baru.
+      </div>
       <div
+        v-else
         v-for="(kelas, index) in myCourses"
         :key="index"
         class="bg-white dark:bg-gray-900 border rounded-lg p-4 shadow-md shadow-green-300 hover:shadow-lg hover:shadow-green-300 relative">

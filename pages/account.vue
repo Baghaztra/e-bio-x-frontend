@@ -1,22 +1,28 @@
 <template>
-  <div class="rounded-sm shadow-lg dark:shadow-lg dark:shadow-green-200 py-8">
+  <div class="rounded-xl shadow-lg dark:shadow-lg dark:shadow-green-200 py-8">
     <div class="max-w-3xl mx-auto px-4">
       <div class="text-center mb-10 animate-fade-in">
-          <div class="relative mb-4 inline-block">
-            <div
-              class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-4 border-white shadow-lg">
-              <Icon name="mdi:account" size="64" class="text-gray-400" />
-            </div>
+        <div class="relative mb-4 inline-block">
+          <div
+            class="w-28 h-28 rounded-full bg-green-300 flex items-center justify-center mx-auto shadow-lg animate-fade-in-slow">
+            <Icon :name="userData.role == 'admin' ? 'clarity:administrator-solid' : userData.role == 'teacher' ? 'mdi:teacher' : 'mdi:account'" size="64" class="text-white" />
           </div>
+        </div>
+        <div class="flex items-center justify-center gap-2">
           <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
             {{ userData.name || "User" }}
-            <span class="text-yellow-400 hover:text-yellow-500">
-              <Icon name="material-symbols:edit" class="w-4 h-4" @click="updateName" />
-            </span>
           </h1>
+          <button
+          class="w-6 h-6 text-yellow-400 hover:text-yellow-500 transition duration-300"
+          @click="updateName"
+          aria-label="Edit Name">
+          <Icon name="material-symbols:edit" />
+        </button>
+      </div>
       </div>
 
       <div>
+        <!-- this is a button and modal -->
         <EditPassword  />
       </div>
     </div>
@@ -33,6 +39,7 @@ const accessToken = Cookies.get("access_token");
 
 const userData = ref({
   name: Cookies.get("username"),
+  role: Cookies.get("role"),
   has_password: Cookies.get("has_password"),
   profile_pic: Cookies.get("profile_pic"),
 });

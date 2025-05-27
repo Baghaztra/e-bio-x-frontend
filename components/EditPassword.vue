@@ -16,7 +16,7 @@
   <div
     v-if="showModal"
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg w-full max-w-md p-6 space-y-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md p-6 space-y-4">
       <h2 class="text-lg font-bold mb-4">
         {{ isHasPassword ? "Change Password" : "Set Password" }}
       </h2>
@@ -27,10 +27,10 @@
           <input
             :type="show.current ? 'text' : 'password'"
             v-model="currentPass"
-            class="w-full border p-2 rounded pr-10" />
+            class="w-full border p-2 rounded pr-10 dark:bg-gray-700" />
           <Icon
             @click="show.current = !show.current"
-            :name="show.current ? 'ooui:eye-closed' : 'ooui:eye'"
+            :name="show.current ? 'fluent:eye-hide-20-filled' : 'fluent:eye-20-filled'"
             class="absolute right-3 top-3 cursor-pointer" />
         </div>
         <p v-if="errors.current" class="text-red-500 text-sm">{{ errors.current }}</p>
@@ -42,10 +42,10 @@
           <input
             :type="show.new ? 'text' : 'password'"
             v-model="newPass"
-            class="w-full border p-2 rounded pr-10" />
+            class="w-full border p-2 rounded pr-10 dark:bg-gray-700" />
           <Icon
             @click="show.new = !show.new"
-            :name="show.new ? 'ooui:eye-closed' : 'ooui:eye'"
+            :name="show.new ? 'fluent:eye-hide-20-filled' : 'fluent:eye-20-filled'"
             class="absolute right-3 top-3 cursor-pointer" />
         </div>
       </div>
@@ -56,10 +56,10 @@
           <input
             :type="show.confirm ? 'text' : 'password'"
             v-model="confirmPass"
-            class="w-full border p-2 rounded pr-10" />
+            class="w-full border p-2 rounded pr-10 dark:bg-gray-700" />
           <Icon
             @click="show.confirm = !show.confirm"
-            :name="show.confirm ? 'ooui:eye-closed' : 'ooui:eye'"
+            :name="show.confirm ? 'fluent:eye-hide-20-filled' : 'fluent:eye-20-filled'"
             class="absolute right-3 top-3 cursor-pointer" />
         </div>
         <p v-if="errors.confirm" class="text-red-500 text-sm">{{ errors.confirm }}</p>
