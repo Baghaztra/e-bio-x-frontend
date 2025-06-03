@@ -149,7 +149,10 @@ async function submitQuiz() {
     const res = await $fetch(`${config.public.backend}/api/quiz/${route.params.quizId}/submit`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
-      body: { answers: submittedAnswers },
+      body: { 
+        work_time: timer.value,
+        answers: submittedAnswers 
+      },
     })
 
     clearInterval(timerInterval)

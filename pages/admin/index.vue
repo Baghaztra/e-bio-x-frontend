@@ -1,8 +1,8 @@
 <template>
   <div class="flex h-screen w-full items-center justify-center">
-    <h2 class="text-[7rem] font-semibold text-white fancy-glow">
+    <!-- <h2 class="text-[7rem] font-semibold text-white fancy-glow">
       Ini Dashboard
-    </h2>
+    </h2> -->
   </div>
 </template>
 

@@ -2,6 +2,11 @@
 
 Platform E-Learning Biologi berbasis web yang dibangun menggunakan Nuxt 3.
 
+## TODO
+- tutup kuis
+- Tutorial
+- gamifikasi (opt)
+
 ## Fitur Utama
 
 - Tutorial untuk pengguna baru [on progress]
