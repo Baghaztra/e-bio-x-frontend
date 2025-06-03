@@ -163,7 +163,8 @@ async function submitQuiz() {
       html: `<p><b>Nama:</b> ${res.data.student}</p><p><b>Nilai:</b> ${res.data.score}</p>`
     })
 
-    await navigateTo('/student/quiz')
+    const courseId = localStorage.getItem('courseId')
+    await navigateTo(`/student/course/${courseId}`)
   } catch (err) {
     await swal.fire({
       icon: 'error',
