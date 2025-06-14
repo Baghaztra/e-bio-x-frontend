@@ -44,20 +44,23 @@
             <td class="p-3">{{ (currentPage - 1) * pageSize + rowIdx + 1 }}</td>
 
             <td v-for="(col, colIdx) in columns" :key="colIdx" class="p-3">
-                <template v-if="typeof item[col.accessorKey] === 'string' && item[col.accessorKey].startsWith('http')">
+              <template v-if="col.cell">
+                <div v-html="col.cell({ row: { original: item } })"></div>
+              </template>
+              <template v-else-if="typeof item[col.accessorKey] === 'string' && item[col.accessorKey].startsWith('http')">
                 <a
                   :href="item[col.accessorKey]"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="text-blue-500 underline flex items-center gap-1"
                 >
-                    {{ item[col.accessorKey].length > 30 ? item[col.accessorKey].slice(0, 30) + '...' : item[col.accessorKey] }}
+                  {{ item[col.accessorKey].length > 30 ? item[col.accessorKey].slice(0, 30) + '...' : item[col.accessorKey] }}
                   <Icon name="material-symbols:open-in-new" class="w-4 h-4 inline" />
                 </a>
-                </template>
-                <template v-else>
+              </template>
+              <template v-else>
                 {{ item[col.accessorKey] }}
-                </template>
+              </template>
             </td>
 
             <td v-if="onUpdate || onDelete" class="p-3 flex gap-2">

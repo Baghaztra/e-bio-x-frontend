@@ -1,5 +1,11 @@
 <script setup>
-const isDark = ref(false);
+const isDark = ref(
+  localStorage.getItem("theme") === "dark"
+    ? true
+    : localStorage.getItem("theme") === "light"
+    ? false
+    : window.matchMedia("(prefers-color-scheme: dark)").matches
+);
 
 onMounted(() => {
   if (localStorage.getItem("theme") === "dark") {

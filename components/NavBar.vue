@@ -1,22 +1,24 @@
 <template>
-  <nav class="bg-green-600 text-white shadow">
+  <nav class="bg-gradient-to-br from-green-500 to-emerald-600 dark:from-green-600 dark:to-emerald-700 text-white shadow">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <button
           v-if="!['/', '/student', '/teacher', '/admin'].includes($route.path)"
-          class="flex items-center text-white hover:bg-green-600 p-2 rounded-full transition duration-200 transform hover:scale-110"
-          @click="$router.back()">
-          <Icon name="material-symbols:arrow-back-ios-new" class="w-5 h-5" />
+          class="flex items-center text-white dark:text-gray-100 rounded-full transition duration-200 transform hover:scale-110 h-5"
+          @click="$router.back()"
+        >
+          <Icon name="material-symbols:arrow-back-ios-new" class="w-4 h-4" />
         </button>
       </div>
 
       <div v-if="username" class="relative flex items-center space-x-2">
         <client-only>
-          <span class="font-medium">{{ username }}</span>
+          <span class="font-medium text-white dark:text-gray-100">{{ username }}</span>
           <button @click.stop="toggleDropdown" class="focus:outline-none">
             <div
-              class="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-2 border-green-800">
-              <Icon name="mdi:account" size="64" class="text-gray-400" />
+              class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mx-auto border-2 border-green-800 dark:border-green-500"
+            >
+              <Icon name="mdi:account" size="64" class="text-gray-400 dark:text-gray-300" />
             </div>
           </button>
         </client-only>
@@ -25,9 +27,18 @@
           v-if="dropdownOpen"
           ref="dropdown"
           @click.stop
-          class="absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-md shadow-lg py-2 z-50">
-          <NuxtLink to="/account" class="block px-4 py-2 hover:bg-gray-100"> Akun </NuxtLink>
-          <button @click="handleLogout" class="w-full text-left px-4 py-2 hover:bg-gray-100">
+          class="absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 text-black dark:text-gray-100 rounded-md shadow-lg py-2 z-50"
+        >
+          <NuxtLink
+            to="/account"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            Akun
+          </NuxtLink>
+          <button
+            @click="handleLogout"
+            class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
             Logout
           </button>
         </div>

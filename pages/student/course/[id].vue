@@ -1,7 +1,7 @@
 <template>
   <div class="container py-4">
     <h1 class="text-3xl font-semibold text-green-600">Kelas {{ course.name }}</h1>
-    <span class="text-lg text-gray-700">Bareng {{ course.teacher }}</span>
+    <span class="text-lg text-gray-700 dark:text-gray-200">Bareng {{ course.teacher }}</span>
 
     <div class="flex overflow-x-auto mt-4 space-x-2 pb-2">
       <button
