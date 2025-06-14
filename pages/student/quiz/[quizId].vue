@@ -164,6 +164,7 @@ async function submitQuiz() {
     })
 
     const courseId = localStorage.getItem('courseId')
+    localStorage.removeItem('courseId')
     await navigateTo(`/student/course/${courseId}`)
   } catch (err) {
     await swal.fire({

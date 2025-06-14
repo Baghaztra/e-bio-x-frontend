@@ -1,46 +1,46 @@
 <template>
-  <div class="p-6">
+  <div class="">
     <div class="flex items-center gap-3 mb-4">
-      <Icon name="material-symbols:bar-chart" class="text-green-600" size="32" />
-      <h1 class="text-2xl font-bold text-green-700">Analisis Hasil Kuis</h1>
+      <Icon name="material-symbols:bar-chart" class="text-green-600 dark:text-green-500" size="32" />
+      <h1 class="text-2xl font-bold text-green-700 dark:text-green-500">Analisis Hasil Kuis</h1>
     </div>
 
-    <div v-if="isLoading" class="bg-yellow-50 border border-yellow-300 rounded-xl p-4 mb-6">
+    <div v-if="isLoading" class="bg-yellow-50 dark:text-white dark:bg-yellow-100 border border-yellow-300 rounded-xl p-4 mb-6">
       <p class="text-yellow-800 text-sm">Loading ...</p>
     </div>
     <div
       v-else-if="!analysisReady"
-      class="bg-yellow-50 border border-yellow-300 rounded-xl p-4 mb-6">
+      class="bg-yellow-50 dark:text-white dark:bg-yellow-100 border border-yellow-300 rounded-xl p-4 mb-6">
       <p class="text-yellow-800 text-sm">
         Analisis belum dilakukan. Klik tombol di bawah untuk memulai.
       </p>
     </div>
 
     <div v-else>
-      <div class="bg-green-50 border border-green-300 rounded-xl p-6 mb-6 space-y-4">
-        <h2 class="text-xl font-bold text-green-800 dark:text-green-500 flex items-center gap-2">
+      <div class="bg-green-50 dark:bg-green-900/50 border border-green-300 rounded-xl p-6 mb-6 space-y-4">
+        <h2 class="text-xl font-bold text-green-800 dark:text-green-50 flex items-center gap-2">
           <Icon name="material-symbols:info" size="24" /> {{ quizInfo.title }}
         </h2>
 
         <div class="grid gap-4">
-          <p class="text-sm text-green-700">
+          <p class="text-sm text-green-700 dark:text-green-50">
             Jumlah soal: <span class="font-semibold">{{ quizInfo.total_questions }}</span>
           </p>
-          <p class="text-sm text-green-700">
+          <p class="text-sm text-green-700 dark:text-green-50">
             Jumlah siswa: <span class="font-semibold">{{ quizInfo.total_students }}</span>
           </p>
-          <p class="text-sm text-green-700">
+          <p class="text-sm text-green-700 dark:text-green-50">
             Rata-rata Nilai: <span class="font-semibold">{{ quizInfo.average }}</span>
           </p>
         </div>
 
         <div class="space-y-3">
-          <h3 class="text-green-800 text-base font-semibold border-b border-green-300 pb-1">
+          <h3 class="text-green-800 dark:text-green-100 text-base font-semibold border-b border-green-300 pb-1">
             Statistik Siswa
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p class="text-sm text-green-700 mb-1">Nilai Tertinggi</p>
+              <p class="text-sm text-green-700 dark:text-green-50 mb-1">Nilai Tertinggi</p>
               <AnalysisStudentCard
                 :nama="quizInfo.highest.nama"
                 :cluster="quizInfo.highest.cluster"
@@ -49,7 +49,7 @@
             </div>
 
             <div>
-              <p class="text-sm text-green-700 mb-1">Nilai Terendah</p>
+              <p class="text-sm text-green-700 dark:text-green-50 mb-1">Nilai Terendah</p>
               <AnalysisStudentCard
                 :nama="quizInfo.lowest.nama"
                 :cluster="quizInfo.lowest.cluster"
@@ -58,7 +58,7 @@
             </div>
 
             <div>
-              <p class="text-sm text-green-700 mb-1">Pengerjaan Tercepat</p>
+              <p class="text-sm text-green-700 dark:text-green-50 mb-1">Pengerjaan Tercepat</p>
               <AnalysisStudentCard
                 :nama="quizInfo.fastest.nama"
                 :cluster="quizInfo.fastest.cluster"
@@ -67,7 +67,7 @@
             </div>
 
             <div>
-              <p class="text-sm text-green-700 mb-1">Pengerjaan Terlambat</p>
+              <p class="text-sm text-green-700 dark:text-green-50 mb-1">Pengerjaan Terlambat</p>
               <AnalysisStudentCard
                 :nama="quizInfo.slowest.nama"
                 :cluster="quizInfo.slowest.cluster"
@@ -77,23 +77,22 @@
           </div>
         </div>
         <div class="space-y-3">
-          <h3 class="text-green-800 text-base font-semibold border-b border-green-300 pb-1">
+          <h3 class="text-green-800 dark:text-green-100 text-base font-semibold border-b border-green-300 pb-1">
             Statistik Soal
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Soal Tersulit -->
             <div
-              class="flex flex-row items-center justify-between p-3 border rounded shadow-sm bg-white">
+              class="flex flex-row items-center justify-between p-3 border border-green-300 rounded shadow-sm bg-white dark:bg-gray-800">
               <div class="w-2/3 flex flex-col gap-1">
                 <div class="flex items-center gap-2">
                   <Icon name="qlementine-icons:task-past-16" size="20" class="text-red-600" />
                   <span class="text-sm">Soal Tersulit</span>
                 </div>
-                <p class="font-semibold text-gray-700">
+                <p class="font-semibold text-gray-700 dark:text-gray-200">
                   {{ quizInfo.hardest_question.question }}
                 </p>
               </div>
-              <div class="text-sm text-gray-700 flex flex-col gap-1">
+              <div class="text-sm text-gray-700 dark:text-gray-200 flex flex-col gap-1">
                 <div>
                   <Icon
                     name="material-symbols:check-circle-rounded"
@@ -103,20 +102,18 @@
                 </div>
               </div>
             </div>
-
-            <!-- Soal Termudah -->
             <div
-              class="flex flex-row items-center justify-between p-3 border rounded shadow-sm bg-white">
+              class="flex flex-row items-center justify-between p-3 border border-green-300 rounded shadow-sm bg-white dark:bg-gray-800">
               <div class="w-2/3 flex flex-col gap-1">
                 <div class="flex items-center gap-2">
                   <Icon name="qlementine-icons:task-16" size="20" class="text-blue-500" />
                   <span class="text-sm">Soal Termudah</span>
                 </div>
-                <p class="font-semibold text-gray-700">
+                <p class="font-semibold text-gray-700 dark:text-gray-200">
                   {{ quizInfo.easiest_question.question }}
                 </p>
               </div>
-              <div class="text-sm text-gray-700 flex flex-col gap-1">
+              <div class="text-sm text-gray-700 dark:text-gray-200 flex flex-col gap-1">
                 <div>
                   <Icon
                     name="material-symbols:check-circle-rounded"
@@ -130,12 +127,12 @@
         </div>
       </div>
 
-      <div class="bg-white border rounded-xl p-4 mb-6 shadow">
-        <h3 class="text-green-800 text-lg font-semibold">Analisis K-Means</h3>
+      <div class="bg-white dark:bg-gray-900 border rounded-xl p-4 mb-6 shadow">
+        <h3 class="text-green-800 dark:text-green-500 text-lg font-semibold">Analisis K-Means</h3>
         <AnalysisChartCluster :labels="chartLabels" :datasets="chartDatasets" />
         <div class="mb-2 flex gap-3 items-center" @click="showStudentList = !showStudentList">
-          <h5 class="text-green-700 text-md font-semibold">Daftar siswa</h5>
-          <span class="text-green-700 flex items-center">
+          <h5 class="text-green-700 dark:text-green-500 text-md font-semibold">Daftar siswa</h5>
+          <span class="text-green-700 dark:text-green-500 flex items-center">
             <Icon
               name="mdi:chevron-down"
               :class="[
@@ -168,7 +165,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { useSwal } from "~/utils/swal";
 import Cookies from "js-cookie";
 import AnalysisChartCluster from "~/components/AnalysisChartCluster.vue";
 
@@ -177,7 +173,6 @@ const token = Cookies.get("access_token");
 const route = useRoute();
 const quizId = route.params.id;
 
-const swal = useSwal();
 const toast = useToast();
 
 const clusters = ref([]);

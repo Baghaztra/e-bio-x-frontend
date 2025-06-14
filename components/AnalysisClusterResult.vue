@@ -2,16 +2,16 @@
   <div>
     <div class="flex flex-wrap items-center gap-4 mb-4">
       <div>
-        <label class="text-sm font-semibold text-green-700 mr-2">Filter Cluster:</label>
-        <select v-model="selectedCluster" class="border rounded px-2 py-1 text-sm">
+        <label class="text-sm font-semibold text-green-700 dark:text-green-500 mr-2">Filter Cluster:</label>
+        <select v-model="selectedCluster" class="border rounded dark:bg-gray-700 px-2 py-1 text-sm">
           <option value="Semua">Semua</option>
           <option v-for="c in clusterOptions" :key="c" :value="c">{{ c }}</option>
         </select>
       </div>
 
       <div>
-        <label class="text-sm font-semibold text-green-700 mr-2">Urutkan:</label>
-        <select v-model="sortBy" class="border rounded px-2 py-1 text-sm">
+        <label class="text-sm font-semibold text-green-700 dark:text-green-500 mr-2">Urutkan:</label>
+        <select v-model="sortBy" class="border rounded dark:bg-gray-700 px-2 py-1 text-sm">
           <option value="cluster">Cluster</option>
           <option value="score">Nilai</option>
           <option value="work_time">Waktu Pengerjaan</option>
