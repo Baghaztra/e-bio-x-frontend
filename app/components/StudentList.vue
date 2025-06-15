@@ -20,8 +20,6 @@ const props = defineProps({
   students: Array,
 });
 
-console.log("Students:", props.students);
-
 const columns = [
   { header: "Username", accessorKey: "name" },
   { header: "Email", accessorKey: "email" },

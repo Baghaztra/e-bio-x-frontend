@@ -81,20 +81,23 @@ const courseId = route.params.id;
 const activeTab = ref("materi");
 const course = ref([]);
 
-const { data, error } = await useAsyncData("my-courses", () =>
-  $fetch(`${config.public.backend}/api/courses/${courseId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-);
+const fetchCourse = async () => {
+  try {
+    const response = await $fetch(`${config.public.backend}/api/courses/${courseId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    course.value = response;
+  } catch (error) {
+    toast.error({message: 'Gagal mengambil data kelas.' })
+  }
+};
 
-if (error.value) {
-  toast.error({message: 'Gagal mengambil data kelas.' })
-} else {
-  course.value = data.value;
-}
+onMounted(() => {
+  fetchCourse();
+});
 
 definePageMeta({
   middleware: "auth",

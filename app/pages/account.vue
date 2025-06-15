@@ -4,8 +4,8 @@
       <div class="text-center mb-10 animate-fade-in">
         <div class="relative mb-4 inline-block">
           <div
-            class="w-28 h-28 rounded-full bg-green-300 flex items-center justify-center mx-auto shadow-lg animate-fade-in-slow">
-            <Icon :name="userData.role == 'admin' ? 'clarity:administrator-solid' : userData.role == 'teacher' ? 'mdi:teacher' : 'mdi:account'" size="64" class="text-white" />
+            class="w-20 h-20 rounded-full bg-green-300 flex items-center justify-center mx-auto shadow-lg animate-fade-in-slow">
+            <UAvatar :alt="userData.name" size="3xl" class="bg-green-300 text-white"/>
           </div>
         </div>
         <div class="flex items-center justify-center gap-2">

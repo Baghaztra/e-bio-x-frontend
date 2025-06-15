@@ -1,5 +1,8 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-25",
+  future: {
+    compatibilityVersion: 4
+  },
   devtools: { enabled: true },
   modules: [
     "nuxt-vue3-google-signin",

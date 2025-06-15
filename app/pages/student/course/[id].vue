@@ -1,6 +1,6 @@
 <template>
   <div class="container py-4">
-    <h1 class="text-3xl font-semibold text-green-600">Kelas {{ course.name }}</h1>
+    <h1 class="text-3xl font-semibold text-green-500">Kelas {{ course.name }}</h1>
     <span class="text-lg text-gray-700 dark:text-gray-200">Bareng {{ course.teacher }}</span>
 
     <div class="flex overflow-x-auto mt-4 space-x-2 pb-2">
@@ -58,18 +58,21 @@ const config = useRuntimeConfig();
 const token = useCookie("access_token").value;
 const course = ref([]);
 
-const { data, error } = await useAsyncData("my-courses", () =>
-  $fetch(`${config.public.backend}/api/courses/${courseId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-);
+const fetchData = async () => {
+  try {
+    const response = await $fetch(`${config.public.backend}/api/courses/${courseId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    course.value = response;
+  } catch (error) {
+    console.error("Gagal mengambil kelas:", error);
+  }
+};
 
-if (error.value) {
-  console.error("Gagal mengambil kelas:", error.value);
-} else {
-  course.value = data.value;
-}
+onMounted(() => {
+  fetchData();
+});
 </script>
