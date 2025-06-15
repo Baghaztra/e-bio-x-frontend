@@ -3,8 +3,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     "nuxt-vue3-google-signin",
-    "@nuxtjs/tailwindcss",
     "@nuxt/icon",
+    '@nuxt/ui',
     [
       "nuxt-toast",
       {
@@ -13,6 +13,7 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  css: ['~/assets/css/main.css'],
   runtimeConfig: {
     public: {
       googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,

@@ -12,16 +12,14 @@
       </div>
 
       <div v-if="username" class="relative flex items-center space-x-2">
-        <client-only>
           <span class="font-medium text-white dark:text-gray-100">{{ username }}</span>
           <button @click.stop="toggleDropdown" class="focus:outline-none">
             <div
               class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mx-auto border-2 border-green-800 dark:border-green-500"
             >
-              <Icon name="mdi:account" size="64" class="text-gray-400 dark:text-gray-300" />
+              <UAvatar :alt="username" size="64" class="text-gray-400 dark:text-gray-300" />
             </div>
           </button>
-        </client-only>
 
         <div
           v-if="dropdownOpen"
