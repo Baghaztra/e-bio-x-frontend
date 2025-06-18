@@ -8,13 +8,6 @@ export default defineNuxtConfig({
     "nuxt-vue3-google-signin",
     "@nuxt/icon",
     '@nuxt/ui',
-    [
-      "nuxt-toast",
-      {
-        position: "bottom-right",
-        duration: 3000,
-      },
-    ],
   ],
   css: ['~/assets/css/main.css'],
   runtimeConfig: {

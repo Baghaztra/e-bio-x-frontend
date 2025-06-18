@@ -64,6 +64,7 @@ import { useSwal } from "~/utils/swal";
 
 const token = useCookie("access_token").value;
 const swal = useSwal();
+const toast = useToast();
 const props = defineProps({
   courseId: String,
 });
@@ -85,7 +86,7 @@ const fetchData = async () => {
 
     materials.value = response.data;
   } catch (err) {
-    toast.error({message: 'Gagal mengambil materi.' })
+    toast.add({title: 'Gagal mengambil materi.', color: 'red'})
   } finally {
     isLoading.value = false;
   }

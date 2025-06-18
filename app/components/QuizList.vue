@@ -7,7 +7,7 @@
 
     <div class="my-3">
       <div v-if="loading" class="space-y-4">
-        <div v-for="i in 3" :key="i" class="border rounded-xl p-4 shadow bg-white dark:bg-gray-900 animate-pulse">
+        <div class="border rounded-xl p-4 shadow bg-white dark:bg-gray-900 animate-pulse">
           <div class="flex items-center justify-between mb-3">
             <div class="space-y-2">
               <div class="h-5 bg-green-200 rounded w-48"></div>
@@ -167,7 +167,7 @@ const fetchQuizzes = async () => {
     console.error(err);
     error.value = "Gagal memuat data kuis.";
   
-    toast.error({message: 'Gagal memuat data kuis.' })
+    toast.add({title: 'Gagal memuat data kuis.', color: 'red'})
   } finally {
     loading.value = false;
   }
@@ -191,10 +191,10 @@ const toggleActivateQuizz = async (quizId, isClosed) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success({message: `Kuis telah ${isClosed ? "dibuka" : "ditutup"}.`})
+      toast.add({title: `Kuis telah ${isClosed ? "dibuka" : "ditutup"}.`, color: 'green'})
       fetchQuizzes();
     } catch (err) {
-      toast.error({message: `Kuis gagal ${isClosed ? "dibuka" : "ditutup"}.` })
+      toast.add({title: `Kuis gagal ${isClosed ? "dibuka" : "ditutup"}.`, color: 'red'})
     }
   }
 };

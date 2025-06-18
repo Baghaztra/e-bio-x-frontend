@@ -203,9 +203,9 @@ const startAnalysis = async () => {
     });
     await getAnalysis();
     
-    toast.success({message: 'Analisis berhasil.' })
+    toast.add({title: 'Analisis berhasil.', color: 'green' });
   } catch (error) {
-    toast.error({message: 'Gagal melakukan analisis.' })
+    toast.add({title: 'Gagal melakukan analisis.', color: 'red' });
   }
 };
 
@@ -256,7 +256,7 @@ const getAnalysis = async () => {
 
     analysisReady.value = true;
   } catch (error) {
-    toast.error({message: 'Gagal melakukan analisis.' })
+    toast.add({title: 'Gagal melakukan analisis.', color: 'red' })
     analysisReady.value = false;
   } finally {
     isLoading.value = false;

@@ -91,7 +91,7 @@ const fetchCourse = async () => {
     });
     course.value = response;
   } catch (error) {
-    toast.error({message: 'Gagal mengambil data kelas.' })
+    toast.add({title: 'Gagal mengambil data kelas.', color: 'red' });
   }
 };
 

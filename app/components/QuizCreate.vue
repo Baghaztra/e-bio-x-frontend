@@ -5,7 +5,7 @@
     </h2>
 
     <div class="my-4">
-      <input v-model="quiz.title" type="text" placeholder="Judul Kuis" class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500" />
+      <input v-model="quiz.title" type="text" placeholder="Judul Kuis" class="w-full dark:bg-gray-600 p-2 border rounded-lg border-gray-300 focus:outline-green-500" />
     </div>
 
     <div v-for="(q, qi) in quiz.questions" :key="qi" class="mb-6 border border-green-500 p-3 rounded">
@@ -19,14 +19,14 @@
       <input
         v-model="q.question_text"
         type="text"
-        class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500"
+        class="w-full dark:bg-gray-600 p-2 border rounded-lg border-gray-300 focus:outline-green-500"
         placeholder="Tulis pertanyaan..." />
 
       <div v-for="(o, oi) in q.options" :key="oi" class="flex items-center space-x-2 my-1">
         <input
           v-model="o.option_text"
           type="text"
-          class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500 flex-1"
+          class="w-full dark:bg-gray-600 p-2 border rounded-lg border-gray-300 focus:outline-green-500 flex-1"
           placeholder="Opsi jawaban..." />
         <label class="flex items-center space-x-1">
           <input type="checkbox" v-model="o.is_correct" />
@@ -103,11 +103,11 @@ const buatKuis = async () => {
       body: quiz.value,
     });
 
-    toast.success({message: 'Kuis berhasil dibuat.' })
+    toast.add({title: 'Kuis berhasil dibuat.', color: 'green'});
     
     quiz.value = { course_id: null, title: "", questions: [] };
   } catch (err) {
-    toast.error({message: 'Gagal membuat kuis.' })
+    toast.add({title: 'Gagal membuat kuis.', color: 'red'})
   }
 };
 </script>

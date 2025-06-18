@@ -67,12 +67,10 @@
   <script setup>
   import { useRoute, useRuntimeConfig } from "nuxt/app";
   import Cookies from "js-cookie";
-  import { useSwal } from "~/utils/swal";
   
   const route = useRoute();
   const config = useRuntimeConfig();
   const quiz = ref(null);
-  const swal = useSwal();
   const toast = useToast();
   
   const fetchQuiz = async () => {
@@ -90,7 +88,7 @@
       });
       quiz.value = res;
     } catch (err) {
-      toast.error({message: 'Gagal mengambil data kuis.' })
+      toast.add({title: 'Gagal mengambil data kuis.', color: 'red' })
     }
   };
   
@@ -105,9 +103,9 @@
         },
       });
       quiz.value.titleDirty = false;
-      toast.success({message: 'Berhasil mengubah nama kuis.' })
+      toast.add({title: 'Berhasil mengubah nama kuis.', color: 'green' })
     } catch (err) {
-      toast.error({message: 'Gagal mengubah nama kuis.' })
+      toast.add({title: 'Gagal mengubah nama kuis.', color: 'red' })
     }
   };
   
@@ -122,9 +120,9 @@
         },
       });
       question.dirty = false;
-      toast.success({message: 'Berhasil mengubah pertanyaan.' })
+      toast.add({title: 'Berhasil mengubah pertanyaan.', color: 'green' })
     } catch (err) {
-      toast.error({message: 'gagal mengubah pertanyaan.' })
+      toast.add({title: 'gagal mengubah pertanyaan.', color: 'red' })
     }
   };
   
@@ -142,9 +140,9 @@
         },
       });
       option.dirty = false;
-      toast.success({message: 'Berhasil mengubah opsi.' })
+      toast.add({title: 'Berhasil mengubah opsi.', color: 'green' })
     } catch (err) {
-      toast.error({message: 'Gagal mengubah opsi.' })
+      toast.add({title: 'Gagal mengubah opsi.', color: 'red' })
     }
   };
   

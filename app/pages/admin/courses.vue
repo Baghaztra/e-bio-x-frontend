@@ -25,7 +25,7 @@ const fetchCourse = async () => {
     });
     teachers.value = [...new Set(courses.value.map((m) => m.teacher))];
   } catch (err) {
-    toast.error({ message: "Gagal mengambil data." });
+    toast.add({title: "Gagal mengambil data.", color: 'red'});
   }
 };
 

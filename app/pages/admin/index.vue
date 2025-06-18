@@ -6,7 +6,6 @@
       <Icon name="mdi:home" class="text-green-500 dark:text-green-300" /> Dashboard Admin
     </h1>
 
-    <!-- Statistik Ringkasan -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
       <div
         class="bg-white dark:bg-gray-800 border border-green-200 dark:border-green-600 rounded-lg p-4 shadow flex flex-col gap-2"
@@ -109,31 +108,26 @@ const toast = useToast();
 const config = useRuntimeConfig();
 const token = Cookies.get("access_token");
 
-// State untuk statistik
 const stats = ref({
   totalUsers: 0,
   totalCourses: 0,
   totalMaterials: 0,
 });
 
-// State untuk data tabel
 const recentUsers = ref([]);
 const recentCourses = ref([]);
 const recentMaterials = ref([]);
 
-// Kolom untuk tabel pengguna
 const userColumns = [
   { header: "Nama", accessorKey: "name" },
   { header: "Email", accessorKey: "email" },
 ];
 
-// Kolom untuk tabel kursus
 const courseColumns = [
   { header: "Nama Kursus", accessorKey: "name" },
   { header: "ID", accessorKey: "id" },
 ];
 
-// Kolom untuk tabel materi
 const materialColumns = [
   { header: "Nama Materi", accessorKey: "title" },
   {
@@ -143,7 +137,6 @@ const materialColumns = [
   },
 ];
 
-// Fungsi untuk mengambil data statistik
 const fetchStats = async () => {
   try {
     const [users, courses, materials] = await Promise.all([
@@ -168,8 +161,7 @@ const fetchStats = async () => {
     recentMaterials.value = materials.slice(0, 5);
   } catch (error) {
     toast.add({
-      title: "Error",
-      description: "Gagal memuat data dashboard: " + error.message,
+      title: "Gagal memuat data dashboard: " + error.message,
       color: "red",
     });
   }
@@ -197,7 +189,7 @@ const deleteUser = async (user) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     toast.add({ title: "Sukses", description: "Pengguna dihapus", color: "green" });
-    await fetchStats(); // Refresh data
+    await fetchStats();
   } catch (error) {
     toast.add({ title: "Error", description: "Gagal menghapus pengguna", color: "red" });
   }
@@ -210,7 +202,7 @@ const deleteCourse = async (course) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     toast.add({ title: "Sukses", description: "Kursus dihapus", color: "green" });
-    await fetchStats(); // Refresh data
+    await fetchStats();
   } catch (error) {
     toast.add({ title: "Error", description: "Gagal menghapus kursus", color: "red" });
   }
@@ -223,13 +215,12 @@ const deleteMaterial = async (material) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     toast.add({ title: "Sukses", description: "Materi dihapus", color: "green" });
-    await fetchStats(); // Refresh data
+    await fetchStats();
   } catch (error) {
     toast.add({ title: "Error", description: "Gagal menghapus materi", color: "red" });
   }
 };
 
-// Panggil fetchStats saat komponen dimuat
 onMounted(() => {
   fetchStats();
 });

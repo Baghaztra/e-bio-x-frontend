@@ -65,11 +65,11 @@ const createUser = async () => {
       headers: { Authorization: `Bearer ${token}` },
       body: formValues,
     });
-    toast.success({message:"User berhasil dibuat"});
+    toast.add({title: "User berhasil dibuat", color: "green"});
     fetchUsers();
   } catch (err) {
     console.error(err);
-    toast.error({message:"Gagal membuat user."});
+    toast.add({title: "Gagal membuat user.", color: "red"});
   }
 };
 
@@ -97,11 +97,11 @@ const updateUserRole = async (user) => {
       headers: { Authorization: `Bearer ${token}` },
       body: { role: confirm.value },
     });
-    toast.success({message:"Role diupdate"});
+    toast.add({title: "Role diupdate"});
     fetchUsers();
   } catch (err) {
     console.error(err);
-    toast.error({message:"Gagal update role."});
+    toast.add({title: "Gagal update role."});
   }
 };
 

@@ -5,7 +5,7 @@
         v-model="searchTerm"
         type="text"
         placeholder="Search..."
-        class="border bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded p-2 w-full max-w-xs" />
+        class="border border-gray-300 focus:outline-green-500 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded p-2 w-full max-w-xs" />
 
       <div v-if="props.filters.length" class="flex gap-4 items-center">
         <div v-for="(filter, idx) in props.filters" :key="idx" class="flex items-center gap-0">
@@ -24,15 +24,15 @@
       </div>
     </div>
 
-    <div class="overflow-x-auto border rounded">
+    <div class="overflow-x-auto border border-gray-300 rounded">
       <table class="table-auto w-full text-left">
         <thead class="bg-green-100 text-green-600 dark:text-green-200 dark:bg-green-900">
           <tr>
-            <th class="p-3 border-b w-12">#</th>
-            <th v-for="(col, index) in columns" :key="index" class="p-3 border-b">
+            <th class="p-3 border-b border-gray-300 w-12">#</th>
+            <th v-for="(col, index) in columns" :key="index" class="p-3 border-b border-gray-300">
               {{ col.header }}
             </th>
-            <th v-if="onUpdate || onDelete" class="p-3 border-b">Action</th>
+            <th v-if="onUpdate || onDelete" class="p-3 border-b border-gray-300">Action</th>
           </tr>
         </thead>
 
@@ -40,7 +40,7 @@
           <tr
             v-for="(item, rowIdx) in paginatedData"
             :key="rowIdx"
-            class="border-b hover:bg-gray-50 dark:hover:bg-gray-600">
+            class="border-b border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
             <td class="p-3">{{ (currentPage - 1) * pageSize + rowIdx + 1 }}</td>
 
             <td v-for="(col, colIdx) in columns" :key="colIdx" class="p-3">

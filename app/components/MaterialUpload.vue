@@ -11,7 +11,7 @@
           <input
             v-model="title"
             type="text"
-            class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500"
+            class="w-full dark:bg-gray-600 p-2 border-gray-300 dark:border-gray-700 border rounded-lg focus:outline-green-500"
             required />
         </div>
 
@@ -19,7 +19,7 @@
           <label class="block mb-1 text-green-700 dark:text-green-400 font-medium">Deskripsi (opsional)</label>
           <textarea
             v-model="content"
-            class="w-full dark:bg-gray-600 p-2 border rounded-lg focus:outline-green-500"></textarea>
+            class="w-full dark:bg-gray-600 p-2 border-gray-300 dark:border-gray-700 border rounded-lg focus:outline-green-500"></textarea>
         </div>
 
         <div>
@@ -28,7 +28,7 @@
             @change="handleFileChange"
             type="file"
             accept=".pdf,.ppt,.pptx"
-            class="w-full dark:bg-gray-600 p-2 border rounded-lg file:mr-4 file:bg-green-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded-full file:cursor-pointer"
+            class="w-full dark:bg-gray-600 p-2 border-gray-300 dark:border-gray-700 border rounded-lg file:mr-4 file:bg-green-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded-full file:cursor-pointer"
             required />
         </div>
 

@@ -104,9 +104,9 @@ const joinClass = async () => {
     await fetchCoursesData();
     classCode.value = "";
 
-    toast.success({message:"Berhasil bergabung dengan kelas."})
+    toast.add({title: "Berhasil bergabung dengan kelas.", color: "green"});
   } catch (err) {
-    toast.error({message:"Gagal bergabung dengan kelas."})
+    toast.add({title: "Gagal bergabung dengan kelas.", color: "red"});
   }
 };
 
@@ -130,11 +130,11 @@ const outClass = async (code) => {
         "Content-Type": "application/json",
       },
     });
-    toast.success({message:"Berhasil keluar dengan kelas."})
+    toast.add({title: "Berhasil keluar dengan kelas.", color: "green"});
     await fetchCoursesData();
     classCode.value = "";
   } catch (err) {
-    toast.error({message:"Gagal keluar dengan kelas."})
+    toast.add({title: "Gagal keluar dengan kelas.", color: 'red'})
   }
 };
 

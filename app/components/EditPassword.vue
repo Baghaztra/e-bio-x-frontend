@@ -135,7 +135,7 @@ const submitPassword = async () => {
         ? { current_password: currentPass.value, new_password: newPass.value }
         : { new_password: newPass.value },
     });
-    toast.success({message: 'Password berhasil diubah.' })
+    toast.add({title: 'Password berhasil diubah.', color: 'green' });
     userData.value.has_password = "true";
     Cookies.set("has_password", "true");
     showModal.value = false;

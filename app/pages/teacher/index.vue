@@ -78,7 +78,7 @@ const fetchCoursesData = async () => {
   );
 
   if (error.value) {
-    toast.error({message: 'Gagal mengambil data kelas.' })
+    toast.add({title: 'Gagal mengambil data kelas.', color: 'red'});
   } else {
     myCourses.value = data.value;
   }
@@ -120,17 +120,16 @@ const createClass = async (className) => {
 
     fetchCoursesData();
 
-    toast.success({message: 'Kelas berhasil dibuat' })
+    toast.add({title: 'Kelas berhasil dibuat', color: 'green' })
   } catch (err) {
-    toast.error({message: 'Gagal membuat kelas.' })
+    toast.add({title: 'Gagal membuat kelas.', color: 'red' })
   }
 };
 
 const copyToClipboard = (text) => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text);
-    toast.success({ title: `${text}`, message: 'disalin ke clipboard' })
-    console.error("Clipboard tidak tersedia.");
+    toast.add({ title: `${text} disalin ke clipboard`, color: 'green' })
   }
 };
 
@@ -156,9 +155,9 @@ const deleteClass = async (id) => {
       },
     });
     await fetchCoursesData();
-    toast.success({message: 'Kelas berhasil dihapus.' })
+    toast.add({title: 'Kelas berhasil dihapus.', color: 'green' })
   } catch (err) {
-    toast.error({message: 'Gagal menghapus kelas.' })
+    toast.add({title: 'Gagal menghapus kelas.', color: 'red' })
   }
 };
 
