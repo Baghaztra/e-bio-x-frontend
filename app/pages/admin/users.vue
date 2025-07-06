@@ -58,7 +58,7 @@ const createUser = async () => {
         return false;
       }
       if (password.length < 8) {
-        swal.showValidationMessage('Password minimal 6 karakter');
+        swal.showValidationMessage('Password minimal 8 karakter');
         return false;
       }
       return { name, email, password, role };
@@ -98,9 +98,9 @@ const updateUser = async (user) => {
     confirmButtonText: "Update",
     cancelButtonText: "Cancel",
     preConfirm: () => {
-      const name = document.getElementById('userName').value;
-      const password = document.getElementById('userPassword').value;
-      const role = document.getElementById('userRole').value;
+      const name = document.getElementById('swal-input-name').value;
+      const password = document.getElementById('swal-input-password').value;
+      const role = document.getElementById('swal-input-role').value;
 
       if (!name.trim()) {
         swal.showValidationMessage('Name cannot be empty');
@@ -109,7 +109,7 @@ const updateUser = async (user) => {
 
       return {
         name: name.trim(),
-        password: password || undefined, // Only include password if provided
+        password: password || undefined,
         role: role
       };
     }
@@ -118,7 +118,6 @@ const updateUser = async (user) => {
   if (!confirm.isConfirmed || !confirm.value) return;
 
   try {
-    // Prepare update data - only include fields that have values
     const updateData = {};
     
     if (confirm.value.name !== user.name) {
@@ -126,6 +125,10 @@ const updateUser = async (user) => {
     }
     
     if (confirm.value.password) {
+      if (confirm.value.password.length < 8) {
+        swal.showValidationMessage('Password minimal 8 karakter');
+        return false;
+      }
       updateData.password = confirm.value.password;
     }
     
@@ -133,7 +136,6 @@ const updateUser = async (user) => {
       updateData.role = confirm.value.role;
     }
 
-    // Only make request if there's something to update
     if (Object.keys(updateData).length === 0) {
       toast.add({title: "No changes to update"});
       return;
