@@ -1,22 +1,21 @@
 <script setup>
-import { ref, onMounted } from "vue";
-
 const isDark = ref(false);
+const isHydrated = ref(false);
+
+if (process.client) {
+  const savedTheme = localStorage.getItem("theme");
+  isDark.value =
+    savedTheme === "dark"
+      ? true
+      : savedTheme === "light"
+      ? false
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  document.documentElement.classList.toggle("dark", isDark.value);
+}
 
 onMounted(() => {
-  if (process.client) {
-    const savedTheme = localStorage.getItem("theme");
-    isDark.value =
-      savedTheme === "dark"
-        ? true
-        : savedTheme === "light"
-        ? false
-        : window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    if (isDark.value) {
-      document.documentElement.classList.add("dark");
-    }
-  }
+  isHydrated.value = true;
 });
 
 function toggleDark() {

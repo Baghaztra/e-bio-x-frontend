@@ -70,7 +70,7 @@
                 class="text-yellow-400 hover:text-yellow-600"
                 title="Edit"
                 aria-label="Edit">
-                <Icon name="material-symbols:edit" class="w-5 h-5" />
+                <Icon name="material-symbols:box-edit-outline" class="w-5 h-5" />
               </button>
 
               <button
@@ -79,7 +79,7 @@
                 class="text-red-500 hover:text-red-700"
                 title="Hapus"
                 aria-label="Hapus">
-                <Icon name="material-symbols:delete-rounded" class="w-5 h-5" />
+                <Icon name="material-symbols:delete-outline" class="w-5 h-5" />
               </button>
             </td>
           </tr>

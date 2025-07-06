@@ -42,7 +42,7 @@
     <div class="mb-3">
       <MaterialList v-if="activeTab === 'materi'" :courseId="courseId"/>
       <QuizList v-if="activeTab === 'kuis'" :courseId="Number(courseId)"/>
-      <StudentList v-if="activeTab === 'siswa'" :students="course.students"/>
+      <StudentList v-if="activeTab === 'siswa'" :students="course.students" :courseId="Number(courseId)"/>
     </div>
   </div>
 </template>

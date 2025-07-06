@@ -31,7 +31,7 @@
             :to="item.path"
             :class="[
               'flex items-center p-2 rounded-lg group',
-              route.path === item.path ? 'bg-green-600' : 'hover:bg-green-500',
+              route.path === item.path ? 'bg-green-500' : 'hover:bg-green-600',
             ]">
             <Icon :name="item.icon" />
             <span class="ms-3">{{ item.name }}</span>

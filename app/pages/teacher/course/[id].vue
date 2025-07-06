@@ -64,7 +64,13 @@
     <div class="mb-3">
       <MaterialUpload v-if="activeTab === 'upload-materi'" class="mb-3" :courseId="courseId" />
       <MaterialList v-if="activeTab === 'materi'" class="mb-3" :courseId="courseId" />
-      <StudentList v-if="activeTab === 'siswa'" class="mb-3" :students="course.students" />
+      <StudentList 
+        v-if="activeTab === 'siswa'" 
+        class="mb-3" 
+        :students="course.students" 
+        :courseId="courseId"
+        @studentRemoved="handleStudentRemoved"
+      />
       <QuizCreate v-if="activeTab === 'buat-kuis'" class="mb-3" :courseId="Number(courseId)" />
       <QuizList v-if="activeTab === 'kuis'" class="mb-3" :courseId="Number(courseId)" />
     </div>
@@ -74,7 +80,7 @@
 <script setup>
 const token = useCookie("access_token").value;
 const route = useRoute();
-const toast = useToast()
+const toast = useToast();
 const config = useRuntimeConfig();
 
 const courseId = route.params.id;
@@ -93,6 +99,14 @@ const fetchCourse = async () => {
   } catch (error) {
     toast.add({title: 'Gagal mengambil data kelas.', color: 'red' });
   }
+};
+
+const handleStudentRemoved = async (studentId) => {
+  if (course.value.students) {
+    course.value.students = course.value.students.filter(student => student.id !== studentId);
+  }
+  
+  await fetchCourse();
 };
 
 onMounted(() => {

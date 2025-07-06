@@ -49,7 +49,7 @@
           <NuxtLink
             :to="'/teacher/course/' + kelas.id"
             class="inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-500 hover:shadow hover:shadow-green-300  transition">
-            <Icon name="mdi:cog" class="w-4 h-4" />
+            <Icon name="material-symbols:login" class="w-4 h-4" />
             Kelola
           </NuxtLink>
         </div>

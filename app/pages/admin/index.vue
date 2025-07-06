@@ -130,11 +130,7 @@ const courseColumns = [
 
 const materialColumns = [
   { header: "Nama Materi", accessorKey: "title" },
-  {
-    header: "Kursus",
-    accessorKey: "course_id",
-    cell: ({ row }) => row.original.course?.name || "Tidak ada kursus",
-  },
+  { header: "Kelas", accessorKey: "course" },
 ];
 
 const fetchStats = async () => {
