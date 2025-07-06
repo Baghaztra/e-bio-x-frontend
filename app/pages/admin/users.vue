@@ -31,10 +31,10 @@ const createUser = async () => {
   const { value: formValues } = await swal.fire({
     title: "Tambah User Baru",
     html:
-      '<input id="swal-input-name" class="p-2 mb-3 w-full" placeholder="Nama">' +
-      '<input id="swal-input-email" class="p-2 mb-3 w-full" placeholder="Email" type="email">' +
-      '<input id="swal-input-password" class="p-2 mb-3 w-full" placeholder="Password" type="password">' +
-      '<select id="swal-input-role" class="p-2 mb-3 w-full">' +
+      '<input id="swal-input-name" class="p-2 mb-3 bg-gray-100 dark:bg-gray-700 w-full" placeholder="Nama">' +
+      '<input id="swal-input-email" class="p-2 mb-3 bg-gray-100 dark:bg-gray-700 w-full" placeholder="Email" type="email">' +
+      '<input id="swal-input-password" class="p-2 mb-3 bg-gray-100 dark:bg-gray-700 w-full" placeholder="Password" type="password">' +
+      '<select id="swal-input-role" class="p-2 mb-3 bg-gray-100 dark:bg-gray-700 w-full">' +
         '<option value="" disabled selected>Pilih Role</option>' +
         '<option value="student">Student</option>' +
         '<option value="teacher">Teacher</option>' +
@@ -51,6 +51,14 @@ const createUser = async () => {
       const role = document.getElementById('swal-input-role').value;
       if (!name || !email || !password || !role) {
         swal.showValidationMessage('Semua field harus diisi');
+        return false;
+      }
+      if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+        swal.showValidationMessage('Email tidak valid');
+        return false;
+      }
+      if (password.length < 8) {
+        swal.showValidationMessage('Password minimal 6 karakter');
         return false;
       }
       return { name, email, password, role };
@@ -73,35 +81,75 @@ const createUser = async () => {
   }
 };
 
-const updateUserRole = async (user) => {
+const updateUser = async (user) => {
   const confirm = await swal.fire({
     icon: "question",
-    title: `Pilih role baru untuk ${user.name}`,
-    input: "select",
-    inputOptions: {
-      admin: "Admin",
-      teacher: "Teacher",
-      student: "Student",
-    },
-    inputPlaceholder: "Pilih role",
+    title: `Edit User: ${user.name}`,
+    html: `
+      <input id="swal-input-name" class="p-2 mb-3 bg-gray-100 dark:bg-gray-700 w-full" value="${user.name}" placeholder="Nama">
+      <input id="swal-input-password" class="p-2 mb-3 bg-gray-100 dark:bg-gray-700 w-full" placeholder="Password" type="password">
+      <select id="swal-input-role" class="p-2 mb-3 bg-gray-100 dark:bg-gray-700 w-full">
+        <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+        <option value="teacher" ${user.role === 'teacher' ? 'selected' : ''}>Teacher</option>
+        <option value="student" ${user.role === 'student' ? 'selected' : ''}>Student</option>
+      </select>
+    `,
     showCancelButton: true,
-    confirmButtonText: "Simpan",
-    cancelButtonText: "Batal",
+    confirmButtonText: "Update",
+    cancelButtonText: "Cancel",
+    preConfirm: () => {
+      const name = document.getElementById('userName').value;
+      const password = document.getElementById('userPassword').value;
+      const role = document.getElementById('userRole').value;
+
+      if (!name.trim()) {
+        swal.showValidationMessage('Name cannot be empty');
+        return false;
+      }
+
+      return {
+        name: name.trim(),
+        password: password || undefined, // Only include password if provided
+        role: role
+      };
+    }
   });
 
   if (!confirm.isConfirmed || !confirm.value) return;
 
   try {
+    // Prepare update data - only include fields that have values
+    const updateData = {};
+    
+    if (confirm.value.name !== user.name) {
+      updateData.name = confirm.value.name;
+    }
+    
+    if (confirm.value.password) {
+      updateData.password = confirm.value.password;
+    }
+    
+    if (confirm.value.role !== user.role) {
+      updateData.role = confirm.value.role;
+    }
+
+    // Only make request if there's something to update
+    if (Object.keys(updateData).length === 0) {
+      toast.add({title: "No changes to update"});
+      return;
+    }
+
     await $fetch(`${config.public.backend}/api/users/${user.id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
-      body: { role: confirm.value },
+      body: updateData,
     });
-    toast.add({title: "Role diupdate"});
+    
+    toast.add({title: "User updated successfully"});
     fetchUsers();
   } catch (err) {
     console.error(err);
-    toast.add({title: "Gagal update role."});
+    toast.add({title: "Failed to update user", color: "red"});
   }
 };
 
@@ -163,7 +211,7 @@ const filters = [{ title: "Role", options: ["admin", "teacher", "student"], acce
       :pageSize="10"
       :filters="filters"
       @refresh="fetchUsers"
-      :onUpdate="updateUserRole"
+      :onUpdate="updateUser"
       :onDelete="deleteUser" />
   </div>
 </template>
