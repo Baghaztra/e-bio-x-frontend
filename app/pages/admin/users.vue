@@ -158,8 +158,9 @@ const updateUser = async (user) => {
 const deleteUser = async (user) => {
   const confirm = await swal.fire({
     icon: "warning",
-    title: `Yakin hapus user ini? ${
-      user.role == "teacher" ? "Kelas dan kuis milih guru ini akan ikut terhapus." : ""
+    title: `Hapus user ini?`,
+    text:`${
+      user.role == "teacher" ? "Kelas dan kuis milih guru ini akan ikut terhapus." : "Seluruh data milik user ini akan ikut terhapus."
     }`,
     showCancelButton: true,
     confirmButtonText: "Ya",

@@ -13,7 +13,7 @@
       <header class="relative z-10 flex justify-between items-center p-6">
         <div class="text-3xl font-bold text-white flex items-center gap-2">
           <Icon name="heroicons:academic-cap" class="w-8 h-8" />
-          E Bio X
+          E-Bio X
         </div>
         <ToggleDark />
       </header>
@@ -29,7 +29,7 @@
 
           <!-- Main Title -->
           <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
-            E-Bio-X
+            E-Bio X
           </h1>
           <p class="text-xl md:text-2xl text-green-100 mb-12 max-w-3xl mx-auto leading-relaxed">
             Platform pembelajaran biologi interaktif dengan teknologi AI untuk siswa dan guru masa depan
@@ -64,7 +64,7 @@
             Fitur Unggulan
           </div>
           <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Mengapa Pilih E-Bio-X?
+            Mengapa Pilih E-Bio X?
           </h2>
           <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Teknologi terdepan untuk pembelajaran yang efektif dan menyenangkan

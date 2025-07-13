@@ -96,7 +96,7 @@
     const token = Cookies.get("access_token");
     try {
       await $fetch(`${config.public.backend}/api/quiz/${route.params.id}/edit_title`, {
-        method: "PUT",
+        method: "PATCH",
         body: { title: quiz.value.title },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -113,7 +113,7 @@
     const token = Cookies.get("access_token");
     try {
       await $fetch(`${config.public.backend}/api/quiz/${question.question_id}/edit_question`, {
-        method: "PUT",
+        method: "PATCH",
         body: { question_text: question.question_text },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@
     const token = Cookies.get("access_token");
     try {
       await $fetch(`${config.public.backend}/api/quiz/${option.option_id}/edit_option`, {
-        method: "PUT",
+        method: "PATCH",
         body: {
           option_text: option.option_text,
           is_correct: option.is_correct,
