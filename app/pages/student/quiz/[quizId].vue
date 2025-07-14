@@ -79,11 +79,10 @@
 </template>
 
 <script setup>
-import { useRoute, useRuntimeConfig, useCookie, navigateTo } from '#imports'
-import { ref, computed, onMounted } from 'vue'
 import { useSwal } from '~/utils/swal'
 
 const route = useRoute()
+const router = useRouter()
 const config = useRuntimeConfig()
 const token = useCookie('access_token').value
 const swal = useSwal()
@@ -163,9 +162,7 @@ async function submitQuiz() {
       html: `<p><b>Nama:</b> ${res.data.student}</p><p><b>Nilai:</b> ${res.data.score}</p>`
     })
 
-    const courseId = localStorage.getItem('courseId')
-    await navigateTo(`/student/course/${courseId}`)
-    localStorage.removeItem('courseId')
+    router.back();
   } catch (err) {
     await swal.fire({
       icon: 'error',
