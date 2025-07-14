@@ -162,7 +162,8 @@ async function submitQuiz() {
       html: `<p><b>Nama:</b> ${res.data.student}</p><p><b>Nilai:</b> ${res.data.score}</p>`
     })
 
-    router.back();
+    const courseId = localStorage.getItem('course_id')
+    router.replace({ path: `/student/course/${courseId}` })
   } catch (err) {
     await swal.fire({
       icon: 'error',

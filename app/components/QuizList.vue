@@ -235,6 +235,7 @@ function startQuiz(quizId) {
     })
     .then((result) => {
       if (result.isConfirmed) {
+        localStorage.setItem("course_id", props.courseId);
         router.push(`/student/quiz/${quizId}`);
       }
     });
