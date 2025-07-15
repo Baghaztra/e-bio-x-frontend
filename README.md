@@ -2,11 +2,6 @@
 
 Platform E-Learning Biologi berbasis web yang dibangun menggunakan Nuxt 3.
 
-## TODO
-- tutup kuis
-- Tutorial
-- gamifikasi (opt)
-
 ## Fitur Utama
 
 - Tutorial untuk pengguna baru [on progress]
@@ -43,7 +38,7 @@ Platform E-Learning Biologi berbasis web yang dibangun menggunakan Nuxt 3.
 
 1. Clone repository:
 ```bash
-git clone https://github.com/Baghaztra/e-bio-x.git
+git clone https://github.com/Baghaztra/e-bio-x-frontend.git
 cd e-bio-x
 ```
 
